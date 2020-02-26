@@ -1,0 +1,110 @@
+ 
+  .container {
+    display: none;
+    width: 158px !important;
+    border-radius: 5px;
+    filter: drop-shadow(0px 2px 6px rgba(35, 81, 235, 0.251));
+    background-color: white;
+    color: #2351EB; }
+    .container .arrow {
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 15px solid white;
+      position: absolute;
+      left: 70px;
+      top: -15px; }
+    .container svg {
+      width: 12px;
+      height: 12px;
+      margin-right: 8px;
+      fill: #2351EB; }
+    .container .hightLight {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #F2F5FF; }
+      .container .hightLight .color {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: red;
+        opacity: .4;
+        transition: .3s all;
+        cursor: pointer; }
+        .container .hightLight .color:hover {
+          opacity: 1; }
+      .container .hightLight #yellow {
+        background-color: #FFF83E; }
+      .container .hightLight #green {
+        background-color: #91EFA4; }
+      .container .hightLight #blue {
+        background-color: #48C6FF; }
+      .container .hightLight #red {
+        background-color: #FF7DB9; }
+      .container .hightLight #orange {
+        background-color: #FFC143; }
+    .container .section {
+      padding: 10px 0;
+      text-align: center;
+      border-bottom: 1px solid #F2F5FF;
+      transition: .3s all;
+      cursor: pointer; }
+      .container .section:hover {
+        background-color: #F2F5FF; }
+    .container .noteDetail {
+      width: 240px;
+      padding: 8px 10px;
+      border-radius: 0 5px 5px 5px;
+      position: absolute;
+      left: 160px;
+      top: 40px;
+      filter: drop-shadow(0px 2px 6px rgba(35, 81, 235, 0.1));
+      background-color: #fff; }
+      .container .noteDetail .dropdown {
+        color: #212121;
+        padding: 5px 5px 5px 20px; }
+        .container .noteDetail .dropdown .dropdown-btn {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer; }
+        .container .noteDetail .dropdown .dropdown-content {
+          filter: drop-shadow(0px 2px 6px rgba(35, 81, 235, 0.1));
+          background-color: #fff;
+          padding: 8px 10px;
+          border-radius: 5px;
+          position: absolute; }
+          .container .noteDetail .dropdown .dropdown-content input {
+            background: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-512.png") top left no-repeat;
+            height: 22px;
+            width: 91%;
+            font-size: 14px;
+            color: #2351EB;
+            border-radius: 5px;
+            background-color: #F2F5FF;
+            border: none;
+            padding: 6.5px 8px;
+            margin-bottom: 5px; }
+          .container .noteDetail .dropdown .dropdown-content .item {
+            display: flex;
+            align-items: center; }
+            .container .noteDetail .dropdown .dropdown-content .item svg path {
+              fill: #2351EB; }
+            .container .noteDetail .dropdown .dropdown-content .item p {
+              margin: 6px 0; }
+        .container .noteDetail .dropdown svg path {
+          fill: #616161; }
+      .container .noteDetail textarea {
+        font-size: 14px;
+        resize: none;
+        width: 100%;
+        border-radius: 5px;
+        background-color: #F2F5FF;
+        border: none;
+        height: 105px; }
+      .container .noteDetail .addBtn {
+        padding: 5px 0;
+        text-align: center; }
+  
