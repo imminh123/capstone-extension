@@ -69,37 +69,23 @@ $(document).ready(function () {
 
         document.getElementById("cuong" + (index-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
 
-        var data = {
-            "studentID":"1",
+        var dataPost = {
+            "studentID":"5e4ea4d07c213e67373d3cdb",
              "text":string, 
              "index":"1", 
              "color":$(this).attr('name'), 
              "url": window.location.href
         };
-        var xhr = new XMLHttpRequest();
-        var url = "capstonebackendapi.herokuapp.com/createhighlight";
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var json = JSON.parse(xhr.responseText);
-                console.log(json.email + ", " + json.password);
+        $.ajax({
+            type:"POST",
+            url:"https://capstonebackendapi.herokuapp.com/createhighlight",
+            dataType:"json",
+            data:dataPost,
+            success:function(data){
+            },
+            error:function(data){
             }
-        };
-        xhr.send(data);
-        // console.log(data);
-        // $.ajax({
-        //     type:"POST",
-        //     url:"capstonebackendapi.herokuapp.com/createhighlight",
-        //     dataType:"json",
-        //     data:data,
-        //     success:function(data){
-        //         alert('Success');
-        //     },
-        //     error:function(){
-        //         alert('Error');
-        //     }
-        // });
+        });
 
    });
 
