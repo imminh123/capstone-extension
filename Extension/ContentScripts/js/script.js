@@ -12,7 +12,7 @@ $(document).ready(function () {
        <div id="orange" name="#FFC143" class="color"></div>\
    </div>\
    <input type="text" id="hiddenText" hidden>\
-   <div class="note section">\
+   <div class="note section" >\
        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"\
            x="0px" y="0px" width="357px" height="357px" viewBox="0 0 357 357"\
            style="enable-background:new 0 0 357 357;" xml:space="preserve">\
@@ -21,7 +21,7 @@ $(document).ready(function () {
                    <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />\
                </g>\
        </svg>\
-       <span>Add to notes</span>\
+       <span class="addToNotes">Add to notes</span>\
    </div>\
    <div class="ask section">\
        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"\
@@ -58,7 +58,44 @@ $(document).ready(function () {
        </svg>\
        <span>Translate</span>\
    </div>\
+   <div class="noteDetail" id="noteDetail">\
+<p>Folder:</p>\
+<div class="dropdown">\
+    <div class="dropdown-btn">\
+        <span>Choose folder</span>\
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"\
+            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 491.996 491.996"\
+            style="enable-background:new 0 0 491.996 491.996;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M484.132,124.986l-16.116-16.228c-5.072-5.068-11.82-7.86-19.032-7.86c-7.208,0-13.964,2.792-19.036,7.86l-183.84,183.848\
+                    L62.056,108.554c-5.064-5.068-11.82-7.856-19.028-7.856s-13.968,2.788-19.036,7.856l-16.12,16.128\
+                    c-10.496,10.488-10.496,27.572,0,38.06l219.136,219.924c5.064,5.064,11.812,8.632,19.084,8.632h0.084\
+                    c7.212,0,13.96-3.572,19.024-8.632l218.932-219.328c5.072-5.064,7.856-12.016,7.864-19.224\
+                    C491.996,136.902,489.204,130.046,484.132,124.986z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <select id="selectFolder">\
+        </select>\
+    </div>\
+</div>\
+<p>Note:</p>\
+<textarea></textarea>\
+<div class="addBtn" id="addBtn">\
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"\
+        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"\
+        viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">\
+        <g>\
+            <g id="add">\
+                <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />\
+            </g>\
+    </svg>\
+    <span>Add to notes</span>\
+</div>\
+</div>\
 ';
+
    $('body').append(info);
    var info = "";
    document.body.addEventListener("click", myFunction);
@@ -69,6 +106,8 @@ $(document).ready(function () {
 
         document.getElementById("cuong" + (index-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
 
+
+        // SEND DATA TO API 
         var dataPost = {
             "studentID":"5e4ea4d07c213e67373d3cdb",
              "text":string, 
@@ -86,15 +125,43 @@ $(document).ready(function () {
             error:function(data){
             }
         });
-
+        
    });
+
+   // CLICK ON ADD NOTES ON MENU
+    $(".addToNotes").click(function(){
+        $('#noteDetail').show();
+        var arrName = [];
+        var arrId = [];
+        var selection = '';
+        $.ajax({
+            type:"GET",
+            url: "https://capstonebackendapi.herokuapp.com/allcourses",  
+            success: function(data) {
+                $.each(data, function(key, value){
+                    //console.log(value.courseCode);
+                    arrName.push(value.courseName);
+                    arrId.push(value.courseCode);
+                    selection += '<option value="'+ value.courseCode + '">' + value.courseName + '</option> <br>';
+                });
+                $('#selectFolder').html(selection);
+            },
+            error:function(data){
+            }
+         });
+    });
+
+    //CLICK ON ADD BUTTON
+    $("#addBtn").click(function(){
+        
+    });
 
 })
 
 //SHOW EXTENSION
 function myFunction(e) {
     var x = window.getSelection().toString();
-    if(x != "" || x != " "){
+    if(x != "" || x != " " && !$('#container').is(e.target) && $('#container').has(e.target).length === 0){
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
         var newNode = document.createElement("span");
@@ -106,8 +173,11 @@ function myFunction(e) {
     if (x != "") {
         $("#hiddenText").val(x);
         $('#container').hide();
+
         $('#container').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'border': '1px solid black', 'padding': '5px' });
         $('#container').show();
+        $('#noteDetail').hide();
+        
     } else {
         if (!$('#container').is(e.target) && $('#container').has(e.target).length === 0) {
         $('#container').hide();
