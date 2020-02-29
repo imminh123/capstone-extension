@@ -131,18 +131,13 @@ $(document).ready(function () {
    // CLICK ON ADD NOTES ON MENU
     $(".addToNotes").click(function(){
         $('#noteDetail').show();
-        var arrName = [];
-        var arrId = [];
         var selection = '';
         $.ajax({
             type:"GET",
-            url: "https://capstonebackendapi.herokuapp.com/allcourses",  
+            url: "https://capstonebackendapi.herokuapp.com/getfolderbystudentid/5e4ea4d07c213e67373d3cdb",  
             success: function(data) {
                 $.each(data, function(key, value){
-                    //console.log(value.courseCode);
-                    arrName.push(value.courseName);
-                    arrId.push(value.courseCode);
-                    selection += '<option value="'+ value.courseCode + '">' + value.courseName + '</option> <br>';
+                    selection += '<option value="'+ value._id + '">' + value.folderName + '</option> <br>';
                 });
                 $('#selectFolder').html(selection);
             },
