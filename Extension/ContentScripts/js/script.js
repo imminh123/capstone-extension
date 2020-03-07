@@ -1,6 +1,80 @@
 var index = 0;
 $(document).ready(function () {
-    
+    var dropdown ='<div class="dropdown-content">\
+    <input type="text" placeholder="Search" >\
+    <div class="item">\
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
+                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <p>material design</p>\
+    </div>\
+    <div class="item">\
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
+                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <p>nostalgic future</p>\
+    </div>\
+    <div class="item">\
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
+                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <p>brainstorm</p>\
+    </div>\
+</div>\
+'; 
+
+var dropdownTest ='<div class="dropdown-content">\
+    <input type="text" placeholder="Search" >\
+    <div class="item">\
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
+                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <p>material design</p>\
+    </div>\
+    <div class="item">\
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
+                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <p>nostalgic future</p>\
+    </div>\
+    <div class="item">\
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
+            <g>\
+                <g>\
+                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
+                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
+                </g>\
+            </g>\
+        </svg>\
+        <p>brainstorm</p>\
+    </div>\
+</div>\
+'; 
    var info = '<div class="container" id="container">\
    <div class="arrow">\
    </div>\
@@ -61,7 +135,7 @@ $(document).ready(function () {
    <div class="noteDetail" id="noteDetail">\
 <p>Folder:</p>\
 <div class="dropdown">\
-    <div class="dropdown-btn">\
+    <div class="dropdown-btn" id="dropdown-btn">\
         <span>Choose folder</span>\
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"\
             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 491.996 491.996"\
@@ -106,15 +180,26 @@ $(document).ready(function () {
 
         document.getElementById("cuong" + (index-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
 
+        //GET INDEX OF STRING
+        var domContent1 = document.body.innerHTML;
+        var indices = getIndicesOf(string, domContent1);
+        var indexOfString = 0;
+        for (i = 0; i < indices.length; i++){
+            var charBefore = domContent1.charAt(indices[i]-1);
+            if(charBefore == ">"){
+                indexOfString = i;
+            }
+        }
 
         // SEND DATA TO API 
         var dataPost = {
             "studentID":"5e4ea4d07c213e67373d3cdb",
-             "text":string, 
-             "index":"1", 
-             "color":$(this).attr('name'), 
-             "url": window.location.href
+                "text":string, 
+                "index":indexOfString, 
+                "color":$(this).attr('id'), 
+                "url": window.location.href
         };
+
         $.ajax({
             type:"POST",
             url:"https://capstonebackendapi.herokuapp.com/createhighlight",
@@ -132,9 +217,10 @@ $(document).ready(function () {
     $(".addToNotes").click(function(){
         $('#noteDetail').show();
         var selection = '';
+        
         $.ajax({
             type:"GET",
-            url: "https://capstonebackendapi.herokuapp.com/getfolderbystudentid/5e4ea4d07c213e67373d3cdb",  
+            url: "https://capstonebackendapi.herokuapp.com/allfolderbystudentid/5e4ea4d07c213e67373d3cdb",  
             success: function(data) {
                 $.each(data, function(key, value){
                     selection += '<option value="'+ value._id + '">' + value.folderName + '</option> <br>';
@@ -144,12 +230,22 @@ $(document).ready(function () {
             error:function(data){
             }
          });
+        $('.dropdown').append(dropdown);
     });
 
     //CLICK ON ADD BUTTON
     $("#addBtn").click(function(){
         
     });
+
+    //CLICK TO CHOOSE FOLDER
+    // var dropdownBtn = containerMenu.find('#dropdown-btn');
+    // dropdownBtn.click(function() {
+    //     //var dropdownContent = containerMenu.find('.dropdown-content');
+    //     //dropdownContent.slideToggle(100);
+        
+    // })
+
 
 })
 
@@ -179,3 +275,22 @@ function myFunction(e) {
         }
     }
 }
+
+function getIndicesOf(searchStr, str, caseSensitive) {
+    var searchStrLen = searchStr.length;
+    if (searchStrLen == 0) {
+        return [];
+    }
+    var startIndex = 0, index, indices = [];
+    if (!caseSensitive) {
+        str = str.toLowerCase();
+        searchStr = searchStr.toLowerCase();
+    }
+    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+        indices.push(index);
+        startIndex = index + searchStrLen;
+    }
+    return indices;
+}
+  
+  
