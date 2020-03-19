@@ -1,4 +1,4 @@
-var index = 0;
+var indexDivCLass = 0;
 $(document).ready(function () {
     var dropdown ='<div class="dropdown-content">\
     <input type="text" placeholder="Search" >\
@@ -111,7 +111,7 @@ var dropdownTest ='<div class="dropdown-content">\
                </g>\
            </g>\
        </svg>\
-       <span>Ask your tutor</span>\
+       <span class="askYourTutor">Ask your tutor</span>\
    </div>\
    <div class="translate section">\
        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"\
@@ -133,7 +133,7 @@ var dropdownTest ='<div class="dropdown-content">\
        <span>Translate</span>\
    </div>\
    <div class="noteDetail" id="noteDetail">\
-<p>Folder:</p>\
+<p class="firstTitle" id="firstTitle"></p>\
 <div class="dropdown">\
     <div class="dropdown-btn" id="dropdown-btn">\
         <span>Choose folder</span>\
@@ -154,8 +154,8 @@ var dropdownTest ='<div class="dropdown-content">\
         </select>\
     </div>\
 </div>\
-<p>Note:</p>\
-<textarea></textarea>\
+<p class="secondTitle" id="secondTitle"></p>\
+<textarea id="descNotes"></textarea>\
 <div class="addBtn" id="addBtn">\
     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"\
         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"\
@@ -167,18 +167,66 @@ var dropdownTest ='<div class="dropdown-content">\
     </svg>\
     <span>Add to notes</span>\
 </div>\
+<div class="addAskBtn" id="addAskBtn">\
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"\
+        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"\
+        viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">\
+        <g>\
+            <g id="add">\
+                <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />\
+            </g>\
+    </svg>\
+    <span>Add to ask</span>\
+</div>\
 </div>\
 ';
 
    $('body').append(info);
    var info = "";
    document.body.addEventListener("click", myFunction);
+
+   //GET HIGHLGHT BY URL
+   var getHighlight = {
+	"studentID":"5e6a885f4a27de5971f439ff",
+	"url":"https://www.coursera.org/"
+    };
+
+    var indexOfString = 0;
+    var stringFind = "orld-class learning for anyone";
+    var color = "red";
+    var domContent1 = document.body.innerHTML;
+    var indices = getIndicesOf(stringFind, domContent1);
+    var charBefore = domContent1.charAt(indices);
+    var charAfter = domContent1.charAt(indices[0] + stringFind.length);
+
+
+
+
+    // $.ajax({
+    //     type:"GET",
+    //     url: "https://capstonebackendapi.herokuapp.com/getHighlightOfUrl",
+    //     dataType: "json",
+    //     data: getHighlight,
+    //     success: function(data) {
+    //         $.each(data, function(key, value){
+    //             debugger;
+    //             var index = 0;
+    //             var string = "World-class learning for anyone";
+    //             var color = "red";
+    //             alert(index + string + color);
+    //         });
+    //     },
+    //     error:function(data){
+    //         alert(data);
+    //     }
+    //  });
     
-   // CLICK ON HIGHLIGHT
+   // highlight
    $(".color").click(function(){
+       debugger;
         var string = $("#hiddenText").val();
 
-        document.getElementById("cuong" + (index-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
+        document.getElementById("cuong" + (indexDivCLass-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
 
         //GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
@@ -193,11 +241,13 @@ var dropdownTest ='<div class="dropdown-content">\
 
         // SEND DATA TO API 
         var dataPost = {
-            "studentID":"5e4ea4d07c213e67373d3cdb",
-                "text":string, 
+            "studentID":"5e6a885f4a27de5971f439ff",
+                "scannedContent":string, 
                 "index":indexOfString, 
                 "color":$(this).attr('id'), 
-                "url": window.location.href
+                "url": window.location.href,
+                "tags":[],
+                "course":"5e6b155a661061252cf3f65c"
         };
 
         $.ajax({
@@ -216,26 +266,99 @@ var dropdownTest ='<div class="dropdown-content">\
    // CLICK ON ADD NOTES ON MENU
     $(".addToNotes").click(function(){
         $('#noteDetail').show();
+        $('#addAskBtn').hide();
+        $('#addBtn').show();
         var selection = '';
+        $('.firstTitle').empty();
+        $('.secondTitle').empty();
+        document.getElementsByClassName('firstTitle')[0].append('Choose Folder:');
+        document.getElementsByClassName('secondTitle')[0].append('Note:');
+        
+        //$('.dropdown').append(dropdown);
+    });
+
+    // CLICK ON ASK YOUR TUTOR ON MENU
+    $(".askYourTutor").click(function(){
+        $('#noteDetail').show();
+        $('#addBtn').hide();
+        $('#addAskBtn').show();
+        var selection = '';
+        $('.firstTitle').empty();
+        $('.secondTitle').empty();
+        document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
+        document.getElementsByClassName('secondTitle')[0].append('Question:');
         
         $.ajax({
             type:"GET",
-            url: "https://capstonebackendapi.herokuapp.com/allfolderbystudentid/5e4ea4d07c213e67373d3cdb",  
+            url: "https://capstonebackendapi.herokuapp.com/allTeacherByCourse/5e6b155a661061252cf3f65c",
             success: function(data) {
                 $.each(data, function(key, value){
-                    selection += '<option value="'+ value._id + '">' + value.folderName + '</option> <br>';
+                    selection += '<option value="'+ value._id + '">' + value.name + '</option> <br>';
                 });
+                $('#selectFolder').empty();
                 $('#selectFolder').html(selection);
             },
             error:function(data){
             }
          });
-        $('.dropdown').append(dropdown);
+        //$('.dropdown').append(dropdown);
     });
 
-    //CLICK ON ADD BUTTON
+    //CLICK ON ADD NOTE BUTTON
     $("#addBtn").click(function(){
+        var string = "<p>" +$("#hiddenText").val() + "</p>";
+        var folderId = $('#selectFolder').val();
+        var description = $('#descNotes').val();
+        var insertNotes = {
+            "studentID":"5e6a885f4a27de5971f439ff",
+            "course":"5e6b155a661061252cf3f65c",
+            "scannedContent":string,
+            "description":description,
+            "url":window.location.href,
+            "index":1
+        };
         
+        // INSERT INTO DB
+        $.ajax({
+            type:"POST",
+            url:"https://capstonebackendapi.herokuapp.com/createnote",
+            dataType:"json",
+            data:insertNotes,
+            success:function(data){
+                alert("success");
+            },
+            error:function(data){
+                alert("failed");
+            }
+        });
+    });
+
+    //CLICK ON ADD ASK BUTTON
+    $("#addAskBtn").click(function(){
+        var string = $("#hiddenText").val();
+        var folderId = $('#selectFolder').val();
+        var askContent = $('#descNotes').val();
+        var insertAsk = {
+            "scannedContent": string,
+            "askContent": askContent,
+            "student": "5e6a885f4a27de5971f439ff",
+            "teacher": folderId,
+            "courseURL": window.location.href
+        }
+        
+        // INSERT INTO DB
+        $.ajax({
+            type:"POST",
+            url:"https://capstonebackendapi.herokuapp.com/createask",
+            dataType:"json",
+            data:insertAsk,
+            success:function(data){
+                alert("success");
+            },
+            error:function(data){
+                alert("failed");
+            }
+        });
     });
 
     //CLICK TO CHOOSE FOLDER
@@ -254,12 +377,13 @@ function myFunction(e) {
     var x = window.getSelection().toString();
     if(x != "" || x != " " && !$('#container').is(e.target) && $('#container').has(e.target).length === 0){
         var selection = window.getSelection();
+        console.log(selection);
         var range = selection.getRangeAt(0);
         var newNode = document.createElement("span");
         //newNode.setAttribute("style", "background-color: pink;");
-        newNode.setAttribute("id", "cuong" + index);
+        newNode.setAttribute("id", "cuong" + indexDivCLass);
         range.surroundContents(newNode);
-        index += 1;
+        indexDivCLass += 1;
     }
     if (x != "") {
         $("#hiddenText").val(x);
@@ -276,6 +400,8 @@ function myFunction(e) {
     }
 }
 
+
+//GET INDEX OF ALL SCAN STRING
 function getIndicesOf(searchStr, str, caseSensitive) {
     var searchStrLen = searchStr.length;
     if (searchStrLen == 0) {
