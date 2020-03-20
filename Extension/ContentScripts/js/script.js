@@ -198,7 +198,10 @@ var dropdownTest ='<div class="dropdown-content">\
     var indices = getIndicesOf(stringFind, domContent1);
     var charBefore = domContent1.charAt(indices);
     var charAfter = domContent1.charAt(indices[0] + stringFind.length);
-
+    var aaa = indices[0]+10;
+    const input = document.body;  
+    input.focus(); 
+    input.s
 
 
 
@@ -223,7 +226,6 @@ var dropdownTest ='<div class="dropdown-content">\
     
    // highlight
    $(".color").click(function(){
-       debugger;
         var string = $("#hiddenText").val();
 
         document.getElementById("cuong" + (indexDivCLass-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
@@ -247,7 +249,7 @@ var dropdownTest ='<div class="dropdown-content">\
                 "color":$(this).attr('id'), 
                 "url": window.location.href,
                 "tags":[],
-                "course":"5e6b155a661061252cf3f65c"
+                "course":"5e6b1c0fa82351000474ce9a"
         };
 
         $.ajax({
@@ -290,7 +292,7 @@ var dropdownTest ='<div class="dropdown-content">\
         
         $.ajax({
             type:"GET",
-            url: "https://capstonebackendapi.herokuapp.com/allTeacherByCourse/5e6b155a661061252cf3f65c",
+            url: "https://capstonebackendapi.herokuapp.com/allTeacherByCourse/5e6b1c0fa82351000474ce9a",
             success: function(data) {
                 $.each(data, function(key, value){
                     selection += '<option value="'+ value._id + '">' + value.name + '</option> <br>';
@@ -307,11 +309,10 @@ var dropdownTest ='<div class="dropdown-content">\
     //CLICK ON ADD NOTE BUTTON
     $("#addBtn").click(function(){
         var string = "<p>" +$("#hiddenText").val() + "</p>";
-        var folderId = $('#selectFolder').val();
         var description = $('#descNotes').val();
         var insertNotes = {
             "studentID":"5e6a885f4a27de5971f439ff",
-            "course":"5e6b155a661061252cf3f65c",
+            "course":"5e6b1c0fa82351000474ce9a",
             "scannedContent":string,
             "description":description,
             "url":window.location.href,
