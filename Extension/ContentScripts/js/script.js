@@ -194,14 +194,12 @@ var dropdownTest ='<div class="dropdown-content">\
     var indexOfString = 0;
     var stringFind = "orld-class learning for anyone";
     var color = "red";
+    debugger;
     var domContent1 = document.body.innerHTML;
     var indices = getIndicesOf(stringFind, domContent1);
     var charBefore = domContent1.charAt(indices);
     var charAfter = domContent1.charAt(indices[0] + stringFind.length);
-    var aaa = indices[0]+10;
-    const input = document.body;  
-    input.focus(); 
-    input.s
+    document.body.innerHTML = document.body.innerHTML.substring(0,indices) + "<span style='background-color:red;'>" +stringFind +"</span>" + document.body.innerHTML.substring(indices[0] + stringFind.length)
 
 
 
