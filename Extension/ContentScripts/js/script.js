@@ -285,6 +285,7 @@ var dropdownTest ='<div class="dropdown-content">\
             dataType:"json",
             data:dataPost,
             success:function(data){
+                $('#container').hide();
             },
             error:function(data){
             }
