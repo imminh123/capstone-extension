@@ -349,6 +349,7 @@ var dropdownTest ='<div class="dropdown-content">\
             data:insertNotes,
             success:function(data){
                 alert("success");
+                $('#container').hide();
             },
             error:function(data){
                 alert("failed");
@@ -377,6 +378,7 @@ var dropdownTest ='<div class="dropdown-content">\
             data:insertAsk,
             success:function(data){
                 alert("success");
+                $('#container').hide();
             },
             error:function(data){
                 alert("failed");
