@@ -1,10 +1,12 @@
 var indexDivCLass = 0;
-var getCourseId = "";
 var getCourseName = "";
 var getCourseCode = "";
 var getTeacher = [];
+var getFolderByStudentId = null;
+var getStudentId = "";
+var getStudentName = "";
 $(document).ready(function () {
-    var dropdown ='<div class="dropdown-content">\
+    var dropdown = '<div class="dropdown-content">\
     <input type="text" placeholder="Search" >\
     <div class="item">\
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
@@ -40,9 +42,9 @@ $(document).ready(function () {
         <p>brainstorm</p>\
     </div>\
 </div>\
-'; 
+';
 
-var dropdownTest ='<div class="dropdown-content">\
+    var dropdownTest = '<div class="dropdown-content">\
     <input type="text" placeholder="Search" >\
     <div class="item">\
         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
@@ -78,8 +80,11 @@ var dropdownTest ='<div class="dropdown-content">\
         <p>brainstorm</p>\
     </div>\
 </div>\
-'; 
-   var info = '<div class="container" id="container">\
+';
+    var info = '<div class="container" id="container">\
+    <input type="text" id ="getStudentName" class="getStudentName" />\
+    <input type="text" id ="newFolder" class="newFolder" />\
+    <input type="submit" id ="addNewFolder" class="addNewFolder" value="Add folder"/>\
    <div class="arrow">\
    </div>\
    <div class="hightLight">\
@@ -185,116 +190,161 @@ var dropdownTest ='<div class="dropdown-content">\
 </div>\
 ';
 
-   $('body').append(info);
-   var info = "";
-   document.body.addEventListener("click", myFunction);
+    $('body').append(info);
+    var info = "";
 
+    $(document.body).on("mouseup", function (e) {
+        myFunction(e);
+    });
+    // WHEN LOGIN
+    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
+        var getToken = window.location.href.substring(37);
+        getStudent = parseJwt(getToken);
+        chrome.storage.sync.set({ key: getStudent }, function () {
+        });
+    }
+    // WHEN LOGOUT
+    else if (window.location.href === "http://noteitfu.herokuapp.com/") {
+        var emptyStudent = null;
+        chrome.storage.sync.set({ key: emptyStudent }, function () {
+        });
+        getStudent = null;
+    }
+    // GET USER INFO
+    chrome.storage.sync.get("key", function (obj) {
+        // if(obj !== null){
+        //     $('#getStudentName').val(obj); 
+        // }
+        var objectKey = obj.key;
+        var studentId = "";
+        if (objectKey !== null) {
+            studentId = objectKey.user.profile;
+            getStudentId = studentId;
 
-    // var indexOfString = 0;
-    // var stringFind = "orld-class learning for anyone";
-    // var color = "red";
-    // debugger;
-    // var domContent1 = document.body.innerHTML;
-    // var indices = getIndicesOf(stringFind, domContent1);
-    // //var charBefore = domContent1.charAt(indices);
-    // //var charAfter = domContent1.charAt(indices[0] + stringFind.length);
-    // document.body.innerHTML = document.body.innerHTML.substring(0,indices) + "<span style='background-color:red;'>" +stringFind +"</span>" + document.body.innerHTML.substring(indices[0] + stringFind.length)
+            //GET STUDENT INFOMATION
+            $.ajax({
+                type: "GET",
+                url: "https://capstonebackendapi.herokuapp.com/getstudentbyid/" + studentId,
+                success: function (data) {
+                    $('#getStudentName').val(data.name);
+                },
+                error: function (data) {
+                }
+            });
 
+            //GET FOLDER BY STUDENT ID
+            $.ajax({
+                type: "GET",
+                url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
+                success: function (data) {
+                    getFolderByStudentID = data;
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        }
+        else {
+        }
+    });
 
     // RELOAD HIGHLIGHT
-    $.ajax({
-        type:"GET",
-        url: "https://capstonebackendapi.herokuapp.com/getHighlightByUrl/5e6a885f4a27de5971f439ff/"+encodeURIComponent(window.location.href),
-        success: function(data) {
-            $.each(data, function(key, value){
-                //alert(value.index + value.color + value.scannedContent);
-                var stringFind = value.scannedContent;
-                var color = value.color;
-                if(color === "yellow"){
-                    color = "#FFF83E"
-                } else if (color === "green"){
-                    color = "#91EFA4"
-                } else if (color === "blue"){
-                    color = "#48C6FF"
-                } else if (color === "red"){
-                    color = "#FF7DB9"
-                } else if (color === "orange"){
-                    color = "#FFC143"
-                }
-                var indexOfString = value.index;
-                var domContent1 = document.body.innerHTML;
-                var indices = getIndicesOf(stringFind, domContent1);
-                document.body.innerHTML = document.body.innerHTML.substring(0,indices) + "<span style='background-color:"+ color +";'>" +stringFind +"</span>" + document.body.innerHTML.substring(indices[0] + stringFind.length)
-            });
-        },
-        error:function(data){
-            alert(data);
-        }
-     });
+    // $.ajax({
+    //     type: "GET",
+    //     url: "https://capstonebackendapi.herokuapp.com/getHighlightByUrl/"+ getStudentId + "/" + encodeURIComponent(window.location.href),
+    //     success: function (data) {
+    //         $.each(data, function (key, value) {
+    //             //alert(value.index + value.color + value.scannedContent);
+    //             var stringFind = value.scannedContent;
+    //             var color = value.color;
+    //             if (color === "yellow") {
+    //                 color = "#FFF83E"
+    //             } else if (color === "green") {
+    //                 color = "#91EFA4"
+    //             } else if (color === "blue") {
+    //                 color = "#48C6FF"
+    //             } else if (color === "red") {
+    //                 color = "#FF7DB9"
+    //             } else if (color === "orange") {
+    //                 color = "#FFC143"
+    //             }
+    //             var indexOfString = value.index;
+    //             var domContent1 = document.body.innerHTML;
+    //             var indices = getIndicesOf(stringFind, domContent1);
+    //             document.body.innerHTML = document.body.innerHTML.substring(0, indices[indexOfString]) + "<span style='background-color:" + color + ";'>" + stringFind + "</span>" + document.body.innerHTML.substring(indices[[indexOfString]] + stringFind.length)
+    //         });
+    //     },
+    //     error: function (data) {
+    //         alert(data);
+    //     }
+    // });
 
-     //GET COURSE BY URL
-     
-     $.ajax({
-        type:"GET",
-        url: "https://capstonebackendapi.herokuapp.com/getCourseByUrl/"+encodeURIComponent(window.location.href),
-        success: function(data) {
-            if(data !== null){
-                debugger;
-                getCourseId = data._id;
-                getCourseName = data.courseName;
-                getCourseCode = data.courseCode;
-                getTeacher = data.teachers;
+    //CREATE FOLDER 
+    $(document.body).on("click", ".addNewFolder", function () {
+        var newFolder = {
+            "studentID": getStudentId,
+            "courseCode": "Other",
+            "courseName": $('#newFolder').val()
+        };
+        $.ajax({
+            type: "POST",
+            url: "https://capstonebackendapi.herokuapp.com/createFolder",
+            dataType: "json",
+            data: newFolder,
+            success: function (data) {
+                alert("add new folder success");
+                $('#getStudentName').val("");
+            },
+            error: function (data) {
             }
-        },
-        error:function(data){
-        }
-     });
-     
-    
-   // highlight
-   $(document.body).on("click",".color",function(){
+        });
+    });
+
+    // create highlight
+    $(document.body).on("click", ".color", function () {
         var string = $("#hiddenText").val();
 
-        document.getElementById("cuong" + (indexDivCLass-1).toString()).style = "background-color: " +$(this).attr('name') + ";";
+        document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
 
         //GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
         var indices = getIndicesOf(string, domContent1);
         var indexOfString = 0;
-        for (i = 0; i < indices.length; i++){
-            var charBefore = domContent1.charAt(indices[i]-1);
-            if(charBefore == ">"){
+        for (i = 0; i < indices.length; i++) {
+            var charBefore = domContent1.charAt(indices[i] - 1);
+            if (charBefore == ">") {
                 indexOfString = i;
             }
         }
+        var folderId = $('#selectFolder').val();
 
         // SEND DATA TO API 
         var dataPost = {
-            "studentID":"5e6a885f4a27de5971f439ff",
-                "scannedContent":string, 
-                "index":indexOfString, 
-                "color":$(this).attr('id'), 
-                "url": window.location.href,
-                "tags":[],
-                "course":getCourseId
+            "studentID": getStudentId,
+            "folderID": folderId,
+            "scannedContent": string,
+            "index": indexOfString,
+            "color": $(this).attr('id'),
+            "url": window.location.href
         };
-
+        console.log(dataPost);
         $.ajax({
             type:"POST",
             url:"https://capstonebackendapi.herokuapp.com/createhighlight",
             dataType:"json",
             data:dataPost,
             success:function(data){
+                alert("create highlight success");
                 $('#container').hide();
             },
             error:function(data){
             }
         });
-        
-   });
 
-   // CLICK ON ADD NOTES ON MENU
-    $(document.body).on("click",".addToNotes",function(){
+    });
+
+    // CLICK ON ADD NOTES ON MENU
+    $(document.body).on("click", ".addToNotes", function () {
         $('#noteDetail').show();
         $('#addAskBtn').hide();
         $('#addBtn').show();
@@ -302,14 +352,20 @@ var dropdownTest ='<div class="dropdown-content">\
         $('.secondTitle').empty();
         document.getElementsByClassName('firstTitle')[0].append('Course: ' + getCourseName);
         document.getElementsByClassName('secondTitle')[0].append('Note:');
-        $('#selectFolder').hide();
-        $('#dropdown-btn').hide();
-        
+        var selection = '';
+        $.each(getFolderByStudentID, function (key, value) {
+            selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+        });
+        $('#selectFolder').show();
+        $('#dropdown-btn').show();
+        $('#selectFolder').empty();
+        $('#selectFolder').html(selection);
+
         //$('.dropdown').append(dropdown);
     });
 
     // CLICK ON ASK YOUR TUTOR ON MENU
-    $(document.body).on("click",".askYourTutor",function(){
+    $(document.body).on("click", ".askYourTutor", function () {
         $('#noteDetail').show();
         $('#addBtn').hide();
         $('#addAskBtn').show();
@@ -318,9 +374,9 @@ var dropdownTest ='<div class="dropdown-content">\
         $('.secondTitle').empty();
         document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
         document.getElementsByClassName('secondTitle')[0].append('Question:');
-        
-        $.each(getTeacher, function(key, value){
-            selection += '<option value="'+ value._id + '">' + value.name + '</option> <br>';
+
+        $.each(getFolderByStudentID, function (key, value) {
+            selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
         });
         $('#selectFolder').show();
         $('#dropdown-btn').show();
@@ -330,36 +386,37 @@ var dropdownTest ='<div class="dropdown-content">\
     });
 
     //CLICK ON ADD NOTE BUTTON
-    $(document.body).on("click","#addBtn",function(){
-        var string = "<p>" +$("#hiddenText").val() + "</p>";
+    $(document.body).on("click", "#addBtn", function () {
+        var string = "<p>" + $("#hiddenText").val() + "</p>";
+        var folderId = $('#selectFolder').val();
         var description = $('#descNotes').val();
         var insertNotes = {
-            "studentID":"5e6a885f4a27de5971f439ff",
-            "course":getCourseId,
-            "scannedContent":string,
-            "description":description,
-            "url":window.location.href,
-            "index":1
+            "studentID": getStudentId,
+            "folderID": folderId,
+            "scannedContent": string,
+            "description": description,
+            "url": window.location.href
         };
-        
-        // INSERT INTO DB
+        console.log(insertNotes);
+
+        //INSERT INTO DB
         $.ajax({
-            type:"POST",
-            url:"https://capstonebackendapi.herokuapp.com/createnote",
-            dataType:"json",
-            data:insertNotes,
-            success:function(data){
+            type: "POST",
+            url: "https://capstonebackendapi.herokuapp.com/createnote",
+            dataType: "json",
+            data: insertNotes,
+            success: function (data) {
                 alert("success");
                 $('#container').hide();
             },
-            error:function(data){
+            error: function (data) {
                 alert("failed");
             }
         });
     });
 
     //CLICK ON ADD ASK BUTTON
-    $(document.body).on("click","#addAskBtn",function(){
+    $(document.body).on("click", "#addAskBtn", function () {
         var string = $("#hiddenText").val();
         var folderId = $('#selectFolder').val();
         var askContent = $('#descNotes').val();
@@ -370,18 +427,20 @@ var dropdownTest ='<div class="dropdown-content">\
             "teacher": folderId,
             "courseURL": window.location.href
         }
+
         
+
         // INSERT INTO DB
         $.ajax({
-            type:"POST",
-            url:"https://capstonebackendapi.herokuapp.com/createask",
-            dataType:"json",
-            data:insertAsk,
-            success:function(data){
+            type: "POST",
+            url: "https://capstonebackendapi.herokuapp.com/createask",
+            dataType: "json",
+            data: insertAsk,
+            success: function (data) {
                 alert("success");
                 $('#container').hide();
             },
-            error:function(data){
+            error: function (data) {
                 alert("failed");
             }
         });
@@ -392,9 +451,11 @@ var dropdownTest ='<div class="dropdown-content">\
 //SHOW EXTENSION
 function myFunction(e) {
     var x = window.getSelection().toString();
-    if(x != "" || x != " " && !$('#container').is(e.target) && $('#container').has(e.target).length === 0){
+    if (x.trim() !== "" && !$('#container').is(e.target) && $('#container').has(e.target).length === 0) {
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
+        // const range = document.createRange();
+        // range.selectNode(r.startContainer)
         var newNode = document.createElement("span");
         //newNode.setAttribute("style", "background-color: pink;");
         newNode.setAttribute("id", "cuong" + indexDivCLass);
@@ -408,13 +469,13 @@ function myFunction(e) {
         $('#container').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'border': '1px solid black', 'padding': '5px' });
         $('#container').show();
         $('#noteDetail').hide();
-        
+
     } else {
         if (!$('#container').is(e.target) && $('#container').has(e.target).length === 0) {
-        $('#container').hide();
+            $('#container').hide();
         }
     }
-}
+};
 
 
 //GET INDEX OF ALL SCAN STRING
@@ -433,6 +494,17 @@ function getIndicesOf(searchStr, str, caseSensitive) {
         startIndex = index + searchStrLen;
     }
     return indices;
-}
-  
-  
+};
+
+//DECODE JWT
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
+
+
