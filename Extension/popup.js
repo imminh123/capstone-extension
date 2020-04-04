@@ -1,26 +1,48 @@
-/*
- * Copyright 2011 Google Inc. All Rights Reserved.
+// GET USER INFO
+var title= ""; 
+chrome.storage.sync.get("key", function (obj) {
+  // if(obj !== null){
+  //     $('#getStudentName').val(obj); 
+  // }
+  var objectKey = obj.key;
+  var studentId = "";
+  if (objectKey !== null) {
+      studentId = objectKey.user.profile;
+      getStudentId = studentId;
+      console.log(getStudentId);
+      //GET STUDENT INFOMATION
+      $.ajax({
+          type: "GET",
+          url: "https://capstonebackendapi.herokuapp.com/getstudentbyid/" + studentId,
+          success: function (data) {
+            debugger;
+              $('#titlePopup').html("You are connected!");
+              $('#infoStudent').html(data.name + data.email);
+              $('#p1').attr("src", data.avatar);
+              $('#buttonLogin').hide();
+              
+          },
+          error: function (data) {
+            
+          }
+      });
 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-var google = new OAuth2('google', {
-  client_id: '1064836068373-o9o8a3js68b63tlhspmgp1dq74dlplmu.apps.googleusercontent.com',
-  client_secret: 'BATawVSFOWsV_i_CuwqSlY8I',
-  api_scope: 'https://www.googleapis.com/auth/userinfo.profile'
+      //GET FOLDER BY URL
+      $.ajax({
+          type: "GET",
+          url: "https://capstonebackendapi.herokuapp.com/getFolderByUrl/" + getStudentId + "/" + encodeURIComponent(window.location.href),
+          success: function (data) {
+              getFolderByURL = data;
+          },
+          error: function (data) {
+              //alert("failed");
+          }
+      });
+  }
+  else {
+    $('#titlePopup').html("Sign in to noteit");
+    $('#infoStudent').html("Connect to the most collaborative in-material note-taking and Q&A experience");
+    $('#buttonLogin').show();
+    $('#p1').hide();
+  }
 });
-
-google.authorize(function() {
-  alert(google.getAccessToken());
-});
-

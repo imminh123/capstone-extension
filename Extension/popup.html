@@ -21,14 +21,19 @@ limitations under the License.
   <!-- <script src="oauth2/oauth2.js"></script>
   <script src="popup.js"></script> -->
   <style>
-    #success { display: none; }
+div.form {
+  width:200px;
+  margin: auto;
+  border: 3px solid #73AD21;
+}
   </style>
+<script src="./ContentScripts/js/jquery-3.4.1.min.js"></script>
+<script src="popup.js"></script>
 </head>
 
-<div id="form">
-  <input id="input" placeholder="New task name..."></input>
-  <input id="button" type="submit" value="Create task"/>
-</div>
-<div id="success">
-  Successfully created new task with ID <span id="taskid"></span>.
+<div class="form" id="form" >
+  <h5 id ="titlePopup" class ="titlePopup"></h5>
+  <img id="p1" width="20px" height="20px" src="" />
+  <h5 id ="infoStudent" class ="infoStudent"></h5>
+  <a href="http://noteitfu.herokuapp.com/" id ="buttonLogin" class="buttonLogin" target="_blank">LOGIN</a>
 </div>

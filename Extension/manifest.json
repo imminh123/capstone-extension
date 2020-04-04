@@ -3,10 +3,10 @@
    "version": "1.0",
    "description": "Extension",
    "permissions": ["webRequest", "webRequestBlocking",
-      "*://*.coursera.org/*","*://noteitfu.herokuapp.com/*","storage"],
+      "*://*/*","*://noteitfu.herokuapp.com/*","storage"],
    "content_scripts": [
       {
-      "matches": ["*://*.coursera.org/*","*://noteitfu.herokuapp.com/*"],
+      "matches": ["*://*/*","*://noteitfu.herokuapp.com/*"],
       "js": ["./ContentScripts/js/jquery-3.4.1.min.js","./ContentScripts/js/script.js"],
       "css": ["./ContentScripts/css/css.css"],
       "run_at": "document_start"
@@ -14,7 +14,8 @@
    ],
    "browser_action": {
       "default_popup": "popup.html",
-      "default_title": "Show popup" 
+      "default_title": "Show popup" ,
+      "default_icon": "noteIt-blue-128.png"
    },
    "manifest_version": 2
  }
