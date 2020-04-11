@@ -7,6 +7,8 @@ chrome.storage.sync.get("key", function (obj) {
   var objectKey = obj.key;
   var studentId = "";
   if (objectKey !== null) {
+      $('.info').hide();
+      $('.login').show();
       studentId = objectKey.user.profile;
       getStudentId = studentId;
       console.log(getStudentId);
@@ -16,11 +18,12 @@ chrome.storage.sync.get("key", function (obj) {
           url: "https://capstonebackendapi.herokuapp.com/getstudentbyid/" + studentId,
           success: function (data) {
             debugger;
-              $('#titlePopup').html("You are connected!");
-              $('#infoStudent').html(data.name + data.email);
+              $('#titlePopup').html(`Hi, how are you today?`);
+              $('#userName').html(data.name);
+              $('#userEmail').html(data.email);
               $('#p1').attr("src", data.avatar);
-              $('#buttonLogin').hide();
-              
+              $('.login').hide();
+              $('.info').show();
           },
           error: function (data) {
             
