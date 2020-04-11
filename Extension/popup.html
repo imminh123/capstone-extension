@@ -15,25 +15,122 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
+<html>
 <head>
   <title>OAuth 2.0 Popup</title>
   <!-- <script src="oauth2/oauth2.js"></script>
   <script src="popup.js"></script> -->
   <style>
-div.form {
-  width:200px;
-  margin: auto;
-  border: 3px solid #73AD21;
+
+.button {
+  border-radius: 5px;
+  padding: 7px 10px;
+  text-decoration: none;
+
+  /* flex */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-  </style>
-<script src="./ContentScripts/js/jquery-3.4.1.min.js"></script>
-<script src="popup.js"></script>
+
+body {
+  margin: 0;
+}
+
+div.info {
+  width:208px;
+}
+
+.info {
+  padding: 14px 12px;
+}
+
+.info h4 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.info .user {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.info .user img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.info .user .userInfo h4{
+  font-size: 14px;
+  margin: 0;
+}
+
+.info .user .userInfo p{
+  font-size: 10px;
+  color: #616161;
+  margin: 0;
+  margin-top: 2px;
+}
+
+.info #buttonLogin {
+  background-color: #F44336;
+  color: #fff;
+}
+
+.login {
+  width: 208px;
+  padding: 14px 12px;
+  /* filter: drop-shadow(0px 2px 6px rgba(76, 137, 235, 0.251)); */
+}
+
+.login p {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #616161;
+}
+
+.login h4 {
+  margin: 0;
+}
+
+.login #sign-in-btn {
+  border: 1px solid #4C89EB;
+  color: #4C89EB;
+}
+
+.login img {
+  width: 12px;
+  margin-right: 12px;
+}
+
+</style>
+
 </head>
 
-<div class="form" id="form" >
-  <h5 id ="titlePopup" class ="titlePopup"></h5>
-  <img id="p1" width="20px" height="20px" src="" />
-  <h5 id ="infoStudent" class ="infoStudent"></h5>
-  <a href="http://noteitfu.herokuapp.com/" id ="buttonLogin" class="buttonLogin" target="_blank">LOGIN</a>
-</div>
+<body>
+  <div class="info" id="form" >
+    <h4 id ="titlePopup" class ="titlePopup"></h4>
+    <div class="user">
+      <img id="p1" width="20px" height="20px" src="" />
+      <div class="userInfo">
+        <h4 id ="userName"></h4>
+        <p id ="userEmail"></p>
+      </div>
+    </div>
+    <a href="http://noteitfu.herokuapp.com/" id ="buttonLogin" class="button" target="_blank">Log out</a>
+  </div>
+  <div class="login">
+    <h4>Sign in to NoteIt</h4>
+    <p>Connect to the most collaborative in-material note-taking and Q&A experience.</p>
+    <a href="http://noteitfu.herokuapp.com/" class="button" id="sign-in-btn" target="_blank"><img src="./assets/google.png"></span>Log in with Google</a>
+  </div>
+
+  <script src="./ContentScripts/js/jquery-3.4.1.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
