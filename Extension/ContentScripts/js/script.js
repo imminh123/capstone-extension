@@ -221,7 +221,7 @@ $(document).ready(function () {
         // }
         var objectKey = obj.key;
         var studentId = "";
-        if (objectKey !== null) {
+        if (objectKey) {
             studentId = objectKey.user.profile;
             getStudentId = studentId;
 
