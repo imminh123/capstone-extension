@@ -316,18 +316,18 @@ $(document).ready(function () {
             "url": window.location.href
         };
         console.log(dataPost);
-        $.ajax({
-            type: "POST",
-            url: "https://capstonebackendapi.herokuapp.com/createhighlight",
-            dataType: "json",
-            data: dataPost,
-            success: function (data) {
-                alert("create highlight success");
-                $('#container').hide();
-            },
-            error: function (data) {
-            }
-        });
+        // $.ajax({
+        //     type: "POST",
+        //     url: "https://capstonebackendapi.herokuapp.com/createhighlight",
+        //     dataType: "json",
+        //     data: dataPost,
+        //     success: function (data) {
+        //         alert("create highlight success");
+        //         $('#container').hide();
+        //     },
+        //     error: function (data) {
+        //     }
+        // });
 
     });
 
@@ -462,7 +462,7 @@ function myFunction(e) {
         var newNode = document.createElement("span");
         //newNode.setAttribute("style", "background-color: pink;");
         newNode.setAttribute("id", "cuong" + indexDivCLass);
-        newNode.appendChild(range.e);
+        newNode.appendChild(range.extractContents());
         range.insertNode(newNode);
         //range.surroundContents(newNode);
         indexDivCLass += 1;
