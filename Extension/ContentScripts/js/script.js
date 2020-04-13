@@ -316,18 +316,18 @@ $(document).ready(function () {
             "url": window.location.href
         };
         console.log(dataPost);
-        // $.ajax({
-        //     type: "POST",
-        //     url: "https://capstonebackendapi.herokuapp.com/createhighlight",
-        //     dataType: "json",
-        //     data: dataPost,
-        //     success: function (data) {
-        //         alert("create highlight success");
-        //         $('#container').hide();
-        //     },
-        //     error: function (data) {
-        //     }
-        // });
+        $.ajax({
+            type: "POST",
+            url: "https://capstonebackendapi.herokuapp.com/createhighlight",
+            dataType: "json",
+            data: dataPost,
+            success: function (data) {
+                alert("create highlight success");
+                $('#container').hide();
+            },
+            error: function (data) {
+            }
+        });
 
     });
 
