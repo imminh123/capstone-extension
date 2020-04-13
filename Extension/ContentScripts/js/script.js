@@ -7,81 +7,6 @@ var getTeacherByURL;
 var getFolderByStudentId;
 
 $(document).ready(function () {
-    var dropdown = '<div class="dropdown-content">\
-    <input type="text" placeholder="Search" >\
-    <div class="item">\
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
-                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <p>material design</p>\
-    </div>\
-    <div class="item">\
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
-                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <p>nostalgic future</p>\
-    </div>\
-    <div class="item">\
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
-                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <p>brainstorm</p>\
-    </div>\
-</div>\
-';
-
-    var dropdownTest = '<div class="dropdown-content">\
-    <input type="text" placeholder="Search" >\
-    <div class="item">\
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
-                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <p>material design</p>\
-    </div>\
-    <div class="item">\
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
-                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <p>nostalgic future</p>\
-    </div>\
-    <div class="item">\
-        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 426.667 426.667" style="enable-background:new 0 0 426.667 426.667;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M298.667,42.667h-256C19.2,42.667,0,61.867,0,85.333v256.213C0,365.013,19.2,384,42.667,384L384,383.787\
-                    c23.467,0,42.667-18.987,42.667-42.453V170.667L298.667,42.667z M277.333,192V74.667L394.667,192H277.333z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <p>brainstorm</p>\
-    </div>\
-</div>\
-';
     var info = '<div class="container" id="container">\
     <input type="text" id ="newFolder" class="newFolder" />\
     <input type="submit" id ="addNewFolder" class="addNewFolder" value="Add folder"/>\
@@ -205,6 +130,7 @@ $(document).ready(function () {
         var getToken = window.location.href.substring(37);
         getStudent = parseJwt(getToken);
         chrome.storage.sync.set({ key: getStudent }, function () {
+            console.log(getStudent);
         });
     }
     // WHEN LOGOUT
@@ -292,7 +218,6 @@ $(document).ready(function () {
                 success: function (data) {
                     $.each(data, function (key, value) {
                         //alert(value.index + value.color + value.scannedContent);
-                        debugger;
                         var stringFind = value.scannedContent;
                         var color = value.color;
                         if (color === "yellow") {
@@ -337,29 +262,25 @@ $(document).ready(function () {
             data: newFolder,
             success: function (data) {
                 alert("add new folder success");
+                var selection = '';
+                $.each(getFolderByStudentId, function (key, value) {
+                    if (value.courseCode === "Other") {
+                        selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+                    }
+                });
+                if (data.folder._id !== "" && data.folder.courseName !== "") {
+                    selection += '<option value="' + data.folder._id + '">' + data.folder.courseName + '</option> <br>';
+                }
+                $('#selectHighlightFolder').hide();
+                $('#selectHighlightFolder').empty();
+                $('#selectHighlightFolder').html(selection);
+                $('#selectHighlightFolder').show();
             },
             error: function (data) {
             }
         });
-        $.ajax({
-            type: "GET",
-            url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
-            success: function (data) {
-                getFolderByStudentId = data;
-            },
-            error: function (data) {
-            }
-        });
-        var selection = '';
-        $.each(getFolderByStudentId, function (key, value) {
-            if (value.courseCode === "Other") {
-                selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-            }
-        });
-        $('#selectHighlightFolder').hide();
-        $('#selectHighlightFolder').empty();
-        $('#selectHighlightFolder').html(selection);
-        $('#selectHighlightFolder').show();
+
+
     });
 
     // create highlight
@@ -535,17 +456,18 @@ $(document).ready(function () {
 function myFunction(e) {
     var x = window.getSelection().toString();
     if (x.trim() !== "" && !$('#container').is(e.target) && $('#container').has(e.target).length === 0) {
+        debugger;
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
-        // const range = document.createRange();
-        // range.selectNode(r.startContainer)
         var newNode = document.createElement("span");
         //newNode.setAttribute("style", "background-color: pink;");
         newNode.setAttribute("id", "cuong" + indexDivCLass);
-        range.surroundContents(newNode);
+        newNode.appendChild(range.e);
+        range.insertNode(newNode);
+        //range.surroundContents(newNode);
         indexDivCLass += 1;
     }
-    if (x != "" && getStudentId !== "") {
+    if (x !== "" && getStudentId !== "" && $('#container').has(e.target).length === 0) {
         $("#hiddenText").val(x);
         $('#container').hide();
 
