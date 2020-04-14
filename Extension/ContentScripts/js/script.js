@@ -7,7 +7,7 @@ var getTeacherByURL;
 var getFolderByStudentId;
 
 $(document).ready(function () {
-    var info = '<div class="container" id="container">\
+    var info = '<div class="noteitContainer" id="noteitContainer">\
     <input type="text" id ="newFolder" class="newFolder" />\
     <input type="submit" id ="addNewFolder" class="addNewFolder" value="Add folder"/>\
     <select id="selectHighlightFolder">\
@@ -323,7 +323,7 @@ $(document).ready(function () {
             data: dataPost,
             success: function (data) {
                 alert("create highlight success");
-                $('#container').hide();
+                $('#noteitContainer').hide();
             },
             error: function (data) {
             }
@@ -412,7 +412,7 @@ $(document).ready(function () {
             data: insertNotes,
             success: function (data) {
                 alert("success");
-                $('#container').hide();
+                $('#noteitContainer').hide();
             },
             error: function (data) {
                 alert("failed");
@@ -442,7 +442,7 @@ $(document).ready(function () {
             data: insertAsk,
             success: function (data) {
                 alert("success");
-                $('#container').hide();
+                $('#noteitContainer').hide();
             },
             error: function (data) {
                 alert("failed");
@@ -455,7 +455,7 @@ $(document).ready(function () {
 //SHOW EXTENSION
 function myFunction(e) {
     var x = window.getSelection().toString();
-    if (x.trim() !== "" && !$('#container').is(e.target) && $('#container').has(e.target).length === 0) {
+    if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
         debugger;
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
@@ -467,17 +467,17 @@ function myFunction(e) {
         //range.surroundContents(newNode);
         indexDivCLass += 1;
     }
-    if (x !== "" && getStudentId !== "" && $('#container').has(e.target).length === 0) {
+    if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
         $("#hiddenText").val(x);
-        $('#container').hide();
+        $('#noteitContainer').hide();
 
-        $('#container').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'border': '1px solid black', 'padding': '5px' });
-        $('#container').show();
+        $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'border': '1px solid black', 'padding': '5px' });
+        $('#noteitContainer').show();
         $('#noteDetail').hide();
 
     } else {
-        if (!$('#container').is(e.target) && $('#container').has(e.target).length === 0) {
-            $('#container').hide();
+        if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+            $('#noteitContainer').hide();
         }
     }
 };

@@ -5,7 +5,7 @@ chrome.storage.sync.get("key", function (obj) {
   //     $('#getStudentName').val(obj); 
   // }
   var objectKey = obj.key;
-  if (objectKey) {
+   if (objectKey) {
     $('.login').hide();
     $('.info').show();
     $('#userName').html(objectKey.user.name);
