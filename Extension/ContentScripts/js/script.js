@@ -5,7 +5,6 @@ var getCourseByURL = "";
 var getCourseNameByURL = "";
 var getTeacherByURL;
 var getFolderByStudentId;
-
 $(document).ready(function () {
     var info = '<div class="noteitContainer" id="noteitContainer">\
     <input type="text" id ="newFolder" class="newFolder" />\
@@ -123,7 +122,9 @@ $(document).ready(function () {
     $('body').append(info);
     var info = "";
     $(document.body).on("mouseup", function (e) {
-        myFunction(e);
+        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com/")){
+            myFunction(e);
+        }
     });
     // WHEN LOGIN
     if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
@@ -167,6 +168,14 @@ $(document).ready(function () {
                 success: function (data) {
                     console.log(data.name);
                     getFolderByStudentId = data;
+                    var selection = '';
+                        $.each(getFolderByStudentId, function (key, value) {
+                            if (value.courseCode === "Other") {
+                                selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+                            }
+                        });
+                        $('#selectHighlightFolder').empty();
+                        $('#selectHighlightFolder').html(selection);
                 },
                 error: function (data) {
                 }
@@ -203,7 +212,9 @@ $(document).ready(function () {
                                 selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
                             }
                         });
+                        $('#selectHighlightFolder').empty();
                         $('#selectHighlightFolder').html(selection);
+                        $('#selectFolder').empty();
                         $('#selectFolder').html(selection);
                     }
                 },
@@ -275,6 +286,10 @@ $(document).ready(function () {
                 $('#selectHighlightFolder').empty();
                 $('#selectHighlightFolder').html(selection);
                 $('#selectHighlightFolder').show();
+                $('#selectFolder').hide();
+                $('#selectFolder').empty();
+                $('#selectFolder').html(selection);
+                $('#selectFolder').show();
             },
             error: function (data) {
             }
@@ -456,7 +471,6 @@ $(document).ready(function () {
 function myFunction(e) {
     var x = window.getSelection().toString();
     if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
-        debugger;
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
         var newNode = document.createElement("span");
