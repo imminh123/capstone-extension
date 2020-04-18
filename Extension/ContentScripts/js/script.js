@@ -128,7 +128,6 @@ $(document).ready(function () {
                 type: "GET",
                 url: "https://capstonebackendapi.herokuapp.com/getstudentbyid/" + studentId,
                 success: function (data) {
-                    console.log(data.name); //problem
                 },
                 error: function (data) {
                 }
@@ -138,14 +137,8 @@ $(document).ready(function () {
                 url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
                 success: function (data) {
                     getFolderByStudentId = data;
-                    var selection = '';
-                        $.each(getFolderByStudentId, function (key, value) {
-                            if (value.courseCode === "Other") {
-                                selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-                            }
-                        });
-                        $('#selectHighlightFolder').empty();
-                        $('#selectHighlightFolder').html(selection);
+                    setDataToSelectBox('#selectHighlightFolder');
+                    setDataToSelectBox('#selectFolder');
                 },
                 error: function (data) {
                 }
@@ -158,7 +151,7 @@ $(document).ready(function () {
                 success: function (data) {
                     //GET FOLDER
                     var getFolder = data.folder;
-                    if (typeof getFolder !== "undefined") { //problem
+                    if (typeof getFolder !== "undefined") {
                         getFolderByURL = data.folder._id;
                         $('#newFolder').hide();
                         $('#addNewFolder').hide();
@@ -176,17 +169,8 @@ $(document).ready(function () {
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
                     } else {
-                        var selection = '';
-                        $.each(getFolderByStudentId, function (key, value) {
-                            if (value.courseCode === "Other") {
-                                selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-                                // selection +=`<li data-folderID=${value._id}>${value.courseName}</li>`;
-                            }
-                        });
-                        $('#selectHighlightFolder').empty();
-                        $('#selectHighlightFolder').html(selection);
-                        $('#selectFolder').empty();
-                        $('#selectFolder').html(selection);
+                        setDataToSelectBox('#selectHighlightFolder');
+                        setDataToSelectBox('#selectFolder');
                     }
                 },
                 error: function (data) {
@@ -253,6 +237,7 @@ $(document).ready(function () {
                 if (data.folder._id !== "" && data.folder.courseName !== "") {
                     selection += '<option value="' + data.folder._id + '">' + data.folder.courseName + '</option> <br>';
                 }
+                
                 $('#selectHighlightFolder').hide();
                 $('#selectHighlightFolder').empty();
                 $('#selectHighlightFolder').html(selection);
@@ -322,19 +307,8 @@ $(document).ready(function () {
     $(document.body).on("click", ".addToNotes", function () {
         if (getFolderByURL !== "") {
             $('#dropdown-btn').hide();
-        } else {
-            $('#selectFolder').show();
-            var selection = '';
-            $.each(getFolderByStudentId, function (key, value) {
-                if (value.courseCode === "Other") {
-                    selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-                }
-            });
-
             $('#selectFolder').hide();
-            $('#dropdown-btn').hide();
-            $('#selectFolder').empty();
-            $('#selectFolder').html(selection);
+        } else {
             $('#selectFolder').show();
             $('#dropdown-btn').show();
         }
@@ -561,6 +535,18 @@ function parseJwt(token) {
     }).join(''));
 
     return JSON.parse(jsonPayload);
+};
+
+// FILL DATA TO SELECT BOX
+function setDataToSelectBox(folderName){
+    var selection = '';
+    $.each(getFolderByStudentId, function (key, value) {
+        if (value.courseCode === "Other") {
+            selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+        }
+    });
+    $(folderName).empty();
+    $(folderName).html(selection);
 };
 
 
