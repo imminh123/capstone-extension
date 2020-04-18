@@ -113,11 +113,11 @@
       text-align: center; }
 
 /* CSS for dropdown */
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 .noteitContainer .dropdown form{
   position: relative;
