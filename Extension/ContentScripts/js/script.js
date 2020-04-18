@@ -50,46 +50,19 @@ $(document).ready(function () {
        </svg>\
        <span class="askYourTutor">Ask your tutor</span>\
    </div>\
-   <div class="translate section">\
-       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"\
-           x="0px" y="0px" viewBox="0 0 469.333 469.333" style="enable-background:new 0 0 469.333 469.333;"\
-           xml:space="preserve">\
-           <g>\
-               <g>\
-                   <g>\
-                       <path\
-                           d="M253.227,300.267L253.227,300.267L199.04,246.72l0.64-0.64c37.12-41.387,63.573-88.96,79.147-139.307h62.507V64H192\
-                       V21.333h-42.667V64H0v42.453h238.293c-14.4,41.173-36.907,80.213-67.627,114.347c-19.84-22.08-36.267-46.08-49.28-71.467H78.72\
-                       c15.573,34.773,36.907,67.627,63.573,97.28l-108.48,107.2L64,384l106.667-106.667l66.347,66.347L253.227,300.267z" />\
-                       <path d="M373.333,192h-42.667l-96,256h42.667l24-64h101.333l24,64h42.667L373.333,192z M317.333,341.333L352,248.853\
-                       l34.667,92.48H317.333z" />\
-                   </g>\
-               </g>\
-           </g>\
-       </svg>\
-       <span>Translate</span>\
-   </div>\
    <div class="noteDetail" id="noteDetail">\
 <p class="firstTitle" id="firstTitle"></p>\
 <div class="dropdown">\
-    <div class="dropdown-btn" id="dropdown-btn">\
-        <span>Choose folder</span>\
-        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"\
-            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 491.996 491.996"\
-            style="enable-background:new 0 0 491.996 491.996;" xml:space="preserve">\
-            <g>\
-                <g>\
-                    <path d="M484.132,124.986l-16.116-16.228c-5.072-5.068-11.82-7.86-19.032-7.86c-7.208,0-13.964,2.792-19.036,7.86l-183.84,183.848\
-                    L62.056,108.554c-5.064-5.068-11.82-7.856-19.028-7.856s-13.968,2.788-19.036,7.856l-16.12,16.128\
-                    c-10.496,10.488-10.496,27.572,0,38.06l219.136,219.924c5.064,5.064,11.812,8.632,19.084,8.632h0.084\
-                    c7.212,0,13.96-3.572,19.024-8.632l218.932-219.328c5.072-5.064,7.856-12.016,7.864-19.224\
-                    C491.996,136.902,489.204,130.046,484.132,124.986z" />\
-                </g>\
-            </g>\
-        </svg>\
-        <select id="selectFolder">\
-        </select>\
-    </div>\
+    <select class="selectFolder" id="selectFolder">\
+        <option value="AL">Alabama</option>\
+    </select>\
+    <form>\
+        <input class="chosen-value" type="text" value="" placeholder="Type to filter">\
+        <ul class="value-list" id="selectFolder">\
+            <li>Alabama</li>\
+            <li>Alaska</li>\
+        </ul>\
+    </form>\
 </div>\
 <p class="secondTitle" id="secondTitle"></p>\
 <textarea id="descNotes"></textarea>\
@@ -117,8 +90,6 @@ $(document).ready(function () {
 </div>\
 </div>\
 ';
-
-
 
     $('body').append(info);
     var info = "";
@@ -156,7 +127,7 @@ $(document).ready(function () {
                 type: "GET",
                 url: "https://capstonebackendapi.herokuapp.com/getstudentbyid/" + studentId,
                 success: function (data) {
-                    console.log(data.name);
+                    console.log(data.name); //problem
                 },
                 error: function (data) {
                 }
@@ -165,7 +136,6 @@ $(document).ready(function () {
                 type: "GET",
                 url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
                 success: function (data) {
-                    console.log(data.name);
                     getFolderByStudentId = data;
                 },
                 error: function (data) {
@@ -179,7 +149,7 @@ $(document).ready(function () {
                 success: function (data) {
                     //GET FOLDER
                     var getFolder = data.folder;
-                    if (typeof getFolder !== "undefined") {
+                    if (typeof getFolder !== "undefined") { //problem
                         getFolderByURL = data.folder._id;
                         $('#newFolder').hide();
                         $('#addNewFolder').hide();
@@ -201,6 +171,7 @@ $(document).ready(function () {
                         $.each(getFolderByStudentId, function (key, value) {
                             if (value.courseCode === "Other") {
                                 selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+                                // selection +=`<li data-folderID=${value._id}>${value.courseName}</li>`;
                             }
                         });
                         $('#selectHighlightFolder').html(selection);
@@ -331,6 +302,7 @@ $(document).ready(function () {
 
     });
 
+
     // CLICK ON ADD NOTES ON MENU
     $(document.body).on("click", ".addToNotes", function () {
         if (getFolderByURL !== "") {
@@ -343,6 +315,7 @@ $(document).ready(function () {
                     selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
                 }
             });
+
             $('#selectFolder').hide();
             $('#dropdown-btn').hide();
             $('#selectFolder').empty();
@@ -450,13 +423,77 @@ $(document).ready(function () {
         });
     });
 
-})
+    //Vanilla JS for search box dropdown
+    const inputField = document.querySelector('.chosen-value');
+    const dropdown = document.querySelector('.value-list');
+    const dropdownArray = [... document.querySelectorAll('li')];
+    console.log(typeof dropdownArray)
+    dropdown.classList.add('open');
+    inputField.focus(); // Demo purposes only
+    let valueArray = [];
+    dropdownArray.forEach(item => {
+        valueArray.push(item.textContent);
+    });
+
+    const closeDropdown = () => {
+        dropdown.classList.remove('open');
+    }
+
+    inputField.addEventListener('input', () => {
+    dropdown.classList.add('open');
+    let inputValue = inputField.value.toLowerCase();
+    let valueSubstring;
+    if (inputValue.length > 0) {
+        for (let j = 0; j < valueArray.length; j++) {
+        if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
+            dropdownArray[j].classList.add('closed');
+        } else {
+            dropdownArray[j].classList.remove('closed');
+        }
+        }
+    } else {
+        for (let i = 0; i < dropdownArray.length; i++) {
+        dropdownArray[i].classList.remove('closed');
+        }
+    }
+    });
+
+    dropdownArray.forEach(item => {
+    item.addEventListener('click', (evt) => {
+        inputField.value = item.textContent;
+        dropdownArray.forEach(dropdown => {
+        dropdown.classList.add('closed');
+        });
+    });
+    })
+
+    inputField.addEventListener('focus', () => {
+    inputField.placeholder = 'Search...';
+    dropdown.classList.add('open');
+    dropdownArray.forEach(dropdown => {
+        dropdown.classList.remove('closed');
+    });
+    });
+
+    inputField.addEventListener('blur', () => {
+    inputField.placeholder = 'Select folder';
+    dropdown.classList.remove('open');
+    });
+
+    document.addEventListener('click', (evt) => {
+    const isDropdown = dropdown.contains(evt.target);
+    const isInput = inputField.contains(evt.target);
+    if (!isDropdown && !isInput) {
+        dropdown.classList.remove('open');
+    }
+    });
+    })
 
 //SHOW EXTENSION
 function myFunction(e) {
     var x = window.getSelection().toString();
     if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
-        debugger;
+        // debugger;
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
         var newNode = document.createElement("span");
