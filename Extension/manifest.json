@@ -3,10 +3,10 @@
    "version": "1.0",
    "description": "Extension",
    "permissions": ["webRequest", "webRequestBlocking",
-      "*://*/*","*://noteitfu.herokuapp.com/*","storage"],
+      "*://*/*","storage"],
    "content_scripts": [
       {
-      "matches": ["*://*/*","*://noteitfu.herokuapp.com/*"],
+      "matches": ["*://*/*"],
       "js": ["./ContentScripts/js/jquery-3.4.1.min.js","./ContentScripts/js/script.js"],
       "css": ["./ContentScripts/css/css.css"],
       "run_at": "document_start"
