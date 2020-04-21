@@ -1,0 +1,164 @@
+/* line 1, scss/index.scss */
+.noteitContainer {
+  display: none;
+  width: 158px !important;
+  border-radius: 5px;
+  background-color: #212121;
+  color: #4C89EB; }
+  /* line 8, scss/index.scss */
+  .noteitContainer .arrow {
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 15px solid white;
+    position: absolute;
+    left: 70px;
+    top: -15px; }
+  /* line 19, scss/index.scss */
+  .noteitContainer svg {
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
+    fill: #4C89EB; }
+  /* line 26, scss/index.scss */
+  .noteitContainer .hightLight {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #F2F5FF; }
+    /* line 32, scss/index.scss */
+    .noteitContainer .hightLight .color {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: red;
+      opacity: .4;
+      transition: .3s all;
+      cursor: pointer; }
+      /* line 41, scss/index.scss */
+      .noteitContainer .hightLight .color:hover {
+        opacity: 1; }
+    /* line 46, scss/index.scss */
+    .noteitContainer .hightLight #yellow {
+      background-color: #FFF83E; }
+    /* line 50, scss/index.scss */
+    .noteitContainer .hightLight #green {
+      background-color: #91EFA4; }
+    /* line 54, scss/index.scss */
+    .noteitContainer .hightLight #blue {
+      background-color: #48C6FF; }
+    /* line 58, scss/index.scss */
+    .noteitContainer .hightLight #red {
+      background-color: #FF7DB9; }
+    /* line 62, scss/index.scss */
+    .noteitContainer .hightLight #orange {
+      background-color: #FFC143; }
+  /* line 67, scss/index.scss */
+  .noteitContainer .section {
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid #F2F5FF;
+    transition: .3s all;
+    cursor: pointer; }
+    /* line 74, scss/index.scss */
+    .noteitContainer .section:hover {
+      background-color: #F2F5FF; }
+  /* line 79, scss/index.scss */
+  .noteitContainer .noteDetail {
+    width: 240px;
+    padding: 8px 10px;
+    border-radius: 0 5px 5px 5px;
+    position: absolute;
+    top: 80px;
+    left: 169px;
+    background-color: #212121; }
+    /* line 88, scss/index.scss */
+    .noteitContainer .noteDetail .dropdown {
+      color: #212121;
+      position: relative;
+      margin-bottom: 10px; }
+      /* line 93, scss/index.scss */
+      .noteitContainer .noteDetail .dropdown #selectFolder2 {
+        display: none; }
+    /* line 102, scss/index.scss */
+    .noteitContainer .noteDetail textarea {
+      font-size: 14px;
+      resize: none;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+      background-color: #808080;
+      border: none;
+      height: 105px; }
+    /* line 113, scss/index.scss */
+    .noteitContainer .noteDetail .addBtn, .noteitContainer .noteDetail .addAskBtn {
+      padding: 0;
+      margin-top: 6px;
+      text-align: center;
+      cursor: pointer; }
+  /* line 121, scss/index.scss */
+  .noteitContainer .chosen-value,
+  .noteitContainer .value-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; }
+  /* line 129, scss/index.scss */
+  .noteitContainer .chosen-value {
+    font-family: 'Open sans', sans-serif;
+    height: 34px;
+    padding: 6px 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    height: 25px;
+    border: none;
+    box-sizing: border-box;
+    position: relative;
+    background-color: #808080;
+    transition: .3s ease-in-out; }
+    /* line 142, scss/index.scss */
+    .noteitContainer .chosen-value::-webkit-input-placeholder {
+      color: #fff; }
+  /* line 148, scss/index.scss */
+  .noteitContainer .value-list {
+    list-style: none;
+    position: absolute;
+    overflow: hidden;
+    max-height: 0;
+    border-radius: 5px;
+    transition: .3s ease-in-out;
+    margin-top: 43px;
+    box-sizing: border-box; }
+    /* line 159, scss/index.scss */
+    .noteitContainer .value-list.open {
+      max-height: 320px;
+      overflow: auto; }
+    /* line 164, scss/index.scss */
+    .noteitContainer .value-list li {
+      position: relative;
+      height: 25px;
+      font-size: 14px;
+      background-color: #313131;
+      border-top: 0.5px solid #fff;
+      padding: 0;
+      padding-left: 6px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color .3s;
+      opacity: 1; }
+      /* line 179, scss/index.scss */
+      .noteitContainer .value-list li:hover {
+        background-color: #808080; }
+      /* line 183, scss/index.scss */
+      .noteitContainer .value-list li.closed {
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        opacity: 0; }
+  /* line 192, scss/index.scss */
+  .noteitContainer .ask {
+    border: none !important;
+    padding-bottom: 4px; }

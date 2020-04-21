@@ -52,16 +52,14 @@ $(document).ready(function () {
    <div class="noteDetail" id="noteDetail">\
 <p class="firstTitle" id="firstTitle"></p>\
 <div class="dropdown">\
-    <select class="selectFolder" id="selectFolder">\
+    <select class="selectFolder" id="selectFolder2">\
         <option value="AL">Alabama</option>\
     </select>\
-    <form>\
-        <input class="chosen-value" type="text" value="" placeholder="Type to filter">\
-        <ul class="value-list" id="selectFolder">\
-            <li>Alabama</li>\
-            <li>Alaska</li>\
-        </ul>\
-    </form>\
+    <input class="chosen-value" type="text" value="" placeholder="Type to filter">\
+    <ul class="value-list" id="selectFolder">\
+        <li>Alabama</li>\
+        <li>Alaska</li>\
+    </ul>\
 </div>\
 <p class="secondTitle" id="secondTitle"></p>\
 <textarea id="descNotes"></textarea>\
@@ -361,7 +359,7 @@ $(document).ready(function () {
             folderId = getFolderByURL;
         }
         else {
-            folderId = $('#selectFolder').val();
+            folderId = $('.chosen-value')[0].getAttribute('data-id');
         }
         var description = $('#descNotes').val();
         var insertNotes = {
@@ -420,70 +418,7 @@ $(document).ready(function () {
     });
 
     //Vanilla JS for search box dropdown
-    const inputField = document.querySelector('.chosen-value');
-    const dropdown = document.querySelector('.value-list');
-    const dropdownArray = [... document.querySelectorAll('li')];
-    console.log(typeof dropdownArray)
-    dropdown.classList.add('open');
-    inputField.focus(); // Demo purposes only
-    let valueArray = [];
-    dropdownArray.forEach(item => {
-        valueArray.push(item.textContent);
-    });
-
-    const closeDropdown = () => {
-        dropdown.classList.remove('open');
-    }
-
-    inputField.addEventListener('input', () => {
-    dropdown.classList.add('open');
-    let inputValue = inputField.value.toLowerCase();
-    let valueSubstring;
-    if (inputValue.length > 0) {
-        for (let j = 0; j < valueArray.length; j++) {
-        if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
-            dropdownArray[j].classList.add('closed');
-        } else {
-            dropdownArray[j].classList.remove('closed');
-        }
-        }
-    } else {
-        for (let i = 0; i < dropdownArray.length; i++) {
-        dropdownArray[i].classList.remove('closed');
-        }
-    }
-    });
-
-    dropdownArray.forEach(item => {
-    item.addEventListener('click', (evt) => {
-        inputField.value = item.textContent;
-        dropdownArray.forEach(dropdown => {
-        dropdown.classList.add('closed');
-        });
-    });
-    })
-
-    inputField.addEventListener('focus', () => {
-    inputField.placeholder = 'Search...';
-    dropdown.classList.add('open');
-    dropdownArray.forEach(dropdown => {
-        dropdown.classList.remove('closed');
-    });
-    });
-
-    inputField.addEventListener('blur', () => {
-    inputField.placeholder = 'Select folder';
-    dropdown.classList.remove('open');
-    });
-
-    document.addEventListener('click', (evt) => {
-    const isDropdown = dropdown.contains(evt.target);
-    const isInput = inputField.contains(evt.target);
-    if (!isDropdown && !isInput) {
-        dropdown.classList.remove('open');
-    }
-    });
-    })
+    }) //problem
 
 //SHOW EXTENSION
 function myFunction(e) {
@@ -503,7 +438,7 @@ function myFunction(e) {
         $("#hiddenText").val(x);
         $('#noteitContainer').hide();
 
-        $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'border': '1px solid black', 'padding': '5px' });
+        $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
         $('#noteitContainer').show();
         $('#noteDetail').hide();
 
@@ -549,11 +484,77 @@ function setDataToSelectBox(folderName){
     var selection = '';
     $.each(getFolderByStudentId, function (key, value) {
         if (value.courseCode === "Other") {
-            selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-        }
+            // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+            selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
+        } 
     });
     $(folderName).empty();
     $(folderName).html(selection);
+
+
+    //set data to dropdown
+    const inputField = document.querySelector('.chosen-value');
+    const dropdown = document.querySelector('.value-list');
+    const dropdownArray = [... document.querySelectorAll('.value-list-item')];
+    dropdown.classList.add('open');
+    let valueArray = [];
+    dropdownArray.forEach(item => {
+    valueArray.push(item.textContent);
+    });
+
+    const closeDropdown = () => {
+    dropdown.classList.remove('open');
+    }
+
+    inputField.addEventListener('input', () => {
+    dropdown.classList.add('open');
+    let inputValue = inputField.value.toLowerCase();
+    let valueSubstring;
+    if (inputValue.length > 0) {
+        for (let j = 0; j < valueArray.length; j++) {
+        if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
+            dropdownArray[j].classList.add('closed');
+        } else {
+            dropdownArray[j].classList.remove('closed');
+        }
+        }
+    } else {
+        for (let i = 0; i < dropdownArray.length; i++) {
+        dropdownArray[i].classList.remove('closed');
+        }
+    }
+    });
+
+    dropdownArray.forEach(item => {
+    item.addEventListener('click', (evt) => {
+        inputField.value = item.textContent;
+        inputField.setAttribute('data-id', item.dataset.value);
+        dropdownArray.forEach(dropdown => {
+        dropdown.classList.add('closed');
+        });
+    });
+    })
+
+    inputField.addEventListener('focus', () => {
+    inputField.placeholder = 'Search';
+    dropdown.classList.add('open');
+    dropdownArray.forEach(dropdown => {
+        dropdown.classList.remove('closed');
+    });
+    });
+
+    inputField.addEventListener('blur', () => {
+    inputField.placeholder = 'Choose folder';
+    dropdown.classList.remove('open');
+    });
+
+    document.addEventListener('click', (evt) => {
+    const isDropdown = dropdown.contains(evt.target);
+    const isInput = inputField.contains(evt.target);
+    if (!isDropdown && !isInput) {
+        dropdown.classList.remove('open');
+    }
+    });
 };
 
 

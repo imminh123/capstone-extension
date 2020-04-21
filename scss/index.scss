@@ -1,0 +1,196 @@
+.noteitContainer {
+    display: none;
+    width: 158px !important;
+    border-radius: 5px;
+    background-color: #212121;
+    color: #4C89EB;
+  
+    .arrow {
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 15px solid white;
+      position: absolute;
+      left: 70px;
+      top: -15px;
+    }
+  
+    svg {
+      width: 12px;
+      height: 12px;
+      margin-right: 8px;
+      fill: #4C89EB;
+    }
+  
+    .hightLight {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #F2F5FF;
+  
+      .color {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background-color: red;
+        opacity: .4;
+        transition: .3s all;
+        cursor: pointer;
+  
+        &:hover {
+          opacity: 1;
+        }
+      }
+  
+      #yellow {
+        background-color: #FFF83E;
+      }
+  
+      #green {
+        background-color: #91EFA4;
+      }
+  
+      #blue {
+        background-color: #48C6FF;
+      }
+  
+      #red {
+        background-color: #FF7DB9;
+      }
+  
+      #orange {
+        background-color: #FFC143;
+      }
+    }
+  
+    .section {
+      padding: 10px 0;
+      text-align: center;
+      border-bottom: 1px solid #F2F5FF;
+      transition: .3s all;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #F2F5FF;
+      }
+    }
+  
+    .noteDetail {
+      width: 240px;
+      padding: 8px 10px;
+      border-radius: 0 5px 5px 5px;
+      position: absolute;
+      top: 80px;
+      left: 169px;
+      background-color: #212121;
+  
+      .dropdown {
+        color: #212121;
+        position: relative;
+        margin-bottom: 10px;
+
+        #selectFolder2 {
+          display: none;
+        }
+
+        .selectFolder {
+
+        }
+      }
+  
+      textarea {
+        font-size: 14px;
+        resize: none;
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 5px;
+        background-color: #808080;
+        border: none;
+        height: 105px;
+      }
+  
+      .addBtn, .addAskBtn {
+        padding: 0;
+        margin-top: 6px;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+
+  .chosen-value,
+  .value-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .chosen-value {
+    font-family: 'Open sans', sans-serif;
+    height: 34px;
+    padding: 6px 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    height: 25px;
+    border: none;
+    box-sizing: border-box;
+    position: relative;
+    background-color: #808080;
+    transition: .3s ease-in-out;
+    
+    &::-webkit-input-placeholder {
+      color: #fff;
+    }
+  
+  }
+
+  .value-list {
+    list-style: none;
+    position: absolute;
+    overflow: hidden;
+    max-height: 0;
+    border-radius: 5px;
+    transition: .3s ease-in-out;
+
+    margin-top: 43px;
+    box-sizing: border-box;
+    
+    &.open {
+    max-height: 320px;
+    overflow: auto;
+    }
+    
+    li {
+      position: relative;
+      height: 25px;
+      font-size: 14px;
+      background-color: #313131;
+      border-top: 0.5px solid #fff;
+      padding: 0;
+      padding-left: 6px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color .3s;
+      opacity: 1;
+      
+      &:hover {
+        background-color: #808080;
+      }
+      
+      &.closed {
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        opacity: 0;
+      }
+    }
+    }
+
+    .ask {
+      border: none !important;
+      padding-bottom: 4px;
+    }
+  }
