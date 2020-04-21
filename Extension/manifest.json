@@ -8,7 +8,7 @@
       {
       "matches": ["*://*/*"],
       "js": ["./ContentScripts/js/jquery-3.4.1.min.js","./ContentScripts/js/script.js"],
-      "css": ["./ContentScripts/css/css.css"],
+      "css": ["./ContentScripts/css/scss/index.css"],
       "run_at": "document_start"
       }
    ],

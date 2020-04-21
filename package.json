@@ -1,0 +1,23 @@
+{
+  "name": "testpackage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass . -watch -o ./Extension/ContentScripts/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imminh123/capstone-extension.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imminh123/capstone-extension/issues"
+  },
+  "homepage": "https://github.com/imminh123/capstone-extension#readme",
+  "dependencies": {
+    "node-sass": "^4.13.1"
+  }
+}
