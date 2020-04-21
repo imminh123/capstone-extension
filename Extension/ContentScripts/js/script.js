@@ -96,7 +96,7 @@ $(document).ready(function () {
         }
     });
     // WHEN LOGIN
-    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
+    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=") || window.location.href.startsWith("http://localhost:3002/?token=")) {
         var getToken = window.location.href.substring(37);
         getStudent = parseJwt(getToken);
         chrome.storage.sync.set({ key: getStudent }, function () {
@@ -104,11 +104,18 @@ $(document).ready(function () {
         });
     }
     // WHEN LOGOUT
-    else if (window.location.href === "http://noteitfu.herokuapp.com/") {
+    else if (window.location.href === "http://noteitfu.herokuapp.com/" || window.location.href === "http://locahost:3002/") {
         var emptyStudent = null;
         chrome.storage.sync.set({ key: emptyStudent }, function () {
         });
         getStudent = null;
+    }
+    else if (window.location.href === "http://noteitfu.herokuapp.com/student" || window.location.href === "http://localhost:3002/student") {
+        var getToken = window.localStorage.getItem('token');
+        getStudent = parseJwt(getToken);
+        chrome.storage.sync.set({ key: getStudent }, function () {
+            console.log(getStudent);
+        });
     }
     // GET USER INFO
     chrome.storage.sync.get("key", function (obj) {
