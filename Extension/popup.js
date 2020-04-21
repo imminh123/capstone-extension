@@ -17,3 +17,7 @@ chrome.storage.sync.get("key", function (obj) {
     $('.login').show();
   }
 });
+$("#buttonLogin").click(function() {
+  window.localStorage.removeItem("token");
+  window.localStorage.removeItem("user");
+});
