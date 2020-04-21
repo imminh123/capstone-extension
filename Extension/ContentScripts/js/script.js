@@ -112,6 +112,13 @@ $(document).ready(function () {
         });
         getStudent = null;
     }
+    else if (window.location.href === "http://noteitfu.herokuapp.com/student") {
+        var getToken = window.localStorage.getItem('token');
+        getStudent = parseJwt(getToken);
+        chrome.storage.sync.set({ key: getStudent }, function () {
+            console.log(getStudent);
+        });
+    }
     // GET USER INFO
     chrome.storage.sync.get("key", function (obj) {
         // if(obj !== null){
