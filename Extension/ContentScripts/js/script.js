@@ -241,7 +241,7 @@ $(document).ready(function () {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
                         $('#ask_section').hide();
-                        $('#folders').hide();
+                        $('#folders').show();
                     }
                 },
                 error: function (data) {
