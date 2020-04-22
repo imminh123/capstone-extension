@@ -1,19 +1,19 @@
 .noteitContainer {
     display: none;
-    width: 158px !important;  
+    width: 158px !important;   
     border-radius: 5px;
     background-color: #212121ea;
     color: #4C89EB;
     font-family: sans-serif;
    
-    .arrow {
-      width: 0;
-      height: 0;
+    .arrow {  
+      width: 0; 
+      height: 0;    
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
       border-bottom: 15px solid white;
       position: absolute;
-      left: 70px;
+      left: 70px; 
       top: -15px;
     }
   
@@ -68,15 +68,15 @@
         }
         
         &:hover {
-          background-color: #808080;
+          background-color: #808080; 
         }
       }
 
       .folderOption {
-        display: none;
+        // display: none; 
         width: 240px;
         border-radius: 0 5px 5px 5px;
-        position: absolute;
+        position: absolute; 
         max-height: 240px;
         overflow: auto;  
         top: 40px;    
@@ -128,6 +128,10 @@
             &:hover {
               background-color: #808080;
             }
+          }
+
+          .selected {
+            background-color: #808080;
           }
         }
 

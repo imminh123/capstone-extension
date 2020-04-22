@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./css/scss/index.css">
+    <link rel="stylesheet" href="../Extension/ContentScripts/css/index.css">
 </head>
 <body>
     <div class="noteitContainer" id="noteitContainer">
@@ -40,13 +40,13 @@
            <div class="folderOption">
                <div class="topPart">
                    <span>Where to save your highlight?</span>
-                    <input type="text" placeholder="Search or add new folder" />
+                    <input class="searchInput" type="text" placeholder="Search or add new folder" />
                </div>
                
-               <ul>
-                   <li>Final test</li>
-                   <li>Salva Espresso</li>
-                   <li>Raquel Silvia</li>
+               <ul class="searchInputList">
+                   <li class="searchItem" data-id="1a">Final test</li>
+                   <li class="searchItem" data-id="2a">Salva Espresso</li>
+                   <li class="searchItem" data-id="3a">Raquel Silvia</li>
                </ul>
 
                <div id="createFolderBtn">
@@ -127,5 +127,8 @@
         <span>Add to ask</span>
     </div>
     </div>
+
+    <script src="../Extension/ContentScripts/js/jquery-3.4.1.min.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

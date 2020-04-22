@@ -130,12 +130,13 @@ $(document).ready(function () {
     $('body').append(info);
     var info = "";
 
+    $(document.body).on("mouseup", function (e) {
+        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com/")){
+            myFunction(e);
+        }
+    });
 
-    //close all popup
-    closeAllPopup = function() {
-        noteDetailSection.hide();
-        folderOption.hide();
-    }
+
 
     //get DOM element
     var folderOption = $('.folderOption');
@@ -145,15 +146,17 @@ $(document).ready(function () {
     
     //set event to DOM
     folderHighlightSection.on("click", (e) => {
+        console.log(folderOption);
         folderOption.show();
-
     })
 
-    $(document.body).on("mouseup", function (e) {
-        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com/")){
-            myFunction(e);
-        }
-    });
+    //close all popup
+    closeAllPopup = function() {
+        noteDetailSection.hide();   
+        folderOption.hide();
+    }
+
+    
     // WHEN LOGIN
     if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=") || window.location.href.startsWith("http://localhost:3002/?token=")) {
         var getToken = window.location.href.substring(37);
@@ -276,14 +279,67 @@ $(document).ready(function () {
         }
     });
 
+    //CHOOSE FOLDER AND CREATE FOLDER POPUP
+    var folderOption = $('folderOption');
+    var searchInput = $('.searchInput');
+    var searchInputList = $('.searchInputList');
+    var searchItem = $('.searchItem');
+    var createFolderBtn = $('#createFolderBtn');
 
+    //hide create folder button at initial
+    createFolderBtn.hide();
 
-    //CREATE FOLDER 
-    $(document.body).on("click", ".addNewFolder", function () {
+    //each item onclick
+    searchItem.each( function(index, value) {
+        let itemDom = $(value);
+        let text = itemDom.text();
+        let id = itemDom.data("id");
+
+        itemDom.on("click", function() {
+            //get current selected item
+            let selectedItem = $(".selected");
+            //remove selected class from selected item
+            selectedItem.removeClass("selected");
+            //add selected class to click item
+            itemDom.addClass("selected");
+            //set selected item text to input
+            searchInput.val(text);
+            searchInput.data("id", id);
+        })
+    })
+
+    //search event
+    searchInput.on("keyup", function() {
+        let searchString = searchInput.val().toLowerCase();
+        let matchItemArr = [];
+
+        searchItem.each( function(index, value) {
+            let itemDom = $(value);
+            let text = itemDom.text().toLowerCase();
+            
+            if(text.includes(searchString)) {
+                itemDom.show();
+                matchItemArr.push(itemDom);
+            }else {
+                itemDom.hide();
+            }
+        })
+
+        if(matchItemArr.length == 0) {
+            createFolderBtn.show();
+        }else {
+            createFolderBtn.hide();
+        }
+
+    })
+
+    //create folder button event
+    createFolderBtn.on("click", function() {
+        let folderName =  searchInput.val();
         var newFolder = {
             "studentID": getStudentId,
             "courseCode": "Other",
-            "courseName": $('#newFolder').val()
+            "courseName": folderName
         };
         $.ajax({
             type: "POST",
@@ -297,6 +353,7 @@ $(document).ready(function () {
                     if (value.courseCode === "Other") {
                         selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
                     }
+                    console.log(getFolderByStudentId);
                 });
                 if (data.folder._id !== "" && data.folder.courseName !== "") {
                     selection += '<option value="' + data.folder._id + '">' + data.folder.courseName + '</option> <br>';
@@ -315,8 +372,7 @@ $(document).ready(function () {
             }
         });
 
-
-    });
+    })
 
     // create highlight
     $(document.body).on("click", ".color", function () {
@@ -397,15 +453,6 @@ $(document).ready(function () {
             $('.secondTitle').empty();
             document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
             document.getElementsByClassName('secondTitle')[0].append('Question:');
-            // if (typeof getTeacherByURL !== "undefined") {
-            //     $.each(getTeacherByURL, function (key, value) {
-            //         selection += '<option value="' + value._id + '">' + value.name + '</option> <br>';
-            //     });
-            // }
-            // $('#selectFolder').show();
-            // $('#dropdown-btn').show();
-            // $('#selectFolder').empty();
-            // $('#selectFolder').html(selection);
             setTeacherDataToSelectBox('#selectFolder');
         }
         //$('.dropdown').append(dropdown);
@@ -450,7 +497,7 @@ $(document).ready(function () {
     //CLICK ON ADD ASK BUTTON
     $(document.body).on("click", "#addAskBtn", function () {
         var string = $("#hiddenText").val();
-        var teacherId = $('#selectFolder').val();
+        var teacherId = $('.chosen-value')[0].getAttribute('data-id');
         var askContent = $('#descNotes').val();
         var insertAsk = {
             "scannedContent": string,
@@ -549,7 +596,7 @@ function initiateDropdown() {
         dropdown.classList.add('open');
         let valueArray = [];
         dropdownArray.forEach(item => {
-        valueArray.push(item.textContent);
+            valueArray.push(item.textContent);
         });
     
         const closeDropdown = () => {
