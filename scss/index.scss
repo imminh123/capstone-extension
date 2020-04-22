@@ -1,10 +1,11 @@
 .noteitContainer {
     display: none;
-    width: 158px !important;
+    width: 158px !important;  
     border-radius: 5px;
-    background-color: #212121;
+    background-color: #212121ea;
     color: #4C89EB;
-  
+    font-family: sans-serif;
+   
     .arrow {
       width: 0;
       height: 0;
@@ -24,25 +25,131 @@
     }
   
     .hightLight {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px;
       border-bottom: 1px solid #F2F5FF;
-  
-      .color {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        background-color: red;
-        opacity: .4;
-        transition: .3s all;
+
+      .selection {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 10px 5px 10px;
+        
+        .color {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background-color: red;
+          opacity: .4;
+          transition: .3s all;
+          cursor: pointer;
+    
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+      }
+
+      .folders {
+        padding: 10px 8px 10px 8px;
+        font-size: 14px;
+        color: #fff;
+        display: flex; 
+        justify-content: space-between;
+        align-items: center;     
+        transition: .3s all;  
         cursor: pointer;
-  
+        p {
+          margin: 0;
+        }
+
+        svg {
+          width: 10px;
+          transform: rotate(90deg);
+          fill: #fff;
+        }
+        
         &:hover {
-          opacity: 1;
+          background-color: #808080;
         }
       }
+
+      .folderOption {
+        display: none;
+        width: 240px;
+        border-radius: 0 5px 5px 5px;
+        position: absolute;
+        max-height: 240px;
+        overflow: auto;  
+        top: 40px;    
+        left: 166px;
+        background-color: #212121ea;
+        
+        .topPart {
+          padding: 8px 10px;
+          span {
+            font-size: 14px;
+          }
   
+          input {
+            width: 100%;
+            font-size: 14px;
+            background-color: #808080;
+            color: #fff;
+            border-radius: 5px;
+            padding: 5px;
+            box-sizing: border-box;
+            border: none;
+            margin-top: 12px;
+  
+            &::placeholder {
+              color: #fff;
+            }
+          }
+        }
+        
+
+        ul {
+          list-style-type: none;
+          padding: 1px;
+          margin-top: 0px;
+          margin-bottom: 0;
+          padding-bottom: 8px;
+          color: #fff;
+
+          li {
+            padding: 6px 12px;
+            border-top: .5px solid #fff;
+            font-size: 14px;
+            cursor: pointer;
+
+            &:last-child {
+              border-bottom: .5px solid #fff;
+            }
+
+            &:hover {
+              background-color: #808080;
+            }
+          }
+        }
+
+        #createFolderBtn {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          margin-top: -8px;
+          font-size: 14px;
+          color: #fff;
+          cursor: pointer;
+
+          svg {
+            fill: #fff;
+          }
+
+          &:hover {
+            background-color: #808080;
+          }
+        }
+      }
+
       #yellow {
         background-color: #FFF83E;
       }
@@ -72,7 +179,7 @@
       cursor: pointer;
   
       &:hover {
-        background-color: #F2F5FF;
+        background-color: #808080;
       }
     }
   
@@ -83,11 +190,12 @@
       position: absolute;
       top: 80px;
       left: 169px;
-      background-color: #212121;
+      background-color: #212121ea;
   
       .dropdown {
-        color: #212121;
+        color: #212121ea;
         position: relative;
+        margin: 0;
         margin-bottom: 10px;
 
         #selectFolder2 {
@@ -102,6 +210,7 @@
       textarea {
         font-size: 14px;
         resize: none;
+        color: #fff;
         width: 100%;
         margin-top: 10px;
         border-radius: 5px;
@@ -150,6 +259,7 @@
     position: absolute;
     overflow: hidden;
     max-height: 0;
+    padding: 0;
     border-radius: 5px;
     transition: .3s ease-in-out;
 

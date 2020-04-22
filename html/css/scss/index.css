@@ -1,6 +1,5 @@
 /* line 1, scss/index.scss */
 .noteitContainer {
-  display: none;
   width: 158px !important;
   border-radius: 5px;
   background-color: #212121ea;
@@ -65,22 +64,21 @@
         background-color: #808080; }
     /* line 75, scss/index.scss */
     .noteitContainer .hightLight .folderOption {
-      display: none;
       width: 240px;
       border-radius: 0 5px 5px 5px;
       position: absolute;
       max-height: 240px;
       overflow: auto;
-      top: 40px;
+      top: 80px;
       left: 166px;
       background-color: #212121ea; }
-      /* line 86, scss/index.scss */
+      /* line 85, scss/index.scss */
       .noteitContainer .hightLight .folderOption .topPart {
         padding: 8px 10px; }
-        /* line 88, scss/index.scss */
+        /* line 87, scss/index.scss */
         .noteitContainer .hightLight .folderOption .topPart span {
           font-size: 14px; }
-        /* line 92, scss/index.scss */
+        /* line 91, scss/index.scss */
         .noteitContainer .hightLight .folderOption .topPart input {
           width: 100%;
           font-size: 14px;
@@ -91,10 +89,10 @@
           box-sizing: border-box;
           border: none;
           margin-top: 12px; }
-          /* line 103, scss/index.scss */
+          /* line 102, scss/index.scss */
           .noteitContainer .hightLight .folderOption .topPart input::placeholder {
             color: #fff; }
-      /* line 110, scss/index.scss */
+      /* line 109, scss/index.scss */
       .noteitContainer .hightLight .folderOption ul {
         list-style-type: none;
         padding: 1px;
@@ -102,19 +100,19 @@
         margin-bottom: 0;
         padding-bottom: 8px;
         color: #fff; }
-        /* line 118, scss/index.scss */
+        /* line 117, scss/index.scss */
         .noteitContainer .hightLight .folderOption ul li {
           padding: 6px 12px;
           border-top: .5px solid #fff;
           font-size: 14px;
           cursor: pointer; }
-          /* line 124, scss/index.scss */
+          /* line 123, scss/index.scss */
           .noteitContainer .hightLight .folderOption ul li:last-child {
             border-bottom: .5px solid #fff; }
-          /* line 128, scss/index.scss */
+          /* line 127, scss/index.scss */
           .noteitContainer .hightLight .folderOption ul li:hover {
             background-color: #808080; }
-      /* line 134, scss/index.scss */
+      /* line 133, scss/index.scss */
       .noteitContainer .hightLight .folderOption #createFolderBtn {
         display: flex;
         align-items: center;
@@ -123,39 +121,40 @@
         font-size: 14px;
         color: #fff;
         cursor: pointer; }
-        /* line 143, scss/index.scss */
+        /* line 142, scss/index.scss */
         .noteitContainer .hightLight .folderOption #createFolderBtn svg {
           fill: #fff; }
-        /* line 147, scss/index.scss */
+        /* line 146, scss/index.scss */
         .noteitContainer .hightLight .folderOption #createFolderBtn:hover {
           background-color: #808080; }
-    /* line 153, scss/index.scss */
+    /* line 152, scss/index.scss */
     .noteitContainer .hightLight #yellow {
       background-color: #FFF83E; }
-    /* line 157, scss/index.scss */
+    /* line 156, scss/index.scss */
     .noteitContainer .hightLight #green {
       background-color: #91EFA4; }
-    /* line 161, scss/index.scss */
+    /* line 160, scss/index.scss */
     .noteitContainer .hightLight #blue {
       background-color: #48C6FF; }
-    /* line 165, scss/index.scss */
+    /* line 164, scss/index.scss */
     .noteitContainer .hightLight #red {
       background-color: #FF7DB9; }
-    /* line 169, scss/index.scss */
+    /* line 168, scss/index.scss */
     .noteitContainer .hightLight #orange {
       background-color: #FFC143; }
-  /* line 174, scss/index.scss */
+  /* line 173, scss/index.scss */
   .noteitContainer .section {
     padding: 10px 0;
     text-align: center;
     border-bottom: 1px solid #F2F5FF;
     transition: .3s all;
     cursor: pointer; }
-    /* line 181, scss/index.scss */
+    /* line 180, scss/index.scss */
     .noteitContainer .section:hover {
-      background-color: #808080; }
-  /* line 186, scss/index.scss */
+      background-color: #F2F5FF; }
+  /* line 185, scss/index.scss */
   .noteitContainer .noteDetail {
+    display: none;
     width: 240px;
     padding: 8px 10px;
     border-radius: 0 5px 5px 5px;
@@ -167,36 +166,34 @@
     .noteitContainer .noteDetail .dropdown {
       color: #212121ea;
       position: relative;
-      margin: 0;
       margin-bottom: 10px; }
-      /* line 201, scss/index.scss */
+      /* line 200, scss/index.scss */
       .noteitContainer .noteDetail .dropdown #selectFolder2 {
         display: none; }
-    /* line 210, scss/index.scss */
+    /* line 209, scss/index.scss */
     .noteitContainer .noteDetail textarea {
       font-size: 14px;
       resize: none;
-      color: #fff;
       width: 100%;
       margin-top: 10px;
       border-radius: 5px;
       background-color: #808080;
       border: none;
       height: 105px; }
-    /* line 222, scss/index.scss */
+    /* line 220, scss/index.scss */
     .noteitContainer .noteDetail .addBtn, .noteitContainer .noteDetail .addAskBtn {
       padding: 0;
       margin-top: 6px;
       text-align: center;
       cursor: pointer; }
-  /* line 230, scss/index.scss */
+  /* line 228, scss/index.scss */
   .noteitContainer .chosen-value,
   .noteitContainer .value-list {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; }
-  /* line 238, scss/index.scss */
+  /* line 236, scss/index.scss */
   .noteitContainer .chosen-value {
     font-family: 'Open sans', sans-serif;
     height: 34px;
@@ -209,25 +206,24 @@
     position: relative;
     background-color: #808080;
     transition: .3s ease-in-out; }
-    /* line 251, scss/index.scss */
+    /* line 249, scss/index.scss */
     .noteitContainer .chosen-value::-webkit-input-placeholder {
       color: #fff; }
-  /* line 257, scss/index.scss */
+  /* line 255, scss/index.scss */
   .noteitContainer .value-list {
     list-style: none;
     position: absolute;
     overflow: hidden;
     max-height: 0;
-    padding: 0;
     border-radius: 5px;
     transition: .3s ease-in-out;
     margin-top: 43px;
     box-sizing: border-box; }
-    /* line 269, scss/index.scss */
+    /* line 266, scss/index.scss */
     .noteitContainer .value-list.open {
       max-height: 320px;
       overflow: auto; }
-    /* line 274, scss/index.scss */
+    /* line 271, scss/index.scss */
     .noteitContainer .value-list li {
       position: relative;
       height: 25px;
@@ -242,16 +238,16 @@
       cursor: pointer;
       transition: background-color .3s;
       opacity: 1; }
-      /* line 289, scss/index.scss */
+      /* line 286, scss/index.scss */
       .noteitContainer .value-list li:hover {
         background-color: #808080; }
-      /* line 293, scss/index.scss */
+      /* line 290, scss/index.scss */
       .noteitContainer .value-list li.closed {
         max-height: 0;
         overflow: hidden;
         padding: 0;
         opacity: 0; }
-  /* line 302, scss/index.scss */
+  /* line 299, scss/index.scss */
   .noteitContainer .ask {
     border: none !important;
     padding-bottom: 4px; }
