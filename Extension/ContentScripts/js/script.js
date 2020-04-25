@@ -131,7 +131,7 @@ $(document).ready(function () {
     var info = "";
 
     $(document.body).on("mouseup", function (e) {
-        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com/")){
+        if (!window.location.href.startsWith("http://noteitfu.herokuapp.com/")) {
             myFunction(e);
         }
     });
@@ -143,7 +143,7 @@ $(document).ready(function () {
     var folderHighlightSection = $('.folders');
     var noteDetailSection = $('#noteDetail');
     var dropdownSection = $('.dropdown');
-    
+
     //set event to DOM
     folderHighlightSection.on("click", (e) => {
         console.log(folderOption);
@@ -151,33 +151,33 @@ $(document).ready(function () {
     })
 
     //close all popup
-    closeAllPopup = function() {
-        noteDetailSection.hide();   
+    closeAllPopup = function () {
+        noteDetailSection.hide();
         folderOption.hide();
     }
 
-    
-    // WHEN LOGIN
-    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=") || window.location.href.startsWith("http://localhost:3002/?token=")) {
-        var getToken = window.location.href.substring(37);
-        getStudent = parseJwt(getToken);
-        chrome.storage.sync.set({ key: getStudent }, function () {
-            console.log(getStudent);
-        });
-    }
-    // WHEN LOGOUT
-    else if (window.location.href === "http://noteitfu.herokuapp.com/" || window.location.href === "http://locahost:3002/") {
-        var emptyStudent = null;
-        chrome.storage.sync.set({ key: emptyStudent }, function () {
-        });
-        getStudent = null;
-    }
-    else if (window.location.href === "http://noteitfu.herokuapp.com/student" || window.location.href === "http://localhost:3002/student") {
-        var getToken = window.localStorage.getItem('token');
-        getStudent = parseJwt(getToken);
-        chrome.storage.sync.set({ key: getStudent }, function () {
-            console.log(getStudent);
-        });
+    // GET LOCAL STORAGE
+    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/")) {
+        if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
+            var getToken = window.location.href.substring(37);
+            getStudent = parseJwt(getToken);
+            chrome.storage.sync.set({ key: getStudent }, function () {
+                console.log(getStudent);
+            });
+        } else {
+            var getToken = window.localStorage.getItem('token');
+            if (getToken !== null) {
+                getStudent = parseJwt(getToken);
+                chrome.storage.sync.set({ key: getStudent }, function () {
+                    console.log(getStudent);
+                });
+            } else {
+                var emptyStudent = null;
+                chrome.storage.sync.set({ key: emptyStudent }, function () {
+                });
+                getStudent = null;
+            }
+        }
     }
     // GET USER INFO
     chrome.storage.sync.get("key", function (obj) {
@@ -294,12 +294,12 @@ $(document).ready(function () {
     createFolderBtn.hide();
 
     //each item onclick
-    searchItem.each( function(index, value) {
+    searchItem.each(function (index, value) {
         let itemDom = $(value);
         let text = itemDom.text();
         let id = itemDom.data("id");
 
-        itemDom.on("click", function() {
+        itemDom.on("click", function () {
             //get current selected item
             let selectedItem = $(".selected");
             //remove selected class from selected item
@@ -313,33 +313,33 @@ $(document).ready(function () {
     })
 
     //search event
-    searchInput.on("keyup", function() {
+    searchInput.on("keyup", function () {
         let searchString = searchInput.val().toLowerCase();
         let matchItemArr = [];
 
-        searchItem.each( function(index, value) {
+        searchItem.each(function (index, value) {
             let itemDom = $(value);
             let text = itemDom.text().toLowerCase();
-            
-            if(text.includes(searchString)) {
+
+            if (text.includes(searchString)) {
                 itemDom.show();
                 matchItemArr.push(itemDom);
-            }else {
+            } else {
                 itemDom.hide();
             }
         })
 
-        if(matchItemArr.length == 0) {
+        if (matchItemArr.length == 0) {
             createFolderBtn.show();
-        }else {
+        } else {
             createFolderBtn.hide();
         }
 
     })
 
     //create folder button event
-    createFolderBtn.on("click", function() {
-        let folderName =  searchInput.val();
+    createFolderBtn.on("click", function () {
+        let folderName = searchInput.val();
         var newFolder = {
             "studentID": getStudentId,
             "courseCode": "Other",
@@ -362,7 +362,7 @@ $(document).ready(function () {
                 if (data.folder._id !== "" && data.folder.courseName !== "") {
                     selection += '<option value="' + data.folder._id + '">' + data.folder.courseName + '</option> <br>';
                 }
-                
+
                 $('#selectHighlightFolder').hide();
                 $('#selectHighlightFolder').empty();
                 $('#selectHighlightFolder').html(selection);
@@ -529,7 +529,7 @@ $(document).ready(function () {
     });
 
     //Vanilla JS for search box dropdown
-    }) //problem
+}) //problem
 
 //SHOW EXTENSION
 function myFunction(e) {
@@ -593,86 +593,86 @@ function parseJwt(token) {
 
 //Initiate dropdown
 function initiateDropdown() {
-        //set data to dropdown
-        const inputField = document.querySelector('.chosen-value');
-        const dropdown = document.querySelector('.value-list');
-        const dropdownArray = [... document.querySelectorAll('.value-list-item')];
-        dropdown.classList.add('open');
-        let valueArray = [];
-        dropdownArray.forEach(item => {
-            valueArray.push(item.textContent);
-        });
-    
-        const closeDropdown = () => {
+    //set data to dropdown
+    const inputField = document.querySelector('.chosen-value');
+    const dropdown = document.querySelector('.value-list');
+    const dropdownArray = [...document.querySelectorAll('.value-list-item')];
+    dropdown.classList.add('open');
+    let valueArray = [];
+    dropdownArray.forEach(item => {
+        valueArray.push(item.textContent);
+    });
+
+    const closeDropdown = () => {
         dropdown.classList.remove('open');
-        }
-    
-        inputField.addEventListener('input', () => {
+    }
+
+    inputField.addEventListener('input', () => {
         dropdown.classList.add('open');
         let inputValue = inputField.value.toLowerCase();
         let valueSubstring;
         if (inputValue.length > 0) {
             for (let j = 0; j < valueArray.length; j++) {
-            if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
-                dropdownArray[j].classList.add('closed');
-            } else {
-                dropdownArray[j].classList.remove('closed');
-            }
+                if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
+                    dropdownArray[j].classList.add('closed');
+                } else {
+                    dropdownArray[j].classList.remove('closed');
+                }
             }
         } else {
             for (let i = 0; i < dropdownArray.length; i++) {
-            dropdownArray[i].classList.remove('closed');
+                dropdownArray[i].classList.remove('closed');
             }
         }
-        });
-    
-        dropdownArray.forEach(item => {
+    });
+
+    dropdownArray.forEach(item => {
         item.addEventListener('click', (evt) => {
             inputField.value = item.textContent;
             inputField.setAttribute('data-id', item.dataset.value);
             dropdownArray.forEach(dropdown => {
-            dropdown.classList.add('closed');
+                dropdown.classList.add('closed');
             });
         });
-        })
-    
-        inputField.addEventListener('focus', () => {
+    })
+
+    inputField.addEventListener('focus', () => {
         inputField.placeholder = 'Search';
         dropdown.classList.add('open');
         dropdownArray.forEach(dropdown => {
             dropdown.classList.remove('closed');
         });
-        });
-    
-        inputField.addEventListener('blur', () => {
+    });
+
+    inputField.addEventListener('blur', () => {
         inputField.placeholder = 'Choose folder';
         dropdown.classList.remove('open');
-        });
-    
-        document.addEventListener('click', (evt) => {
+    });
+
+    document.addEventListener('click', (evt) => {
         const isDropdown = dropdown.contains(evt.target);
         const isInput = inputField.contains(evt.target);
         if (!isDropdown && !isInput) {
             dropdown.classList.remove('open');
         }
-        });
+    });
 }
 
 // FILL DATA TO SELECT BOX
-function setDataToSelectBox(folderName){
+function setDataToSelectBox(folderName) {
     var selection = '';
     $.each(getFolderByStudentId, function (key, value) {
         if (value.courseCode === "Other") {
             // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
             selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
-        } 
+        }
     });
     $(folderName).empty();
     $(folderName).html(selection);
     initiateDropdown();
 };
 
-function setTeacherDataToSelectBox(folderName){
+function setTeacherDataToSelectBox(folderName) {
     var dropdownSection = $('.dropdown');
     var selection = '';
     if (typeof getTeacherByURL !== "undefined") {
