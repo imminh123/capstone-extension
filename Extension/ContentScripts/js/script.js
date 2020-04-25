@@ -582,17 +582,17 @@ $(document).ready(function () {
         
         let seleciton = window.getSelection().anchorNode;
         console.log()
-        // if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
-        //     var selection = window.getSelection();
-        //     var range = selection.getRangeAt(0);
+        if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+            var selection = window.getSelection();
+            rangeScanned = selection.getRangeAt(0);
         //     var newNode = document.createElement("em");
         //     //newNode.setAttribute("style", "background-color: pink;");
         //     newNode.setAttribute("id", "cuong" + indexDivCLass);
         //     newNode.appendChild(range.extractContents());
         //     range.insertNode(newNode);
         //     //range.surroundContents(newNode);
-        //     indexDivCLass += 1;
-        // }
+            indexDivCLass += 1;
+         }
         if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
             $("#hiddenText").val(x);
             $('#noteitContainer').hide();
