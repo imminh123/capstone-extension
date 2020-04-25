@@ -5,6 +5,7 @@ var getCourseByURL = "";
 var getCourseNameByURL = "";
 var getTeacherByURL;
 var getFolderByStudentId;
+var rangeScanned = null;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
     <input type="text" id ="newFolder" class="newFolder" />
@@ -381,8 +382,15 @@ $(document).ready(function () {
     // create highlight
     $(document.body).on("click", ".color", function () {
         var string = $("#hiddenText").val();
-
-        document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
+        debugger;
+        var newNode = document.createElement("span");
+        newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
+        //newNode.setAttribute("id", "cuong" + indexDivCLass);
+        newNode.appendChild(rangeScanned.extractContents());
+        rangeScanned.insertNode(newNode);
+        //document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
+        
+        
         //GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
         var indices = getIndicesOf(string, domContent1);
@@ -537,12 +545,12 @@ function myFunction(e) {
     var x = window.getSelection().toString();
     if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
         var selection = window.getSelection();
-        var range = selection.getRangeAt(0);
-        var newNode = document.createElement("span");
-        //newNode.setAttribute("style", "background-color: pink;");
-        newNode.setAttribute("id", "cuong" + indexDivCLass);
-        newNode.appendChild(range.extractContents());
-        range.insertNode(newNode);
+        rangeScanned = selection.getRangeAt(0);
+        // var newNode = document.createElement("span");
+        // //newNode.setAttribute("style", "background-color: pink;");
+        // newNode.setAttribute("id", "cuong" + indexDivCLass);
+        // newNode.appendChild(rangeScanned.extractContents());
+        // rangeScanned.insertNode(newNode);
         //range.surroundContents(newNode);
         indexDivCLass += 1;
     }
