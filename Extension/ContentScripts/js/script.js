@@ -5,6 +5,7 @@ var getCourseByURL = "";
 var getCourseNameByURL = "";
 var getTeacherByURL;
 var getFolderByStudentId;
+var rangeScanned = null;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
    <div class="arrow">
@@ -66,7 +67,7 @@ $(document).ready(function () {
        </svg>
        <span>Add to notes</span>
    </div>
-   <div class="ask section">
+   <div class="ask section" id="ask_section">
        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
            x="0px" y="0px" width="535.5px" height="535.5px" viewBox="0 0 535.5 535.5"
            style="enable-background:new 0 0 535.5 535.5;" xml:space="preserve">
@@ -142,7 +143,7 @@ $(document).ready(function () {
     var folderHighlightSection = $('.folders');
     var noteDetailSection = $('#noteDetail');
     var dropdownSection = $('.dropdown');
-    
+
     //set event to DOM
     folderHighlightSection.on("click", (e) => {
         noteDetailSection.hide();
@@ -154,28 +155,28 @@ $(document).ready(function () {
         folderOption.hide();
     }
 
-    
-    // WHEN LOGIN
-    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=") || window.location.href.startsWith("http://localhost:3002/?token=")) {
-        var getToken = window.location.href.substring(37);
-        getStudent = parseJwt(getToken);
-        chrome.storage.sync.set({ key: getStudent }, function () {
-            console.log(getStudent);
-        });
-    }
-    // WHEN LOGOUT
-    else if (window.location.href === "http://noteitfu.herokuapp.com/" || window.location.href === "http://locahost:3002/") {
-        var emptyStudent = null;
-        chrome.storage.sync.set({ key: emptyStudent }, function () {
-        });
-        getStudent = null;
-    }
-    else if (window.location.href === "http://noteitfu.herokuapp.com/student" || window.location.href === "http://localhost:3002/student") {
-        var getToken = window.localStorage.getItem('token');
-        getStudent = parseJwt(getToken);
-        chrome.storage.sync.set({ key: getStudent }, function () {
-            console.log(getStudent);
-        });
+    // GET LOCAL STORAGE
+    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/")) {
+        if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
+            var getToken = window.location.href.substring(37);
+            getStudent = parseJwt(getToken);
+            chrome.storage.sync.set({ key: getStudent }, function () {
+                console.log(getStudent);
+            });
+        } else {
+            var getToken = window.localStorage.getItem('token');
+            if (getToken !== null) {
+                getStudent = parseJwt(getToken);
+                chrome.storage.sync.set({ key: getStudent }, function () {
+                    console.log(getStudent);
+                });
+            } else {
+                var emptyStudent = null;
+                chrome.storage.sync.set({ key: emptyStudent }, function () {
+                });
+                getStudent = null;
+            }
+        }
     }
     // GET USER INFO
     chrome.storage.sync.get("key", function (obj) {
@@ -234,10 +235,14 @@ $(document).ready(function () {
                         getCourseNameByURL = getCourse.courseCode;
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
+                        $('#ask_section').show();
+                        $('#folders').hide();
                     } else {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
                         setDataToSelectBox('.searchInputList');
+                        $('#ask_section').hide();
+                        $('#folders').show();
                     }
                 },
                 error: function (data) {
@@ -381,8 +386,15 @@ $(document).ready(function () {
     // create highlight
     $(document.body).on("click", ".color", function () {
         var string = $("#hiddenText").val();
-
-        document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
+        debugger;
+        var newNode = document.createElement("span");
+        newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
+        //newNode.setAttribute("id", "cuong" + indexDivCLass);
+        newNode.appendChild(rangeScanned.extractContents());
+        rangeScanned.insertNode(newNode);
+        //document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
+        
+        
         //GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
         var indices = getIndicesOf(string, domContent1);
@@ -749,11 +761,7 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 };
 
-
-
-
-
-function setTeacherDataToSelectBox(folderName){
+function setTeacherDataToSelectBox(folderName) {
     var dropdownSection = $('.dropdown');
     var selection = '';
     if (typeof getTeacherByURL !== "undefined") {
