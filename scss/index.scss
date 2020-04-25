@@ -56,15 +56,16 @@
         justify-content: space-between;
         align-items: center;     
         transition: .3s all;  
-        cursor: pointer;
+        cursor: pointer; 
         p {
-          margin: 0;
+          margin: 0 !important;
         }
 
         svg {
           width: 10px;
           transform: rotate(90deg);
           fill: #fff;
+          margin: 0 !important;
         }
         
         &:hover {
@@ -73,7 +74,7 @@
       }
 
       .folderOption {
-        // display: none; 
+        display: none; 
         width: 240px;
         border-radius: 0 5px 5px 5px;
         position: absolute; 
@@ -201,14 +202,6 @@
         position: relative;
         margin: 0;
         margin-bottom: 10px;
-
-        #selectFolder2 {
-          display: none;
-        }
-
-        .selectFolder {
-
-        }
       }
   
       textarea {
@@ -228,6 +221,19 @@
         margin-top: 6px;
         text-align: center;
         cursor: pointer;
+      }
+
+      #createFolderBtnInNote {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-size: 14px; 
+        color: #fff; 
+        cursor: pointer;
+
+        svg {
+          fill: #fff;
+        }
       }
     }
 
@@ -271,7 +277,7 @@
     box-sizing: border-box;
     
     &.open {
-    max-height: 320px;
+    max-height: 180px;
     overflow: auto;
     }
     

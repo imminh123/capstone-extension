@@ -7,11 +7,6 @@ var getTeacherByURL;
 var getFolderByStudentId;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
-    <input type="text" id ="newFolder" class="newFolder" />
-    <input type="submit" id ="addNewFolder" class="addNewFolder" value="Add folder"/>
-    <select id="selectHighlightFolder">
-    <option value="">Others</option> <br>
-        </select>
    <div class="arrow">
    </div>
    <div class="hightLight">
@@ -25,7 +20,7 @@ $(document).ready(function () {
        
 
        <div class="folders">
-            <p>Saved to "Others"</p>
+            <p class="folders_title">Saved to "Others"</p>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 width="306px" height="306px" viewBox="0 0 306 306" style="enable-background:new 0 0 306 306;" xml:space="preserve">
             <g>
@@ -36,16 +31,14 @@ $(document).ready(function () {
             </svg>
        </div>
 
-       <div class="folderOption">
+       <div class="folderOption" id="folderOption">
            <div class="topPart">
                <span>Where to save your highlight?</span>
-                <input type="text" placeholder="Search or add new folder" />
+                <input class="searchInput" type="text" placeholder="Search or add new folder" />
            </div>
            
-           <ul>
-               <li>Final test</li>
-               <li>Salva Espresso</li>
-               <li>Raquel Silvia</li>
+           <ul class="searchInputList">
+
            </ul>
 
            <div id="createFolderBtn">
@@ -57,12 +50,12 @@ $(document).ready(function () {
                         </g>
                     </g>
                 </svg>
-                Create folder "bleh"
+                <span class="createBtnTitle">Create folder "bleh"</span>
             </div>
        </div>
    </div>
    <input type="text" id="hiddenText" hidden>
-   <div class="note section" >
+   <div class="note addToNotes section" >
        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
            x="0px" y="0px" width="357px" height="357px" viewBox="0 0 357 357"
            style="enable-background:new 0 0 357 357;" xml:space="preserve">
@@ -71,7 +64,7 @@ $(document).ready(function () {
                    <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
                </g>
        </svg>
-       <span class="addToNotes">Add to notes</span>
+       <span>Add to notes</span>
    </div>
    <div class="ask section">
        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -92,14 +85,22 @@ $(document).ready(function () {
    <div class="noteDetail" id="noteDetail">
         <p class="firstTitle" id="firstTitle"></p>
         <div class="dropdown">
-            <select class="selectFolder" id="selectFolder2">
-                <option value="AL">Alabama</option>
-            </select>
             <input class="chosen-value" type="text" value="" placeholder="Type to filter">
             <ul class="value-list" id="selectFolder">
                 <li>Alabama</li>
                 <li>Alaska</li>
             </ul>
+            <div id="createFolderBtnInNote">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+                    <g>
+                        <g id="add">
+                            <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"/>
+                        </g>
+                    </g>
+                </svg>
+                <span class="createBtnTitleInNote">Create folder "bleh"</span>
+            </div>
         </div>
         <p class="secondTitle" id="secondTitle"></p>
         <textarea id="descNotes"></textarea>
@@ -131,27 +132,24 @@ $(document).ready(function () {
     var info = "";
 
     $(document.body).on("mouseup", function (e) {
-        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com/")){
+        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com")){
             myFunction(e);
         }
     });
 
-
-
     //get DOM element
-    var folderOption = $('.folderOption');
+    var folderOption = $('#folderOption');
     var folderHighlightSection = $('.folders');
     var noteDetailSection = $('#noteDetail');
     var dropdownSection = $('.dropdown');
     
     //set event to DOM
     folderHighlightSection.on("click", (e) => {
-        console.log(folderOption);
+        noteDetailSection.hide();
         folderOption.show();
     })
-
     //close all popup
-    closeAllPopup = function() {
+    function closeAllPopup() {
         noteDetailSection.hide();   
         folderOption.hide();
     }
@@ -198,19 +196,20 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                 }
-            });
+            }); //problem
             $.ajax({
                 type: "GET",
                 url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
                 success: function (data) {
                     getFolderByStudentId = data;
-                    setDataToSelectBox('#selectHighlightFolder');
                     setDataToSelectBox('#selectFolder');
+                    setDataToSelectBox('.searchInputList');
                 },
                 error: function (data) {
                 }
             });
 
+            //problem
             //GET FOLDER BY URL
             $.ajax({
                 type: "GET",
@@ -231,13 +230,14 @@ $(document).ready(function () {
                     //GET COURSE
                     var getCourse = data.courseOfURL;
                     if (typeof getCourse !== "undefined") {
-                        getCourseByURL = getCourse._id;
+                        getCourseByURL = getCourse._id;searchInputList
                         getCourseNameByURL = getCourse.courseCode;
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
                     } else {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
+                        setDataToSelectBox('.searchInputList');
                     }
                 },
                 error: function (data) {
@@ -280,99 +280,103 @@ $(document).ready(function () {
     });
 
     //CHOOSE FOLDER AND CREATE FOLDER POPUP
-    var folderOption = $('folderOption');
-    var searchInput = $('.searchInput');
-    var searchInputList = $('.searchInputList');
-    var searchItem = $('.searchItem');
-    var createFolderBtn = $('#createFolderBtn');
-
-    //hide create folder button at initial
-    createFolderBtn.hide();
-
-    //each item onclick
-    searchItem.each( function(index, value) {
-        let itemDom = $(value);
-        let text = itemDom.text();
-        let id = itemDom.data("id");
-
-        itemDom.on("click", function() {
-            //get current selected item
-            let selectedItem = $(".selected");
-            //remove selected class from selected item
-            selectedItem.removeClass("selected");
-            //add selected class to click item
-            itemDom.addClass("selected");
-            //set selected item text to input
-            searchInput.val(text);
-            searchInput.data("id", id);
-        })
-    })
-
-    //search event
-    searchInput.on("keyup", function() {
-        let searchString = searchInput.val().toLowerCase();
-        let matchItemArr = [];
-
+    function initiateFolderOption() {
+        let searchInput = $('.searchInput');
+        let searchInputList = $('.searchInputList');
+        let searchItem = $('.value-list-item');
+        let createFolderBtn = $('#createFolderBtn');
+        let createBtnTitle = $('.createBtnTitle');
+        let selectedFolderTitle = $('.folders_title');
+    
+        //hide create folder button at initial
+        createFolderBtn.hide();
+        //each item onclick
         searchItem.each( function(index, value) {
             let itemDom = $(value);
-            let text = itemDom.text().toLowerCase();
-            
-            if(text.includes(searchString)) {
-                itemDom.show();
-                matchItemArr.push(itemDom);
-            }else {
-                itemDom.hide();
-            }
+            let text = itemDom.text();
+            let id = itemDom.data("value");
+    
+            itemDom.on("click", function() {
+                //get current selected item
+                let selectedItem = $(".selected");
+                //remove selected class from selected item
+                selectedItem.removeClass("selected");
+                //add selected class to click item
+                itemDom.addClass("selected");
+                //set selected item text to input
+                searchInput.val(text);
+                selectedFolderTitle.text(`Saved to ${text}`)
+                searchInput.data("id", id);
+            })
         })
-
-        if(matchItemArr.length == 0) {
-            createFolderBtn.show();
-        }else {
-            createFolderBtn.hide();
-        }
-
-    })
-
-    //create folder button event
-    createFolderBtn.on("click", function() {
-        let folderName =  searchInput.val();
-        var newFolder = {
-            "studentID": getStudentId,
-            "courseCode": "Other",
-            "courseName": folderName
-        };
-        $.ajax({
-            type: "POST",
-            url: "https://capstonebackendapi.herokuapp.com/createFolder",
-            dataType: "json",
-            data: newFolder,
-            success: function (data) {
-                alert("Add new folder success");
-                var selection = '';
-                $.each(getFolderByStudentId, function (key, value) {
-                    if (value.courseCode === "Other") {
-                        selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-                    }
-                    console.log(getFolderByStudentId);
-                });
-                if (data.folder._id !== "" && data.folder.courseName !== "") {
-                    selection += '<option value="' + data.folder._id + '">' + data.folder.courseName + '</option> <br>';
-                }
+    
+        //search event
+        searchInput.on("keyup", function() {
+            let searchString = searchInput.val();
+            let searchStringLowerCase = searchString.toLowerCase();
+            let matchItemArr = [];
+    
+            searchItem.each( function(index, value) {
+                let itemDom = $(value);
+                let text = itemDom.text().toLowerCase();
                 
-                $('#selectHighlightFolder').hide();
-                $('#selectHighlightFolder').empty();
-                $('#selectHighlightFolder').html(selection);
-                $('#selectHighlightFolder').show();
-                $('#selectFolder').hide();
-                $('#selectFolder').empty();
-                $('#selectFolder').html(selection);
-                $('#selectFolder').show();
-            },
-            error: function (data) {
+                if(text.includes(searchStringLowerCase)) {
+                    itemDom.show();
+                    matchItemArr.push(itemDom);
+                }else {
+                    itemDom.hide();
+                }
+            })
+    
+            if(matchItemArr.length == 0) {
+                createFolderBtn.show();
+                //set new folder name to create button title
+                createBtnTitle.text(`Create folder "${searchString}"`);
+            }else {
+                createFolderBtn.hide();
             }
-        });
 
-    })
+            
+    
+        })
+    
+        //create folder button event
+        //unbind to remove all other event
+        createFolderBtn.unbind().on("click", function() {
+            let folderName =  searchInput.val();
+            var newFolder = {
+                "studentID": getStudentId,
+                "courseCode": "Other",
+                "courseName": folderName
+            };
+            $.ajax({
+                type: "POST",
+                url: "https://capstonebackendapi.herokuapp.com/createFolder",
+                dataType: "json",
+                data: newFolder,
+                success: function (data) {
+                    alert("Add new folder success");
+                    var selection = '';
+                    // $.each(getFolderByStudentId, function (key, value) {
+                    //     if (value.courseCode === "Other") {
+                    //         selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+                    //     }
+                    // });
+                    if (data.folder._id !== "" && data.folder.courseName !== "") {
+                        selection += `<li class="value-list-item" data-value="${data.folder._id}">${data.folder.courseName}</li>`;
+                    }
+                
+                    getFolderByStudentId.push(data.folder);
+                    $('#selectFolder').html(selection);
+                    $('#selectFolder').show();
+                },
+                error: function (data) {
+                }
+            });
+    
+        })
+    }
+
 
     // create highlight
     $(document.body).on("click", ".color", function () {
@@ -391,29 +395,32 @@ $(document).ready(function () {
         }
         var folderId = "";
         if (getFolderByURL !== "") {
+            //if in course
             folderId = getFolderByURL;
         }
         else {
-            folderId = $('#selectHighlightFolder').val();
+            //if out course
+            folderId = $('.searchInput').data("id");
         }
+        
 
         // SEND DATA TO API 
         var dataPost = {
             "studentID": getStudentId,
-            "folderID": folderId,
+            "folderID": folderId == undefined ? "" : folderId,
             "scannedContent": string,
             "index": indexOfString,
             "color": $(this).attr('id'),
             "url": window.location.href
         };
-        console.log(dataPost);
         $.ajax({
             type: "POST",
             url: "https://capstonebackendapi.herokuapp.com/createhighlight",
             dataType: "json",
             data: dataPost,
-            success: function (data) {
+            success: function (data) { //problem
                 alert("create highlight success");
+                console.log(data);
                 $('#noteitContainer').hide();
             },
             error: function (data) {
@@ -432,6 +439,7 @@ $(document).ready(function () {
             dropdownSection.show();
             $('#dropdown-btn').show();
         }
+        folderOption.hide();
         $('#noteDetail').show();
         $('#addAskBtn').hide();
         $('#addBtn').show();
@@ -439,7 +447,6 @@ $(document).ready(function () {
         $('.secondTitle').empty();
         document.getElementsByClassName('firstTitle')[0].append('Course: ' + getCourseNameByURL);
         document.getElementsByClassName('secondTitle')[0].append('Note:');
-        //$('.dropdown').append(dropdown);
     });
 
     // CLICK ON ASK YOUR TUTOR ON MENU
@@ -524,38 +531,193 @@ $(document).ready(function () {
         });
     });
 
-    //Vanilla JS for search box dropdown
-    }) //problem
+    // FILL FOLDER TO SELECT BOX
+    function setDataToSelectBox(folderName){
+        var selection = '';
+        $.each(getFolderByStudentId, function (key, value) {
+            if (value.courseCode === "Other") {
+                // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
+                selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
+            } 
+        });
 
-//SHOW EXTENSION
-function myFunction(e) {
-    // closeAllPopup();
-    var x = window.getSelection().toString();
-    if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
-        var selection = window.getSelection();
-        var range = selection.getRangeAt(0);
-        var newNode = document.createElement("span");
-        //newNode.setAttribute("style", "background-color: pink;");
-        newNode.setAttribute("id", "cuong" + indexDivCLass);
-        newNode.appendChild(range.extractContents());
-        range.insertNode(newNode);
-        //range.surroundContents(newNode);
-        indexDivCLass += 1;
-    }
-    if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
-        $("#hiddenText").val(x);
-        $('#noteitContainer').hide();
+        $(folderName).empty();
+        $(folderName).html(selection);
+        initiateFolderOption($(folderName));
+        initiateDropdown();
+    };
 
-        $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
-        $('#noteitContainer').show();
-        $('#noteDetail').hide();
+    
+    //SHOW EXTENSION
+    function myFunction(e) {
+        let currentNode = $(e.target);
+        let itemOfNoteit = false;
 
-    } else {
-        if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
-            $('#noteitContainer').hide();
+        //check if item with mouse up event is in noteit
+        currentNode.parents().each(function(index, value) {
+            let itemId = $(value).attr('id');
+            if(itemId == 'noteitContainer') {
+                itemOfNoteit = true;
+            }            
+        });
+
+        //if item not in noteit, close all popup of noteit
+        if(!itemOfNoteit) {
+            closeAllPopup();
         }
+
+        var x = window.getSelection().toString();
+        
+        let seleciton = window.getSelection().anchorNode;
+        console.log()
+        // if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+        //     var selection = window.getSelection();
+        //     var range = selection.getRangeAt(0);
+        //     var newNode = document.createElement("em");
+        //     //newNode.setAttribute("style", "background-color: pink;");
+        //     newNode.setAttribute("id", "cuong" + indexDivCLass);
+        //     newNode.appendChild(range.extractContents());
+        //     range.insertNode(newNode);
+        //     //range.surroundContents(newNode);
+        //     indexDivCLass += 1;
+        // }
+        if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
+            $("#hiddenText").val(x);
+            $('#noteitContainer').hide();
+
+            $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
+            $('#noteitContainer').show();
+            $('#noteDetail').hide();
+
+        } else {
+            if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+                $('#noteitContainer').hide();
+            }
+        }
+    };
+
+    //Initiate dropdown
+function initiateDropdown() {
+    //set data to dropdown
+    const inputField = document.querySelector('.chosen-value');
+    const dropdown = document.querySelector('.value-list');
+    const dropdownArray = [... document.querySelectorAll('.value-list-item')];
+    let createFolderBtnInNote = $('#createFolderBtnInNote');
+
+    //hide create folder button at initial
+    createFolderBtnInNote.hide();
+
+    dropdown.classList.add('open');
+    let valueArray = [];
+    dropdownArray.forEach(item => {
+        valueArray.push(item.textContent);
+    });
+
+    const closeDropdown = () => {
+    dropdown.classList.remove('open');
     }
-};
+
+    inputField.addEventListener('input', () => {
+        dropdown.classList.add('open');
+        
+        let inputValue = inputField.value.toLowerCase();
+        let inputValueOrigin = inputField.value;
+        let valueSubstring;
+        let matchItem = [];
+        if (inputValue.length > 0) {
+            for (let j = 0; j < valueArray.length; j++) {
+            if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
+                dropdownArray[j].classList.add('closed');
+            } else {
+                dropdownArray[j].classList.remove('closed');
+
+                //if match
+                matchItem.push(dropdownArray[j]);
+            }
+            }
+        } else {
+            for (let i = 0; i < dropdownArray.length; i++) {
+            dropdownArray[i].classList.remove('closed');
+            }
+        }
+        
+        if(matchItem.length == 0) {
+            $('.createBtnTitleInNote').text(`Create folder ${inputValueOrigin}`);
+            createFolderBtnInNote.show();
+        }else {
+            createFolderBtnInNote.hide();
+        }
+    });
+
+    //add event to add folder button
+    //unbind to remove all other event
+    createFolderBtnInNote.unbind().on("click", function() {
+        console.log('In event create')
+        let folderName =  inputField.value;
+        var newFolder = {
+            "studentID": getStudentId,
+            "courseCode": "Other",
+            "courseName": folderName
+        };
+        $.ajax({
+            type: "POST",
+            url: "https://capstonebackendapi.herokuapp.com/createFolder",
+            dataType: "json",
+            data: newFolder,
+            success: function (data) {
+                alert("Add new folder success");
+                console.log(data);
+                var selection = '';
+                //push created folder to folder list
+                getFolderByStudentId.push(data.folder);
+                // $.each(getFolderByStudentId, function (key, value) {
+                //     if (value.courseCode === "Other") {
+                //         selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
+                //     } 
+                // });
+                // $('#selectFolder').html(selection);
+                // $('#selectFolder').show();
+                setDataToSelectBox('#selectFolder');
+            },
+            error: function (data) {
+            }
+        });
+
+    })
+
+    dropdownArray.forEach(item => {
+    item.addEventListener('click', (evt) => {
+        inputField.value = item.textContent;
+        inputField.setAttribute('data-id', item.dataset.value);
+        dropdownArray.forEach(dropdown => {
+        dropdown.classList.add('closed');
+        });
+    });
+    })
+
+    inputField.addEventListener('focus', () => {
+    inputField.placeholder = 'Search';
+    dropdown.classList.add('open');
+    dropdownArray.forEach(dropdown => {
+        dropdown.classList.remove('closed');
+    });
+    });
+
+    inputField.addEventListener('blur', () => {
+    inputField.placeholder = 'Choose folder';
+    dropdown.classList.remove('open');
+    });
+
+    document.addEventListener('click', (evt) => {
+    const isDropdown = dropdown.contains(evt.target);
+    const isInput = inputField.contains(evt.target);
+    if (!isDropdown && !isInput) {
+        dropdown.classList.remove('open');
+    }
+    });
+}
+
+    }) //problem
 
 
 //GET INDEX OF ALL SCAN STRING
@@ -587,86 +749,9 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 };
 
-//Initiate dropdown
-function initiateDropdown() {
-        //set data to dropdown
-        const inputField = document.querySelector('.chosen-value');
-        const dropdown = document.querySelector('.value-list');
-        const dropdownArray = [... document.querySelectorAll('.value-list-item')];
-        dropdown.classList.add('open');
-        let valueArray = [];
-        dropdownArray.forEach(item => {
-            valueArray.push(item.textContent);
-        });
-    
-        const closeDropdown = () => {
-        dropdown.classList.remove('open');
-        }
-    
-        inputField.addEventListener('input', () => {
-        dropdown.classList.add('open');
-        let inputValue = inputField.value.toLowerCase();
-        let valueSubstring;
-        if (inputValue.length > 0) {
-            for (let j = 0; j < valueArray.length; j++) {
-            if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
-                dropdownArray[j].classList.add('closed');
-            } else {
-                dropdownArray[j].classList.remove('closed');
-            }
-            }
-        } else {
-            for (let i = 0; i < dropdownArray.length; i++) {
-            dropdownArray[i].classList.remove('closed');
-            }
-        }
-        });
-    
-        dropdownArray.forEach(item => {
-        item.addEventListener('click', (evt) => {
-            inputField.value = item.textContent;
-            inputField.setAttribute('data-id', item.dataset.value);
-            dropdownArray.forEach(dropdown => {
-            dropdown.classList.add('closed');
-            });
-        });
-        })
-    
-        inputField.addEventListener('focus', () => {
-        inputField.placeholder = 'Search';
-        dropdown.classList.add('open');
-        dropdownArray.forEach(dropdown => {
-            dropdown.classList.remove('closed');
-        });
-        });
-    
-        inputField.addEventListener('blur', () => {
-        inputField.placeholder = 'Choose folder';
-        dropdown.classList.remove('open');
-        });
-    
-        document.addEventListener('click', (evt) => {
-        const isDropdown = dropdown.contains(evt.target);
-        const isInput = inputField.contains(evt.target);
-        if (!isDropdown && !isInput) {
-            dropdown.classList.remove('open');
-        }
-        });
-}
 
-// FILL DATA TO SELECT BOX
-function setDataToSelectBox(folderName){
-    var selection = '';
-    $.each(getFolderByStudentId, function (key, value) {
-        if (value.courseCode === "Other") {
-            // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
-            selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
-        } 
-    });
-    $(folderName).empty();
-    $(folderName).html(selection);
-    initiateDropdown();
-};
+
+
 
 function setTeacherDataToSelectBox(folderName){
     var dropdownSection = $('.dropdown');
