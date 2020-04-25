@@ -569,7 +569,6 @@ $(document).ready(function () {
         var x = window.getSelection().toString();
         
         let seleciton = window.getSelection().anchorNode;
-        console.log()
         // if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
         //     var selection = window.getSelection();
         //     var range = selection.getRangeAt(0);
@@ -581,6 +580,7 @@ $(document).ready(function () {
         //     //range.surroundContents(newNode);
         //     indexDivCLass += 1;
         // }
+        
         if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
             $("#hiddenText").val(x);
             $('#noteitContainer').hide();
