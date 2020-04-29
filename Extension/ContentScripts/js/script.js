@@ -1,4 +1,3 @@
-var indexDivCLass = 0;
 var getStudentId = "";
 var getFolderByURL = "";
 var getCourseByURL = "";
@@ -271,10 +270,6 @@ $(document).ready(function () {
                         } else if (color === "orange") {
                             color = "#FFC143"
                         }
-                        //var indexOfString = value.index;
-                        var domContent1 = document.body.innerHTML;
-                        //var indices = getIndicesOf(stringFind, domContent1);
-                        //document.body.innerHTML = document.body.innerHTML.substring(0, indices[indexOfString]) + "<span style='background-color:" + color + ";'>" + stringFind + "</span>" + document.body.innerHTML.substring(indices[[indexOfString]] + stringFind.length)
                         var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
                             acceptNode: function (node) {
                                 var result = NodeFilter.FILTER_SKIP;
@@ -413,7 +408,6 @@ $(document).ready(function () {
         var string = $("#hiddenText").val();
         var newNode = document.createElement("span");
         newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
-        //newNode.setAttribute("id", "cuong" + indexDivCLass);
         newNode.appendChild(rangeScanned.extractContents());
         rangeScanned.insertNode(newNode);
         // GET INDEX OF STRING
@@ -609,13 +603,6 @@ $(document).ready(function () {
             var selection = window.getSelection();
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
-        //     var newNode = document.createElement("em");
-        //     //newNode.setAttribute("style", "background-color: pink;");
-        //     newNode.setAttribute("id", "cuong" + indexDivCLass);
-        //     newNode.appendChild(range.extractContents());
-        //     range.insertNode(newNode);
-        //     //range.surroundContents(newNode);
-            indexDivCLass += 1;
          }
         if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
             $("#hiddenText").val(x);
@@ -706,13 +693,6 @@ function initiateDropdown() {
                 var selection = '';
                 //push created folder to folder list
                 getFolderByStudentId.push(data.folder);
-                // $.each(getFolderByStudentId, function (key, value) {
-                //     if (value.courseCode === "Other") {
-                //         selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
-                //     } 
-                // });
-                // $('#selectFolder').html(selection);
-                // $('#selectFolder').show();
                 setDataToSelectBox('#selectFolder');
             },
             error: function (data) {
