@@ -1,4 +1,3 @@
-var indexDivCLass = 0;
 var getStudentId = "";
 var getFolderByURL = "";
 var getCourseByURL = "";
@@ -6,6 +5,7 @@ var getCourseNameByURL = "";
 var getTeacherByURL;
 var getFolderByStudentId;
 var rangeScanned = null;
+var nodeScanned = null;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
     <div class="noteitWrapper">
@@ -235,7 +235,8 @@ $(document).ready(function () {
                     //GET COURSE
                     var getCourse = data.courseOfURL;
                     if (typeof getCourse !== "undefined") {
-                        getCourseByURL = getCourse._id;searchInputList
+                        getCourseByURL = getCourse._id;
+                        //searchInputList
                         getCourseNameByURL = getCourse.courseCode;
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
@@ -273,10 +274,28 @@ $(document).ready(function () {
                         } else if (color === "orange") {
                             color = "#FFC143"
                         }
-                        var indexOfString = value.index;
-                        var domContent1 = document.body.innerHTML;
-                        var indices = getIndicesOf(stringFind, domContent1);
-                        document.body.innerHTML = document.body.innerHTML.substring(0, indices[indexOfString]) + "<span style='background-color:" + color + ";'>" + stringFind + "</span>" + document.body.innerHTML.substring(indices[[indexOfString]] + stringFind.length)
+                        var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+                            acceptNode: function (node) {
+                                var result = NodeFilter.FILTER_SKIP;
+                                if (node.nodeValue.includes(stringFind)) result = NodeFilter.FILTER_ACCEPT;
+                                return result;
+                            }
+                        }, false);
+                        var nodeList = [];
+                        while(treeWalker.nextNode()) {
+                            nodeList.push(treeWalker.currentNode);
+                        }
+                        // highlight all filtered textnode
+                        nodeList.forEach(function (n) {
+                            var startingIndex = n.textContent.indexOf(stringFind, 0);
+                            var newRange = document.createRange();
+                            newRange.setStart(n, startingIndex);
+                            newRange.setEnd(n, startingIndex + stringFind.length);
+                            var newNode = document.createElement("span");
+                            newNode.setAttribute("style", "background-color: " + color + ";");
+                            newNode.appendChild(newRange.extractContents());
+                            newRange.insertNode(newNode);
+                        });
                     });
                 },
                 error: function (data) {
@@ -387,25 +406,23 @@ $(document).ready(function () {
     }
 
 
-    // create highlight
+    // highlight
     $(document.body).on("click", ".color", function () {
+        var startGetOffSet = rangeScanned.startOffset;
+        var endGetOffSet = rangeScanned.endOffset;
         var string = $("#hiddenText").val();
-        debugger;
         var newNode = document.createElement("span");
         newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
-        //newNode.setAttribute("id", "cuong" + indexDivCLass);
         newNode.appendChild(rangeScanned.extractContents());
         rangeScanned.insertNode(newNode);
-        //document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
-        
-        
-        //GET INDEX OF STRING
+        // GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
         var indices = getIndicesOf(string, domContent1);
         var indexOfString = 0;
         for (i = 0; i < indices.length; i++) {
             var charBefore = domContent1.charAt(indices[i] - 1);
-            if (charBefore == ">") {
+            var charAfter = domContent1.charAt(indices[i] + string.length);
+            if (charBefore == ">" && charAfter == "<") {
                 indexOfString = i;
             }
         }
@@ -427,7 +444,9 @@ $(document).ready(function () {
             "scannedContent": string,
             "index": indexOfString,
             "color": $(this).attr('id'),
-            "url": window.location.href
+            "url": window.location.href,
+            "startOffSet":startGetOffSet,
+            "endOffSet":endGetOffSet
         };
         $.ajax({
             type: "POST",
@@ -435,11 +454,8 @@ $(document).ready(function () {
             dataType: "json",
             data: dataPost,
             success: function (data) { //problem
-                console.log(data);
-                
-                // $('.noteitWrapper').hide().delay(1000).show();
-                $('.notify').show().delay(1000).fadeOut();
-
+                alert("create highlight success");
+                $('#noteitContainer').hide();
             },
             error: function (data) {
             }
@@ -590,13 +606,7 @@ $(document).ready(function () {
         if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
             var selection = window.getSelection();
             rangeScanned = selection.getRangeAt(0);
-        //     var newNode = document.createElement("em");
-        //     //newNode.setAttribute("style", "background-color: pink;");
-        //     newNode.setAttribute("id", "cuong" + indexDivCLass);
-        //     newNode.appendChild(range.extractContents());
-        //     range.insertNode(newNode);
-        //     //range.surroundContents(newNode);
-            indexDivCLass += 1;
+            nodeScanned = selection.anchorNode;
          }
         if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
             $("#hiddenText").val(x);
@@ -687,13 +697,6 @@ function initiateDropdown() {
                 var selection = '';
                 //push created folder to folder list
                 getFolderByStudentId.push(data.folder);
-                // $.each(getFolderByStudentId, function (key, value) {
-                //     if (value.courseCode === "Other") {
-                //         selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
-                //     } 
-                // });
-                // $('#selectFolder').html(selection);
-                // $('#selectFolder').show();
                 setDataToSelectBox('#selectFolder');
             },
             error: function (data) {
