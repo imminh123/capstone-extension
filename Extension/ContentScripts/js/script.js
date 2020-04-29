@@ -6,6 +6,7 @@ var getCourseNameByURL = "";
 var getTeacherByURL;
 var getFolderByStudentId;
 var rangeScanned = null;
+var nodeScanned = null;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
    <div class="arrow">
@@ -231,7 +232,8 @@ $(document).ready(function () {
                     //GET COURSE
                     var getCourse = data.courseOfURL;
                     if (typeof getCourse !== "undefined") {
-                        getCourseByURL = getCourse._id;searchInputList
+                        getCourseByURL = getCourse._id;
+                        //searchInputList
                         getCourseNameByURL = getCourse.courseCode;
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
@@ -269,10 +271,31 @@ $(document).ready(function () {
                         } else if (color === "orange") {
                             color = "#FFC143"
                         }
-                        var indexOfString = value.index;
+                        //var indexOfString = value.index;
                         var domContent1 = document.body.innerHTML;
-                        var indices = getIndicesOf(stringFind, domContent1);
-                        document.body.innerHTML = document.body.innerHTML.substring(0, indices[indexOfString]) + "<span style='background-color:" + color + ";'>" + stringFind + "</span>" + document.body.innerHTML.substring(indices[[indexOfString]] + stringFind.length)
+                        //var indices = getIndicesOf(stringFind, domContent1);
+                        //document.body.innerHTML = document.body.innerHTML.substring(0, indices[indexOfString]) + "<span style='background-color:" + color + ";'>" + stringFind + "</span>" + document.body.innerHTML.substring(indices[[indexOfString]] + stringFind.length)
+                        var treeWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+                            acceptNode: function (node) {
+                                var result = NodeFilter.FILTER_SKIP;
+                                if (node.nodeValue.includes(stringFind)) result = NodeFilter.FILTER_ACCEPT;
+                                return result;
+                            }
+                        }, false);
+                        var nodeList = [];
+                        while(treeWalker.nextNode()) {
+                            nodeList.push(treeWalker.currentNode);
+                        }
+                        // highlight all filtered textnode
+                        nodeList.forEach(function (n) {
+                            var newRange = document.createRange();
+                            newRange.setStart(n, value.startOffSet);
+                            newRange.setEnd(n, value.endOffSet);
+                            var newNode = document.createElement("span");
+                            newNode.setAttribute("style", "background-color: " + color + ";");
+                            newNode.appendChild(newRange.extractContents());
+                            newRange.insertNode(newNode);
+                        });
                     });
                 },
                 error: function (data) {
@@ -383,25 +406,24 @@ $(document).ready(function () {
     }
 
 
-    // create highlight
+    // highlight
     $(document.body).on("click", ".color", function () {
+        var startGetOffSet = rangeScanned.startOffset;
+        var endGetOffSet = rangeScanned.endOffset;
         var string = $("#hiddenText").val();
-        debugger;
         var newNode = document.createElement("span");
         newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
         //newNode.setAttribute("id", "cuong" + indexDivCLass);
         newNode.appendChild(rangeScanned.extractContents());
         rangeScanned.insertNode(newNode);
-        //document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
-        
-        
-        //GET INDEX OF STRING
+        // GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
         var indices = getIndicesOf(string, domContent1);
         var indexOfString = 0;
         for (i = 0; i < indices.length; i++) {
             var charBefore = domContent1.charAt(indices[i] - 1);
-            if (charBefore == ">") {
+            var charAfter = domContent1.charAt(indices[i] + string.length);
+            if (charBefore == ">" && charAfter == "<") {
                 indexOfString = i;
             }
         }
@@ -423,7 +445,9 @@ $(document).ready(function () {
             "scannedContent": string,
             "index": indexOfString,
             "color": $(this).attr('id'),
-            "url": window.location.href
+            "url": window.location.href,
+            "startOffSet":startGetOffSet,
+            "endOffSet":endGetOffSet
         };
         $.ajax({
             type: "POST",
@@ -432,7 +456,6 @@ $(document).ready(function () {
             data: dataPost,
             success: function (data) { //problem
                 alert("create highlight success");
-                console.log(data);
                 $('#noteitContainer').hide();
             },
             error: function (data) {
@@ -585,6 +608,7 @@ $(document).ready(function () {
         if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
             var selection = window.getSelection();
             rangeScanned = selection.getRangeAt(0);
+            nodeScanned = selection.anchorNode;
         //     var newNode = document.createElement("em");
         //     //newNode.setAttribute("style", "background-color: pink;");
         //     newNode.setAttribute("id", "cuong" + indexDivCLass);
