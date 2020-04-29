@@ -179,6 +179,9 @@
     .section {
       padding: 10px 0;
       text-align: center;
+      background-color: transparent;
+      border-left: none;
+      border-right: none;
       border-bottom: 1px solid #F2F5FF;
       transition: .3s all;
       cursor: pointer;
@@ -312,5 +315,9 @@
     .ask {
       border: none !important;
       padding-bottom: 4px;
+    }
+ 
+    .notify {
+      display: none;
     }
   }

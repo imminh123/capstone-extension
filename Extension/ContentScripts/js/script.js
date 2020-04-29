@@ -5,127 +5,132 @@ var getCourseByURL = "";
 var getCourseNameByURL = "";
 var getTeacherByURL;
 var getFolderByStudentId;
+var rangeScanned = null;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
-   <div class="arrow">
-   </div>
-   <div class="hightLight">
-       <div class="selection">
-            <div id="yellow" name="#FFF83E" class="color"></div>
-            <div id="green" name="#91EFA4" class="color"></div>
-            <div id="blue" name="#48C6FF" class="color"></div>
-            <div id="red" name="#FF7DB9" class="color"></div>
-            <div id="orange" name="#FFC143" class="color"></div>
-       </div>
-       
+    <div class="noteitWrapper">
+        <div class="arrow">
+        </div>
+    <div class="hightLight">
+        <div class="selection">
+                <div id="yellow" name="#FFF83E" class="color"></div>
+                <div id="green" name="#91EFA4" class="color"></div>
+                <div id="blue" name="#48C6FF" class="color"></div>
+                <div id="red" name="#FF7DB9" class="color"></div>
+                <div id="orange" name="#FFC143" class="color"></div>
+        </div>
+        
 
-       <div class="folders">
-            <p class="folders_title">Saved to "Others"</p>
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                width="306px" height="306px" viewBox="0 0 306 306" style="enable-background:new 0 0 306 306;" xml:space="preserve">
+        <div class="folders">
+                <p class="folders_title">Saved to "Others"</p>
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="306px" height="306px" viewBox="0 0 306 306" style="enable-background:new 0 0 306 306;" xml:space="preserve">
+                <g>
+                    <g id="keyboard-arrow-up">
+                        <polygon points="35.7,247.35 153,130.05 270.3,247.35 306,211.65 153,58.65 0,211.65 		"/>
+                    </g>
+                </g>
+                </svg>
+        </div>
+
+        <div class="folderOption" id="folderOption">
+            <div class="topPart">
+                <span>Where to save your highlight?</span>
+                    <input class="searchInput" type="text" placeholder="Search or add new folder" />
+            </div>
+            
+            <ul class="searchInputList">
+
+            </ul>
+
+            <div id="createFolderBtn">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+                        <g>
+                            <g id="add">
+                                <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="createBtnTitle">Create folder "bleh"</span>
+                </div>
+        </div>
+    </div>
+    <input type="text" id="hiddenText" hidden>
+    <div class="note addToNotes section" >
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px" y="0px" width="357px" height="357px" viewBox="0 0 357 357"
+            style="enable-background:new 0 0 357 357;" xml:space="preserve">
             <g>
-                <g id="keyboard-arrow-up">
-                    <polygon points="35.7,247.35 153,130.05 270.3,247.35 306,211.65 153,58.65 0,211.65 		"/>
+                <g id="add">
+                    <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
+                </g>
+        </svg>
+        <span>Add to notes</span>
+    </div>
+    <div class="ask section" id="ask_section">
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px" y="0px" width="535.5px" height="535.5px" viewBox="0 0 535.5 535.5"
+            style="enable-background:new 0 0 535.5 535.5;" xml:space="preserve">
+            <g>
+                <g id="live-help">
+                    <path
+                        d="M446.25,0h-357c-28.05,0-51,22.95-51,51v357c0,28.05,22.95,51,51,51h102l76.5,76.5l76.5-76.5h102c28.05,0,51-22.95,51-51
+                    V51C497.25,22.95,474.3,0,446.25,0z M293.25,408h-51v-51h51V408z M346.8,211.65l-22.95,22.95c-20.399,17.85-30.6,33.15-30.6,71.4
+                    h-51v-12.75c0-28.05,10.2-53.55,30.6-71.4l30.601-33.15c10.2-7.65,15.3-20.4,15.3-35.7c0-28.05-22.95-51-51-51s-51,22.95-51,51
+                    h-51c0-56.1,45.9-102,102-102c56.1,0,102,45.9,102,102C369.75,175.95,359.55,196.35,346.8,211.65z" />
                 </g>
             </g>
-            </svg>
-       </div>
-
-       <div class="folderOption" id="folderOption">
-           <div class="topPart">
-               <span>Where to save your highlight?</span>
-                <input class="searchInput" type="text" placeholder="Search or add new folder" />
-           </div>
-           
-           <ul class="searchInputList">
-
-           </ul>
-
-           <div id="createFolderBtn">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+        </svg>
+        <span class="askYourTutor">Ask your tutor</span>
+    </div>
+    <div class="noteDetail" id="noteDetail">
+            <p class="firstTitle" id="firstTitle"></p>
+            <div class="dropdown">
+                <input class="chosen-value" type="text" value="" placeholder="Type to filter">
+                <ul class="value-list" id="selectFolder">
+                    <li>Alabama</li>
+                    <li>Alaska</li>
+                </ul>
+                <div id="createFolderBtnInNote">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+                        <g>
+                            <g id="add">
+                                <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"/>
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="createBtnTitleInNote">Create folder "bleh"</span>
+                </div>
+            </div>
+            <p class="secondTitle" id="secondTitle"></p>
+            <textarea id="descNotes"></textarea>
+            <div class="addBtn" id="addBtn">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"
+                    viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
                     <g>
                         <g id="add">
-                            <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"/>
+                            <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
                         </g>
-                    </g>
                 </svg>
-                <span class="createBtnTitle">Create folder "bleh"</span>
+                <span>Add to notes</span>
             </div>
-       </div>
-   </div>
-   <input type="text" id="hiddenText" hidden>
-   <div class="note addToNotes section" >
-       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-           x="0px" y="0px" width="357px" height="357px" viewBox="0 0 357 357"
-           style="enable-background:new 0 0 357 357;" xml:space="preserve">
-           <g>
-               <g id="add">
-                   <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
-               </g>
-       </svg>
-       <span>Add to notes</span>
-   </div>
-   <div class="ask section">
-       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-           x="0px" y="0px" width="535.5px" height="535.5px" viewBox="0 0 535.5 535.5"
-           style="enable-background:new 0 0 535.5 535.5;" xml:space="preserve">
-           <g>
-               <g id="live-help">
-                   <path
-                       d="M446.25,0h-357c-28.05,0-51,22.95-51,51v357c0,28.05,22.95,51,51,51h102l76.5,76.5l76.5-76.5h102c28.05,0,51-22.95,51-51
-                   V51C497.25,22.95,474.3,0,446.25,0z M293.25,408h-51v-51h51V408z M346.8,211.65l-22.95,22.95c-20.399,17.85-30.6,33.15-30.6,71.4
-                   h-51v-12.75c0-28.05,10.2-53.55,30.6-71.4l30.601-33.15c10.2-7.65,15.3-20.4,15.3-35.7c0-28.05-22.95-51-51-51s-51,22.95-51,51
-                   h-51c0-56.1,45.9-102,102-102c56.1,0,102,45.9,102,102C369.75,175.95,359.55,196.35,346.8,211.65z" />
-               </g>
-           </g>
-       </svg>
-       <span class="askYourTutor">Ask your tutor</span>
-   </div>
-   <div class="noteDetail" id="noteDetail">
-        <p class="firstTitle" id="firstTitle"></p>
-        <div class="dropdown">
-            <input class="chosen-value" type="text" value="" placeholder="Type to filter">
-            <ul class="value-list" id="selectFolder">
-                <li>Alabama</li>
-                <li>Alaska</li>
-            </ul>
-            <div id="createFolderBtnInNote">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                width="357px" height="357px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
+            <div class="addAskBtn" id="addAskBtn">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"
+                    viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
                     <g>
                         <g id="add">
-                            <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z"/>
+                            <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
                         </g>
-                    </g>
                 </svg>
-                <span class="createBtnTitleInNote">Create folder "bleh"</span>
+                <span>Add to ask</span>
+            </div>
             </div>
         </div>
-        <p class="secondTitle" id="secondTitle"></p>
-        <textarea id="descNotes"></textarea>
-        <div class="addBtn" id="addBtn">
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"
-                viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
-                <g>
-                    <g id="add">
-                        <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
-                    </g>
-            </svg>
-            <span>Add to notes</span>
-        </div>
-        <div class="addAskBtn" id="addAskBtn">
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="357px" height="357px"
-                viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
-                <g>
-                    <g id="add">
-                        <path d="M357,204H204v153h-51V204H0v-51h153V0h51v153h153V204z" />
-                    </g>
-            </svg>
-            <span>Add to ask</span>
-        </div>
+            <div class="notify section">Create Sucessfully</div>
 </div>`;
 
     $('body').append(info);
@@ -142,7 +147,7 @@ $(document).ready(function () {
     var folderHighlightSection = $('.folders');
     var noteDetailSection = $('#noteDetail');
     var dropdownSection = $('.dropdown');
-    
+
     //set event to DOM
     folderHighlightSection.on("click", (e) => {
         noteDetailSection.hide();
@@ -154,28 +159,28 @@ $(document).ready(function () {
         folderOption.hide();
     }
 
-    
-    // WHEN LOGIN
-    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=") || window.location.href.startsWith("http://localhost:3002/?token=")) {
-        var getToken = window.location.href.substring(37);
-        getStudent = parseJwt(getToken);
-        chrome.storage.sync.set({ key: getStudent }, function () {
-            console.log(getStudent);
-        });
-    }
-    // WHEN LOGOUT
-    else if (window.location.href === "http://noteitfu.herokuapp.com/" || window.location.href === "http://locahost:3002/") {
-        var emptyStudent = null;
-        chrome.storage.sync.set({ key: emptyStudent }, function () {
-        });
-        getStudent = null;
-    }
-    else if (window.location.href === "http://noteitfu.herokuapp.com/student" || window.location.href === "http://localhost:3002/student") {
-        var getToken = window.localStorage.getItem('token');
-        getStudent = parseJwt(getToken);
-        chrome.storage.sync.set({ key: getStudent }, function () {
-            console.log(getStudent);
-        });
+    // GET LOCAL STORAGE
+    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/")) {
+        if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
+            var getToken = window.location.href.substring(37);
+            getStudent = parseJwt(getToken);
+            chrome.storage.sync.set({ key: getStudent }, function () {
+                console.log(getStudent);
+            });
+        } else {
+            var getToken = window.localStorage.getItem('token');
+            if (getToken !== null) {
+                getStudent = parseJwt(getToken);
+                chrome.storage.sync.set({ key: getStudent }, function () {
+                    console.log(getStudent);
+                });
+            } else {
+                var emptyStudent = null;
+                chrome.storage.sync.set({ key: emptyStudent }, function () {
+                });
+                getStudent = null;
+            }
+        }
     }
     // GET USER INFO
     chrome.storage.sync.get("key", function (obj) {
@@ -234,10 +239,14 @@ $(document).ready(function () {
                         getCourseNameByURL = getCourse.courseCode;
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
+                        $('#ask_section').show();
+                        $('#folders').hide();
                     } else {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
                         setDataToSelectBox('.searchInputList');
+                        $('#ask_section').hide();
+                        $('#folders').show();
                     }
                 },
                 error: function (data) {
@@ -381,8 +390,15 @@ $(document).ready(function () {
     // create highlight
     $(document.body).on("click", ".color", function () {
         var string = $("#hiddenText").val();
-
-        document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
+        debugger;
+        var newNode = document.createElement("span");
+        newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
+        //newNode.setAttribute("id", "cuong" + indexDivCLass);
+        newNode.appendChild(rangeScanned.extractContents());
+        rangeScanned.insertNode(newNode);
+        //document.getElementById("cuong" + (indexDivCLass - 1).toString()).style = "background-color: " + $(this).attr('name') + ";";
+        
+        
         //GET INDEX OF STRING
         var domContent1 = document.body.innerHTML;
         var indices = getIndicesOf(string, domContent1);
@@ -419,9 +435,11 @@ $(document).ready(function () {
             dataType: "json",
             data: dataPost,
             success: function (data) { //problem
-                alert("create highlight success");
                 console.log(data);
-                $('#noteitContainer').hide();
+                
+                // $('.noteitWrapper').hide().delay(1000).show();
+                $('.notify').show().delay(1000).fadeOut();
+
             },
             error: function (data) {
             }
@@ -569,18 +587,17 @@ $(document).ready(function () {
         var x = window.getSelection().toString();
         
         let seleciton = window.getSelection().anchorNode;
-        // if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
-        //     var selection = window.getSelection();
-        //     var range = selection.getRangeAt(0);
+        if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+            var selection = window.getSelection();
+            rangeScanned = selection.getRangeAt(0);
         //     var newNode = document.createElement("em");
         //     //newNode.setAttribute("style", "background-color: pink;");
         //     newNode.setAttribute("id", "cuong" + indexDivCLass);
         //     newNode.appendChild(range.extractContents());
         //     range.insertNode(newNode);
         //     //range.surroundContents(newNode);
-        //     indexDivCLass += 1;
-        // }
-        
+            indexDivCLass += 1;
+         }
         if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
             $("#hiddenText").val(x);
             $('#noteitContainer').hide();
@@ -749,11 +766,7 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 };
 
-
-
-
-
-function setTeacherDataToSelectBox(folderName){
+function setTeacherDataToSelectBox(folderName) {
     var dropdownSection = $('.dropdown');
     var selection = '';
     if (typeof getTeacherByURL !== "undefined") {
