@@ -283,9 +283,10 @@ $(document).ready(function () {
                         }
                         // highlight all filtered textnode
                         nodeList.forEach(function (n) {
+                            var startingIndex = n.textContent.indexOf(stringFind, 0);
                             var newRange = document.createRange();
-                            newRange.setStart(n, value.startOffSet);
-                            newRange.setEnd(n, value.endOffSet);
+                            newRange.setStart(n, startingIndex);
+                            newRange.setEnd(n, startingIndex + stringFind.length);
                             var newNode = document.createElement("span");
                             newNode.setAttribute("style", "background-color: " + color + ";");
                             newNode.appendChild(newRange.extractContents());
