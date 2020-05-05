@@ -161,14 +161,12 @@ $(document).ready(function () {
             var getToken = window.location.href.substring(37);
             getStudent = parseJwt(getToken);
             chrome.storage.sync.set({ key: getStudent }, function () {
-                console.log(getStudent);
             });
         } else {
             var getToken = window.localStorage.getItem('token');
             if (getToken !== null) {
                 getStudent = parseJwt(getToken);
                 chrome.storage.sync.set({ key: getStudent }, function () {
-                    console.log(getStudent);
                 });
             } else {
                 var emptyStudent = null;
@@ -513,7 +511,6 @@ $(document).ready(function () {
             "description": description,
             "url": window.location.href
         };
-        console.log(insertNotes);
 
         //INSERT INTO DB
         $.ajax({
@@ -544,7 +541,6 @@ $(document).ready(function () {
             "courseID": getCourseByURL,
             "url": window.location.href
         }
-        console.log(insertAsk);
         // INSERT INTO DB
         $.ajax({
             type: "POST",
@@ -604,20 +600,23 @@ $(document).ready(function () {
             var selection = window.getSelection();
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
-         }
-        if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
-            $("#hiddenText").val(x);
-            $('#noteitContainer').hide();
-
-            $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
-            $('#noteitContainer').show();
-            $('#noteDetail').hide();
-
-        } else {
-            if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+        }
+        if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
+            if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
+                $("#hiddenText").val(x);
                 $('#noteitContainer').hide();
+    
+                $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
+                $('#noteitContainer').show();
+                $('#noteDetail').hide();
+    
+            } else {
+                if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+                    $('#noteitContainer').hide();
+                }
             }
         }
+        
     };
 
     //Initiate dropdown
@@ -690,7 +689,6 @@ function initiateDropdown() {
             data: newFolder,
             success: function (data) {
                 alert("Add new folder success");
-                console.log(data);
                 var selection = '';
                 //push created folder to folder list
                 getFolderByStudentId.push(data.folder);
