@@ -614,7 +614,7 @@ $(document).ready(function () {
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
         }
-        if(window.getSelection() !== null){
+        if(window.getSelection().anchorNode !== null && window.getSelection().extentNode !== null ){
             if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
                 if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
                     $("#hiddenText").val(x);
