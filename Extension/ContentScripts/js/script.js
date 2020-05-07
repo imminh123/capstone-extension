@@ -521,6 +521,7 @@ $(document).ready(function () {
             success: function (data) {
                 alert("success");
                 $('#noteitContainer').hide();
+                $('#descNotes').val("");
             },
             error: function (data) {
                 alert("failed");
@@ -550,6 +551,7 @@ $(document).ready(function () {
             success: function (data) {
                 alert("success");
                 $('#noteitContainer').hide();
+                $('#descNotes').val("");
             },
             error: function (data) {
                 alert("failed");
@@ -560,6 +562,17 @@ $(document).ready(function () {
     // FILL FOLDER TO SELECT BOX
     function setDataToSelectBox(folderName){
         var selection = '';
+        $.ajax({
+            type: "GET",
+            url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
+            success: function (data) {
+                getFolderByStudentId = data;
+                setDataToSelectBox('#selectFolder');
+                setDataToSelectBox('.searchInputList');
+            },
+            error: function (data) {
+            }
+        });
         $.each(getFolderByStudentId, function (key, value) {
             if (value.courseCode === "Other") {
                 // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
@@ -601,22 +614,23 @@ $(document).ready(function () {
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
         }
-        if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
-            if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
-                $("#hiddenText").val(x);
-                $('#noteitContainer').hide();
-    
-                $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
-                $('#noteitContainer').show();
-                $('#noteDetail').hide();
-    
-            } else {
-                if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+        if(window.getSelection() !== null){
+            if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
+                if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
+                    $("#hiddenText").val(x);
                     $('#noteitContainer').hide();
+        
+                    $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
+                    $('#noteitContainer').show();
+                    $('#noteDetail').hide();
+        
+                } else {
+                    if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+                        $('#noteitContainer').hide();
+                    }
                 }
             }
         }
-        
     };
 
     //Initiate dropdown

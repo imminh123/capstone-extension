@@ -1,9 +1,9 @@
 {
-   "name": "Capstone Extension",
-   "version": "1.0",
+   "name": "Note It",
+   "version": "1.0.0",
    "description": "Extension",
-   "permissions": ["webRequest", "webRequestBlocking",
-      "*://*/*","storage"],
+   "permissions": ["webRequest",
+      "activeTab","storage"],
    "content_scripts": [
       {
       "matches": ["*://*/*"],
