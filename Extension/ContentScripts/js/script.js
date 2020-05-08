@@ -196,17 +196,17 @@ $(document).ready(function () {
                 error: function (data) {
                 }
             }); //problem
-            $.ajax({
-                type: "GET",
-                url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
-                success: function (data) {
-                    getFolderByStudentId = data;
-                    setDataToSelectBox('#selectFolder');
-                    setDataToSelectBox('.searchInputList');
-                },
-                error: function (data) {
-                }
-            });
+            // $.ajax({
+            //     type: "GET",
+            //     url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
+            //     success: function (data) {
+            //         getFolderByStudentId = data;
+            //setDataToSelectBox('#selectFolder');
+            //setDataToSelectBox('.searchInputList');
+            //     },
+            //     error: function (data) {
+            //     }
+            // });
 
             //problem
             //GET FOLDER BY URL
@@ -228,6 +228,7 @@ $(document).ready(function () {
                     }
                     //GET COURSE
                     var getCourse = data.courseOfURL;
+                    debugger;
                     if (typeof getCourse !== "undefined") {
                         getCourseByURL = getCourse._id;
                         //searchInputList
@@ -457,6 +458,21 @@ $(document).ready(function () {
 
     });
 
+    // CLICK ON "SAVED TO "
+    $(document.body).on("click", ".folders", function () {
+        $.ajax({
+            type: "GET",
+            url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
+            success: function (data) {
+                getFolderByStudentId = data;
+            },
+            error: function (data) {
+            }
+        });
+        setDataToSelectBox('#selectFolder');
+        setDataToSelectBox('.searchInputList');
+    });
+
 
     // CLICK ON ADD NOTES ON MENU
     $(document.body).on("click", ".addToNotes", function () {
@@ -562,17 +578,6 @@ $(document).ready(function () {
     // FILL FOLDER TO SELECT BOX
     function setDataToSelectBox(folderName){
         var selection = '';
-        $.ajax({
-            type: "GET",
-            url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
-            success: function (data) {
-                getFolderByStudentId = data;
-                setDataToSelectBox('#selectFolder');
-                setDataToSelectBox('.searchInputList');
-            },
-            error: function (data) {
-            }
-        });
         $.each(getFolderByStudentId, function (key, value) {
             if (value.courseCode === "Other") {
                 // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
@@ -614,7 +619,7 @@ $(document).ready(function () {
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
         }
-        if(window.getSelection().anchorNode !== null && window.getSelection().extentNode !== null ){
+        if(window.getSelection() !== null){
             if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
                 if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
                     $("#hiddenText").val(x);
