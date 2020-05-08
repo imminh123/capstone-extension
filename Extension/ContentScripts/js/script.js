@@ -37,7 +37,7 @@ $(document).ready(function () {
                <span>Where to save your highlight?</span>
                 <input class="searchInput" type="text" placeholder="Search or add new folder" />
            </div>
-           
+           <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
            <ul class="searchInputList">
 
            </ul>
@@ -460,6 +460,11 @@ $(document).ready(function () {
 
     // CLICK ON "SAVED TO "
     $(document.body).on("click", ".folders", function () {
+        $(document).ajaxStart(function(){
+            $('.searchInputList').hide();
+            $('.lds-roller').show();
+        });
+        
         $.ajax({
             type: "GET",
             url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
@@ -471,6 +476,10 @@ $(document).ready(function () {
         });
         setDataToSelectBox('#selectFolder');
         setDataToSelectBox('.searchInputList');
+        $(document).ajaxComplete(function(){
+            $('.searchInputList').show();
+            $('.lds-roller').hide();
+        });
     });
 
 
