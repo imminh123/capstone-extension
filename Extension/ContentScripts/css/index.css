@@ -152,16 +152,19 @@
   .noteitContainer .section {
     padding: 10px 0;
     text-align: center;
+    font-size: 16px;
     background-color: transparent;
     border-left: none;
     border-right: none;
+    margin: 0 !important;
+    border-radius: 0;
     border-bottom: 1px solid #F2F5FF;
     transition: .3s all;
     cursor: pointer; }
-    /* line 189, scss/index.scss */
+    /* line 192, scss/index.scss */
     .noteitContainer .section:hover {
       background-color: #808080; }
-  /* line 194, scss/index.scss */
+  /* line 197, scss/index.scss */
   .noteitContainer .noteDetail {
     width: 240px;
     padding: 8px 10px;
@@ -170,13 +173,13 @@
     top: 80px;
     left: 169px;
     background-color: #212121ea; }
-    /* line 203, scss/index.scss */
+    /* line 206, scss/index.scss */
     .noteitContainer .noteDetail .dropdown {
       color: #212121ea;
       position: relative;
       margin: 0;
       margin-bottom: 10px; }
-    /* line 210, scss/index.scss */
+    /* line 213, scss/index.scss */
     .noteitContainer .noteDetail textarea {
       font-size: 14px;
       resize: none;
@@ -187,13 +190,13 @@
       background-color: #808080;
       border: none;
       height: 105px; }
-    /* line 222, scss/index.scss */
+    /* line 225, scss/index.scss */
     .noteitContainer .noteDetail .addBtn, .noteitContainer .noteDetail .addAskBtn {
       padding: 0;
       margin-top: 6px;
       text-align: center;
       cursor: pointer; }
-    /* line 229, scss/index.scss */
+    /* line 232, scss/index.scss */
     .noteitContainer .noteDetail #createFolderBtnInNote {
       display: flex;
       align-items: center;
@@ -201,17 +204,17 @@
       font-size: 14px;
       color: #fff;
       cursor: pointer; }
-      /* line 237, scss/index.scss */
+      /* line 240, scss/index.scss */
       .noteitContainer .noteDetail #createFolderBtnInNote svg {
         fill: #fff; }
-  /* line 243, scss/index.scss */
+  /* line 246, scss/index.scss */
   .noteitContainer .chosen-value,
   .noteitContainer .value-list {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; }
-  /* line 251, scss/index.scss */
+  /* line 254, scss/index.scss */
   .noteitContainer .chosen-value {
     font-family: 'Open sans', sans-serif;
     height: 34px;
@@ -224,10 +227,10 @@
     position: relative;
     background-color: #808080;
     transition: .3s ease-in-out; }
-    /* line 264, scss/index.scss */
+    /* line 267, scss/index.scss */
     .noteitContainer .chosen-value::-webkit-input-placeholder {
       color: #fff; }
-  /* line 270, scss/index.scss */
+  /* line 273, scss/index.scss */
   .noteitContainer .value-list {
     list-style: none;
     position: absolute;
@@ -238,11 +241,11 @@
     transition: .3s ease-in-out;
     margin-top: 43px;
     box-sizing: border-box; }
-    /* line 282, scss/index.scss */
+    /* line 285, scss/index.scss */
     .noteitContainer .value-list.open {
       max-height: 180px;
       overflow: auto; }
-    /* line 287, scss/index.scss */
+    /* line 290, scss/index.scss */
     .noteitContainer .value-list li {
       position: relative;
       height: 25px;
@@ -257,21 +260,21 @@
       cursor: pointer;
       transition: background-color .3s;
       opacity: 1; }
-      /* line 302, scss/index.scss */
+      /* line 305, scss/index.scss */
       .noteitContainer .value-list li:hover {
         background-color: #808080; }
-      /* line 306, scss/index.scss */
+      /* line 309, scss/index.scss */
       .noteitContainer .value-list li.closed {
         max-height: 0;
         overflow: hidden;
         padding: 0;
         opacity: 0; }
-  /* line 315, scss/index.scss */
+  /* line 318, scss/index.scss */
   .noteitContainer .ask {
     border: none !important;
     padding-bottom: 4px; }
 
-/* line 323, scss/index.scss */
+/* line 326, scss/index.scss */
 #noteit_notification {
   width: 158px !important;
   border-radius: 5px;
@@ -290,7 +293,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   opacity: 0; }
-  /* line 346, scss/index.scss */
+  /* line 349, scss/index.scss */
   #noteit_notification svg {
     width: 14px;
     height: 12px;
@@ -308,3 +311,10 @@
     opacity: 1; }
   100% {
     margin-top: 100%; } }
+
+/* line 378, scss/index.scss */
+.danger_notification_noteit {
+  color: #F44336 !important; }
+  /* line 380, scss/index.scss */
+  .danger_notification_noteit svg {
+    fill: #F44336 !important; }

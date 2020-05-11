@@ -179,9 +179,12 @@
     .section {
       padding: 10px 0;
       text-align: center;
+      font-size: 16px;
       background-color: transparent;
       border-left: none;
       border-right: none;
+      margin: 0 !important;
+      border-radius: 0;
       border-bottom: 1px solid #F2F5FF;
       transition: .3s all;
       cursor: pointer;
@@ -369,5 +372,12 @@
       100% {
         margin-top: 100%;
       }
+    }
+  }
+
+  .danger_notification_noteit {
+    color: #F44336 !important;
+    svg {
+      fill: #F44336 !important;
     }
   }

@@ -135,15 +135,15 @@ $(document).ready(function () {
     var notify_dom = `
     <div id="noteit_notification"> 
         <svg id="Capa_1" enable-background="new 0 0 515.556 515.556" height="512" viewBox="0 0 515.556 515.556" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m0 274.226 176.549 176.886 339.007-338.672-48.67-47.997-290.337 290-128.553-128.552z"/></svg>
-        Save sucessfully 
+        <span id="text_content">Save sucessfully</span> 
     </div>
     `
 
     $('body').append(info);
     $('body').append(notify_dom);
     var info = "";
-    var notifcation = $('#noteit_notification');
-    notifcation.hide();
+    var notification = $('#noteit_notification');
+    notification.hide();
 
     $(document.body).on("mouseup", function (e) {
         if(!window.location.href.startsWith("https://noteitfu.herokuapp.com")){
@@ -247,13 +247,11 @@ $(document).ready(function () {
                         getCourseNameByURL = getCourse.courseCode;
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
-                        $('#ask_section').show();
                         $('.folders').hide();
                     } else {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
                         setDataToSelectBox('.searchInputList');
-                        $('#ask_section').hide();
                         $('#folders').show();
                     }
                 },
@@ -267,7 +265,6 @@ $(document).ready(function () {
                 url: "https://capstonebackendapi.herokuapp.com/getHighlightByUrl/" + studentId + "/" + encodeURIComponent(window.location.href),
                 success: function (data) {
                     $.each(data, function (key, value) {
-                        //alert(value.index + value.color + value.scannedContent);
                         var stringFind = value.scannedContent;
                         var color = value.color;
                         if (color === "yellow") {
@@ -306,7 +303,7 @@ $(document).ready(function () {
                     });
                 },
                 error: function (data) {
-                    alert(data);
+                    showNotification('Load highlights failed',false);
                 }
             });
         }
@@ -390,7 +387,7 @@ $(document).ready(function () {
                 dataType: "json",
                 data: newFolder,
                 success: function (data) {
-                    alert("Add new folder success");
+                    showNotification(`Folder ${data.folder.courseName} is created`,true);
                     var selection = '';
                     // $.each(getFolderByStudentId, function (key, value) {
                     //     if (value.courseCode === "Other") {
@@ -461,8 +458,7 @@ $(document).ready(function () {
             dataType: "json",
             data: dataPost,
             success: function (data) { //problem
-                // alert("create highlight success");
-                notifcation.show(0).delay(3000).hide(0);;
+                showNotification("Highlight saved",true);
                 $('#noteitContainer').hide();
             },
             error: function (data) {
@@ -516,7 +512,7 @@ $(document).ready(function () {
     });
 
     // CLICK ON ASK YOUR TUTOR ON MENU
-    $(document.body).on("click", ".askYourTutor", function () {
+    $(document.body).on("click", "#ask_section", function () {
         if (getCourseByURL !== "") {
             $('#noteDetail').show();
             $('#addBtn').hide();
@@ -527,8 +523,9 @@ $(document).ready(function () {
             document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
             document.getElementsByClassName('secondTitle')[0].append('Question:');
             setTeacherDataToSelectBox('#selectFolder');
+        }else {
+            showNotification("This site is not belong to any course", false);
         }
-        //$('.dropdown').append(dropdown);
     });
 
     //CLICK ON ADD NOTE BUTTON
@@ -557,12 +554,12 @@ $(document).ready(function () {
             dataType: "json",
             data: insertNotes,
             success: function (data) {
-                alert("success");
+                showNotification('Note saved',true);
                 $('#noteitContainer').hide();
                 $('#descNotes').val("");
             },
             error: function (data) {
-                alert("failed");
+                showNotification('Note saved failed', false);
             }
         });
     });
@@ -587,12 +584,12 @@ $(document).ready(function () {
             dataType: "json",
             data: insertAsk,
             success: function (data) {
-                alert("success");
+                showNotification('Question sent',true);
                 $('#noteitContainer').hide();
                 $('#descNotes').val("");
             },
             error: function (data) {
-                alert("failed");
+                showNotification('Question sent failed',false);
             }
         });
     });
@@ -612,6 +609,17 @@ $(document).ready(function () {
         initiateFolderOption($(folderName));
         initiateDropdown();
     };
+
+    const showNotification = (message, status) => {
+        let text_content = notification.find("#text_content");
+        if(!status) {
+            notification.addClass("danger_notification_noteit");
+        }else {
+            notification.removeClass("danger_notification_noteit");
+        }
+        text_content.text(message);
+        notification.show(0).delay(3000).hide(0);
+    }
 
     
     //SHOW EXTENSION
@@ -747,7 +755,7 @@ function initiateDropdown() {
             dataType: "json",
             data: newFolder,
             success: function (data) {
-                alert("Add new folder success");
+                showNotification(`Folder ${data.folder.courseName} is created`, true);
                 var selection = '';
                 //push created folder to folder list
                 getFolderByStudentId.push(data.folder);
@@ -791,7 +799,6 @@ function initiateDropdown() {
     });
 }
 
-    }) //problem
 
 
 //GET INDEX OF ALL SCAN STRING
@@ -838,6 +845,8 @@ function setTeacherDataToSelectBox(folderName) {
     $(folderName).html(selection);
     initiateDropdown();
 };
+
+    }) //problem
 
 
 
