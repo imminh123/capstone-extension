@@ -133,7 +133,7 @@ $(document).ready(function () {
     var info = "";
 
     $(document.body).on("mouseup", function (e) {
-        if(!window.location.href.startsWith("http://noteitfu.herokuapp.com")){
+        if(!window.location.href.startsWith("https://noteitfu.herokuapp.com")){
             myFunction(e);
         }
     });
@@ -156,8 +156,8 @@ $(document).ready(function () {
     }
 
     // GET LOCAL STORAGE
-    if (window.location.href.startsWith("http://noteitfu.herokuapp.com/")) {
-        if (window.location.href.startsWith("http://noteitfu.herokuapp.com/?token=")) {
+    if (window.location.href.startsWith("https://noteitfu.herokuapp.com/")) {
+        if (window.location.href.startsWith("https://noteitfu.herokuapp.com/?token=")) {
             var getToken = window.location.href.substring(37);
             getStudent = parseJwt(getToken);
             chrome.storage.sync.set({ key: getStudent }, function () {

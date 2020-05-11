@@ -1,6 +1,6 @@
 {
    "name": "Note It",
-   "version": "1.0.0",
+   "version": "1.0.1",
    "description": "Extension",
    "permissions": ["webRequest",
       "activeTab","storage"],
@@ -17,5 +17,9 @@
       "default_title": "Show popup" ,
       "default_icon": "noteIt-blue-128.png"
    },
+   "icons": {
+      "16": "noteIt-blue-128.png",
+      "48": "noteIt-blue-128.png",
+      "128": "noteIt-blue-128.png" },
    "manifest_version": 2
  }
