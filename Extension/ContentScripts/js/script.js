@@ -86,6 +86,7 @@ $(document).ready(function () {
     </div>
     <div class="noteDetail" id="noteDetail">
             <p class="firstTitle" id="firstTitle"></p>
+            <p class="messageTitle" id="messageTitle"></p>
             <div class="dropdown">
                 <input class="chosen-value" type="text" value="" placeholder="Type to filter">
                 <ul class="value-list" id="selectFolder">
@@ -838,11 +839,20 @@ function setTeacherDataToSelectBox(folderName) {
             selection += `<li class="value-list-item" data-value="${value._id}">${value.name}</li>`;
         });
     }
-    dropdownSection.show();
-    $(folderName).show();
-    $(folderName).empty();
-    $(folderName).html(selection);
-    initiateDropdown();
+    if(selection !== ''){
+        dropdownSection.show();
+        $('.messageTitle').hide();
+        $(folderName).show();
+        $(folderName).empty();
+        $(folderName).html(selection);
+        initiateDropdown();
+    } else {
+        dropdownSection.hide();
+        $('.messageTitle').show();
+        $('.messageTitle').empty();
+        document.getElementsByClassName('messageTitle')[0].append('This course currently has no teacher assigned');
+    }
+    
 };
 
     }) //problem
