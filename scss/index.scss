@@ -147,7 +147,7 @@
 
           svg {
             fill: #fff;
-          }
+          } 
 
           &:hover {
             background-color: #808080;
@@ -317,7 +317,57 @@
       padding-bottom: 4px;
     }
  
-    .notify {
-      display: none;
+
+  }
+
+  #noteit_notification {
+    //style
+    width: 158px !important;   
+    border-radius: 5px;
+    background-color: #212121ea;
+    font-family: sans-serif;
+    color: #53DBB1;
+    animation: 3.5s slide-up;
+        
+    font-size: 14px;
+    padding: 8px;
+    width: 200px !important;
+    //align
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //position
+    position: fixed;
+    top: 90vh;
+    left: 50%;
+    transform: translate(-50%, 0);
+    opacity: 0;
+
+    svg {
+      width: 14px;
+      height: 12px;
+      margin-right: 9px;
+      fill: #53DBB1;
+    }
+
+    @keyframes slide-up {
+      0% {
+        margin-top: 100%;
+      }
+
+      33% {
+        margin-top: 0%;
+        opacity: 1;
+      }
+
+      66% {
+        margin-top: 0%;
+        opacity: 1;
+      }
+
+    
+      100% {
+        margin-top: 100%;
+      }
     }
   }

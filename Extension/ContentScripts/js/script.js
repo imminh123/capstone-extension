@@ -130,11 +130,20 @@ $(document).ready(function () {
             </div>
             </div>
         </div>
-            <div class="notify section">Create Sucessfully</div>
 </div>`;
 
+    var notify_dom = `
+    <div id="noteit_notification"> 
+        <svg id="Capa_1" enable-background="new 0 0 515.556 515.556" height="512" viewBox="0 0 515.556 515.556" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m0 274.226 176.549 176.886 339.007-338.672-48.67-47.997-290.337 290-128.553-128.552z"/></svg>
+        Save sucessfully 
+    </div>
+    `
+
     $('body').append(info);
+    $('body').append(notify_dom);
     var info = "";
+    var notifcation = $('#noteit_notification');
+    notifcation.hide();
 
     $(document.body).on("mouseup", function (e) {
         if(!window.location.href.startsWith("https://noteitfu.herokuapp.com")){
@@ -232,7 +241,6 @@ $(document).ready(function () {
                     }
                     //GET COURSE
                     var getCourse = data.courseOfURL;
-                    debugger;
                     if (typeof getCourse !== "undefined") {
                         getCourseByURL = getCourse._id;
                         //searchInputList
@@ -240,7 +248,7 @@ $(document).ready(function () {
                         //GET TEACHERS
                         getTeacherByURL = getCourse.teachers;
                         $('#ask_section').show();
-                        $('#folders').hide();
+                        $('.folders').hide();
                     } else {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
@@ -453,7 +461,8 @@ $(document).ready(function () {
             dataType: "json",
             data: dataPost,
             success: function (data) { //problem
-                alert("create highlight success");
+                // alert("create highlight success");
+                notifcation.show(0).delay(3000).hide(0);;
                 $('#noteitContainer').hide();
             },
             error: function (data) {
