@@ -152,13 +152,16 @@
   .noteitContainer .section {
     padding: 10px 0;
     text-align: center;
+    background-color: transparent;
+    border-left: none;
+    border-right: none;
     border-bottom: 1px solid #F2F5FF;
     transition: .3s all;
     cursor: pointer; }
-    /* line 186, scss/index.scss */
+    /* line 189, scss/index.scss */
     .noteitContainer .section:hover {
       background-color: #808080; }
-  /* line 191, scss/index.scss */
+  /* line 194, scss/index.scss */
   .noteitContainer .noteDetail {
     width: 240px;
     padding: 8px 10px;
@@ -167,13 +170,13 @@
     top: 80px;
     left: 169px;
     background-color: #212121ea; }
-    /* line 200, scss/index.scss */
+    /* line 203, scss/index.scss */
     .noteitContainer .noteDetail .dropdown {
       color: #212121ea;
       position: relative;
       margin: 0;
       margin-bottom: 10px; }
-    /* line 207, scss/index.scss */
+    /* line 210, scss/index.scss */
     .noteitContainer .noteDetail textarea {
       font-size: 14px;
       resize: none;
@@ -184,13 +187,13 @@
       background-color: #808080;
       border: none;
       height: 105px; }
-    /* line 219, scss/index.scss */
+    /* line 222, scss/index.scss */
     .noteitContainer .noteDetail .addBtn, .noteitContainer .noteDetail .addAskBtn {
       padding: 0;
       margin-top: 6px;
       text-align: center;
       cursor: pointer; }
-    /* line 226, scss/index.scss */
+    /* line 229, scss/index.scss */
     .noteitContainer .noteDetail #createFolderBtnInNote {
       display: flex;
       align-items: center;
@@ -198,17 +201,17 @@
       font-size: 14px;
       color: #fff;
       cursor: pointer; }
-      /* line 234, scss/index.scss */
+      /* line 237, scss/index.scss */
       .noteitContainer .noteDetail #createFolderBtnInNote svg {
         fill: #fff; }
-  /* line 240, scss/index.scss */
+  /* line 243, scss/index.scss */
   .noteitContainer .chosen-value,
   .noteitContainer .value-list {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; }
-  /* line 248, scss/index.scss */
+  /* line 251, scss/index.scss */
   .noteitContainer .chosen-value {
     font-family: 'Open sans', sans-serif;
     height: 34px;
@@ -221,10 +224,10 @@
     position: relative;
     background-color: #808080;
     transition: .3s ease-in-out; }
-    /* line 261, scss/index.scss */
+    /* line 264, scss/index.scss */
     .noteitContainer .chosen-value::-webkit-input-placeholder {
       color: #fff; }
-  /* line 267, scss/index.scss */
+  /* line 270, scss/index.scss */
   .noteitContainer .value-list {
     list-style: none;
     position: absolute;
@@ -235,11 +238,11 @@
     transition: .3s ease-in-out;
     margin-top: 43px;
     box-sizing: border-box; }
-    /* line 279, scss/index.scss */
+    /* line 282, scss/index.scss */
     .noteitContainer .value-list.open {
       max-height: 180px;
       overflow: auto; }
-    /* line 284, scss/index.scss */
+    /* line 287, scss/index.scss */
     .noteitContainer .value-list li {
       position: relative;
       height: 25px;
@@ -254,16 +257,16 @@
       cursor: pointer;
       transition: background-color .3s;
       opacity: 1; }
-      /* line 299, scss/index.scss */
+      /* line 302, scss/index.scss */
       .noteitContainer .value-list li:hover {
         background-color: #808080; }
-      /* line 303, scss/index.scss */
+      /* line 306, scss/index.scss */
       .noteitContainer .value-list li.closed {
         max-height: 0;
         overflow: hidden;
         padding: 0;
         opacity: 0; }
-  /* line 312, scss/index.scss */
+  /* line 315, scss/index.scss */
   .noteitContainer .ask {
     border: none !important;
     padding-bottom: 4px; }
