@@ -640,21 +640,40 @@ $(document).ready(function () {
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
         }
-        if(window.getSelection() !== null){
+        if(window.getSelection().anchorNode !== null && window.getSelection().extentNode !== null){
             if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
-                if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
-                    $("#hiddenText").val(x);
-                    $('#noteitContainer').hide();
-        
-                    $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
-                    $('#noteitContainer').show();
-                    $('#noteDetail').hide();
-        
-                } else {
-                    if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+                if(window.getSelection().baseNode.lastChild !== null || window.getSelection().baseNode.firstChild !== null){
+                    if(!window.getSelection().baseNode.lastChild.toString() == "[object HTMLTextAreaElement]" || !window.getSelection().baseNode.firstChild.toString() == "[object HTMLInputElement]"){
+                        if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
+                            $("#hiddenText").val(x);
+                            $('#noteitContainer').hide();
+                
+                            $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
+                            $('#noteitContainer').show();
+                            $('#noteDetail').hide();
+                
+                        } else {
+                            if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+                                $('#noteitContainer').hide();
+                            }
+                        }
+                    }
+                } else{
+                    if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
+                        $("#hiddenText").val(x);
                         $('#noteitContainer').hide();
+            
+                        $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
+                        $('#noteitContainer').show();
+                        $('#noteDetail').hide();
+            
+                    } else {
+                        if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
+                            $('#noteitContainer').hide();
+                        }
                     }
                 }
+                
             }
         }
     };
