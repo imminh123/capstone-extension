@@ -22,7 +22,7 @@ $(document).ready(function () {
         
 
         <div class="folders">
-                <p class="folders_title">Saved to "Others"</p>
+                <p class="folders_title">Save to "Others"</p>
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     width="306px" height="306px" viewBox="0 0 306 306" style="enable-background:new 0 0 306 306;" xml:space="preserve">
                 <g>
@@ -458,10 +458,15 @@ $(document).ready(function () {
             dataType: "json",
             data: dataPost,
             success: function (data) { //problem
-                showNotification("Highlight saved",true);
+                if(data.error) {
+                    showNotification('Highlight saved failed',false);
+                }else {
+                    showNotification("Highlight saved",true);
+                }
                 $('#noteitContainer').hide();
             },
             error: function (data) {
+                showNotification('Highlight sent failed',false);
             }
         });
 
@@ -554,7 +559,11 @@ $(document).ready(function () {
             dataType: "json",
             data: insertNotes,
             success: function (data) {
-                showNotification('Note saved',true);
+                if(data.error) {
+                    showNotification('Note saved failed', false);
+                }else {
+                    showNotification('Note saved',true);
+                }
                 $('#noteitContainer').hide();
                 $('#descNotes').val("");
             },
@@ -584,7 +593,11 @@ $(document).ready(function () {
             dataType: "json",
             data: insertAsk,
             success: function (data) {
-                showNotification('Question sent',true);
+                if(data.error) {
+                    showNotification('Question sent failed',false);
+                }else {
+                    showNotification('Question sent',true);
+                }
                 $('#noteitContainer').hide();
                 $('#descNotes').val("");
             },
