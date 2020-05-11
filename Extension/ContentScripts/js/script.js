@@ -209,17 +209,15 @@ $(document).ready(function () {
                 error: function (data) {
                 }
             }); //problem
-            // $.ajax({
-            //     type: "GET",
-            //     url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
-            //     success: function (data) {
-            //         getFolderByStudentId = data;
-            //setDataToSelectBox('#selectFolder');
-            //setDataToSelectBox('.searchInputList');
-            //     },
-            //     error: function (data) {
-            //     }
-            // });
+            $.ajax({
+                type: "GET",
+                url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + studentId,
+                success: function (data) {
+                    getFolderByStudentId = data;
+                },
+                error: function (data) {
+                }
+            });
 
             //problem
             //GET FOLDER BY URL
@@ -483,12 +481,12 @@ $(document).ready(function () {
             error: function (data) {
             }
         });
-        setDataToSelectBox('#selectFolder');
-        setDataToSelectBox('.searchInputList');
         $(document).ajaxComplete(function(){
             $('.searchInputList').show();
             $('.lds-roller').hide();
         });
+        setDataToSelectBox('#selectFolder');
+        setDataToSelectBox('.searchInputList');
     });
 
 
@@ -597,6 +595,7 @@ $(document).ready(function () {
     // FILL FOLDER TO SELECT BOX
     function setDataToSelectBox(folderName){
         var selection = '';
+        debugger;
         $.each(getFolderByStudentId, function (key, value) {
             if (value.courseCode === "Other") {
                 // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
