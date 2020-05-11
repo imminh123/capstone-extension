@@ -385,7 +385,11 @@ $(document).ready(function () {
                 dataType: "json",
                 data: newFolder,
                 success: function (data) {
-                    showNotification(`Folder ${data.folder.courseName} is created`,true);
+                    if(data.error) {
+                        showNotification(data.error, false);
+                    }else {
+                        showNotification(`Folder ${data.folder.courseName} is created`, true);
+                    }
                     var selection = '';
                     // $.each(getFolderByStudentId, function (key, value) {
                     //     if (value.courseCode === "Other") {
@@ -401,6 +405,7 @@ $(document).ready(function () {
                     $('#selectFolder').show();
                 },
                 error: function (data) {
+                    showNotification("Folder create failed", true);
                 }
             });
     
@@ -608,7 +613,6 @@ $(document).ready(function () {
     // FILL FOLDER TO SELECT BOX
     function setDataToSelectBox(folderName){
         var selection = '';
-        debugger;
         $.each(getFolderByStudentId, function (key, value) {
             if (value.courseCode === "Other") {
                 // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
@@ -767,13 +771,18 @@ function initiateDropdown() {
             dataType: "json",
             data: newFolder,
             success: function (data) {
-                showNotification(`Folder ${data.folder.courseName} is created`, true);
+                if(data.error) {
+                    showNotification(data.error, false);
+                }else {
+                    showNotification(`Folder ${data.folder.courseName} is created`, true);
+                }
                 var selection = '';
                 //push created folder to folder list
                 getFolderByStudentId.push(data.folder);
                 setDataToSelectBox('#selectFolder');
             },
             error: function (data) {
+                showNotification("Folder created failed", true);
             }
         });
 
