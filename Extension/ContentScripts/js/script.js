@@ -6,6 +6,7 @@ var getTeacherByURL;
 var getFolderByStudentId;
 var rangeScanned = null;
 var nodeScanned = null;
+var isStudying = false;
 $(document).ready(function () {
     var info = `<div class="noteitContainer" id="noteitContainer">
     <div class="noteitWrapper">
@@ -147,7 +148,7 @@ $(document).ready(function () {
     notification.hide();
 
     $(document.body).on("mouseup", function (e) {
-        if(!window.location.href.startsWith("https://noteitfu.herokuapp.com")){
+        if(!window.location.href.startsWith("https://noteitfu.herokuapp.com") && !window.location.href.startsWith("http://noteitfu.herokuapp.com")){
             myFunction(e);
         }
     });
@@ -240,9 +241,11 @@ $(document).ready(function () {
                     // }
                     //GET COURSE
                     var getCourse = data._id;
+                    debugger;
                     if (typeof getCourse !== "undefined") {
                         getFolderByURL = "";
                         getCourseByURL = data._id;
+                        isStudying = data.isStudying;
                         //searchInputList
                         getCourseNameByURL = data.courseCode;
                         //GET TEACHERS
@@ -451,7 +454,6 @@ $(document).ready(function () {
             folderId = $('.searchInput').data("id");
         }
         
-        debugger;
         // SEND DATA TO API 
         var dataPost = {
             "studentID": getStudentId,
@@ -531,15 +533,20 @@ $(document).ready(function () {
     // CLICK ON ASK YOUR TUTOR ON MENU
     $(document.body).on("click", "#ask_section", function () {
         if (getCourseByURL !== "") {
-            $('#noteDetail').show();
-            $('#addBtn').hide();
-            $('#addAskBtn').show();
-            var selection = '';
-            $('.firstTitle').empty();
-            $('.secondTitle').empty();
-            document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
-            document.getElementsByClassName('secondTitle')[0].append('Question:');
-            setTeacherDataToSelectBox('#selectFolder');
+            if(isStudying){
+                $('#noteDetail').show();
+                $('#addBtn').hide();
+                $('#addAskBtn').show();
+                var selection = '';
+                $('.firstTitle').empty();
+                $('.secondTitle').empty();
+                document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
+                document.getElementsByClassName('secondTitle')[0].append('Question:');
+                setTeacherDataToSelectBox('#selectFolder');
+            } else{
+                showNotification("You need to enroll this course first", true);
+            }
+            
         }else {
             showNotification("This site is not belong to any course", false);
         }
@@ -566,7 +573,6 @@ $(document).ready(function () {
             "url": window.location.href,
             "courseID": getCourseByURL
         };
-        debugger;
         //INSERT INTO DB
         $.ajax({
             type: "POST",
