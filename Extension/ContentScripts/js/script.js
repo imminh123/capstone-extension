@@ -471,14 +471,14 @@ $(document).ready(function () {
             data: dataPost,
             success: function (data) { //problem
                 if(data.error) {
-                    showNotification('Highlight saved failed',false);
+                    showNotification(data.error,false);
                 }else {
                     showNotification("Highlight saved",true);
                 }
                 $('#noteitContainer').hide();
             },
             error: function (data) {
-                showNotification('Highlight sent failed',false);
+                showNotification("Highlight saved failed",false);
             }
         });
 
@@ -566,7 +566,7 @@ $(document).ready(function () {
             "url": window.location.href,
             "courseID": getCourseByURL
         };
-        debugger;
+    
         //INSERT INTO DB
         $.ajax({
             type: "POST",
@@ -575,7 +575,7 @@ $(document).ready(function () {
             data: insertNotes,
             success: function (data) {
                 if(data.error) {
-                    showNotification('Note saved failed', false);
+                    showNotification(data.error, false);
                 }else {
                     showNotification('Note saved',true);
                 }
@@ -878,12 +878,14 @@ function setTeacherDataToSelectBox(folderName) {
         $(folderName).show();
         $(folderName).empty();
         $(folderName).html(selection);
+        $('#firstTitle').text('Choose teacher:');
         initiateDropdown();
     } else {
         dropdownSection.hide();
-        $('.messageTitle').show();
-        $('.messageTitle').empty();
-        document.getElementsByClassName('messageTitle')[0].append('This course currently has no teacher assigned');
+        $('#firstTitle').text('This course currently has no teacher assigned');
+        // $('.messageTitle').show();
+        // $('.messageTitle').empty();
+        // document.getElementsByClassName('messageTitle')[0].append('This course currently has no teacher assigned');
     }
     
 };

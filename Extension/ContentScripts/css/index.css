@@ -29,7 +29,7 @@
     .noteitContainer .hightLight .selection {
       display: flex;
       justify-content: space-between;
-      padding: 10px 10px 5px 10px; }
+      padding: 10px; }
       /* line 35, scss/index.scss */
       .noteitContainer .hightLight .selection .color {
         width: 18px;
@@ -46,25 +46,26 @@
     .noteitContainer .hightLight .folders {
       padding: 10px 8px 10px 8px;
       font-size: 14px;
+      margin-top: -5px;
       color: #fff;
       display: flex;
       justify-content: space-between;
       align-items: center;
       transition: .3s all;
       cursor: pointer; }
-      /* line 60, scss/index.scss */
+      /* line 61, scss/index.scss */
       .noteitContainer .hightLight .folders p {
         margin: 0 !important; }
-      /* line 64, scss/index.scss */
+      /* line 65, scss/index.scss */
       .noteitContainer .hightLight .folders svg {
         width: 10px;
         transform: rotate(90deg);
         fill: #fff;
         margin: 0 !important; }
-      /* line 71, scss/index.scss */
+      /* line 72, scss/index.scss */
       .noteitContainer .hightLight .folders:hover {
         background-color: #808080; }
-    /* line 76, scss/index.scss */
+    /* line 77, scss/index.scss */
     .noteitContainer .hightLight .folderOption {
       display: none;
       width: 240px;
@@ -75,13 +76,13 @@
       top: 40px;
       left: 166px;
       background-color: #212121ea; }
-      /* line 87, scss/index.scss */
+      /* line 88, scss/index.scss */
       .noteitContainer .hightLight .folderOption .topPart {
         padding: 8px 10px; }
-        /* line 89, scss/index.scss */
+        /* line 90, scss/index.scss */
         .noteitContainer .hightLight .folderOption .topPart span {
           font-size: 14px; }
-        /* line 93, scss/index.scss */
+        /* line 94, scss/index.scss */
         .noteitContainer .hightLight .folderOption .topPart input {
           width: 100%;
           font-size: 14px;
@@ -92,15 +93,14 @@
           box-sizing: border-box;
           border: none;
           margin-top: 12px; }
-          /* line 104, scss/index.scss */
+          /* line 105, scss/index.scss */
           .noteitContainer .hightLight .folderOption .topPart input::placeholder {
             color: #fff; }
-      /* line 111, scss/index.scss */
+      /* line 112, scss/index.scss */
       .noteitContainer .hightLight .folderOption ul {
         list-style-type: none;
         padding: 1px;
-        margin-top: 0px;
-        margin-bottom: 0;
+        margin: 0 !important;
         padding-bottom: 8px;
         color: #fff; }
         /* line 119, scss/index.scss */
@@ -157,14 +157,15 @@
     border-left: none;
     border-right: none;
     margin: 0 !important;
+    max-width: 100% !important;
     border-radius: 0;
     border-bottom: 1px solid #F2F5FF;
     transition: .3s all;
     cursor: pointer; }
-    /* line 192, scss/index.scss */
+    /* line 193, scss/index.scss */
     .noteitContainer .section:hover {
       background-color: #808080; }
-  /* line 197, scss/index.scss */
+  /* line 198, scss/index.scss */
   .noteitContainer .noteDetail {
     width: 240px;
     padding: 8px 10px;
@@ -173,13 +174,13 @@
     top: 80px;
     left: 169px;
     background-color: #212121ea; }
-    /* line 206, scss/index.scss */
+    /* line 207, scss/index.scss */
     .noteitContainer .noteDetail .dropdown {
       color: #212121ea;
       position: relative;
       margin: 0;
       margin-bottom: 10px; }
-    /* line 213, scss/index.scss */
+    /* line 214, scss/index.scss */
     .noteitContainer .noteDetail textarea {
       font-size: 14px;
       resize: none;
@@ -190,13 +191,16 @@
       background-color: #808080;
       border: none;
       height: 105px; }
-    /* line 225, scss/index.scss */
+    /* line 226, scss/index.scss */
+    .noteitContainer .noteDetail .firstTitle {
+      margin-bottom: 0 !important; }
+    /* line 230, scss/index.scss */
     .noteitContainer .noteDetail .addBtn, .noteitContainer .noteDetail .addAskBtn {
       padding: 0;
       margin-top: 6px;
       text-align: center;
       cursor: pointer; }
-    /* line 232, scss/index.scss */
+    /* line 237, scss/index.scss */
     .noteitContainer .noteDetail #createFolderBtnInNote {
       display: flex;
       align-items: center;
@@ -204,17 +208,17 @@
       font-size: 14px;
       color: #fff;
       cursor: pointer; }
-      /* line 240, scss/index.scss */
+      /* line 245, scss/index.scss */
       .noteitContainer .noteDetail #createFolderBtnInNote svg {
         fill: #fff; }
-  /* line 246, scss/index.scss */
+  /* line 251, scss/index.scss */
   .noteitContainer .chosen-value,
   .noteitContainer .value-list {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; }
-  /* line 254, scss/index.scss */
+  /* line 259, scss/index.scss */
   .noteitContainer .chosen-value {
     font-family: 'Open sans', sans-serif;
     height: 34px;
@@ -227,10 +231,10 @@
     position: relative;
     background-color: #808080;
     transition: .3s ease-in-out; }
-    /* line 267, scss/index.scss */
+    /* line 272, scss/index.scss */
     .noteitContainer .chosen-value::-webkit-input-placeholder {
       color: #fff; }
-  /* line 273, scss/index.scss */
+  /* line 278, scss/index.scss */
   .noteitContainer .value-list {
     list-style: none;
     position: absolute;
@@ -241,11 +245,11 @@
     transition: .3s ease-in-out;
     margin-top: 43px;
     box-sizing: border-box; }
-    /* line 285, scss/index.scss */
+    /* line 290, scss/index.scss */
     .noteitContainer .value-list.open {
       max-height: 180px;
       overflow: auto; }
-    /* line 290, scss/index.scss */
+    /* line 295, scss/index.scss */
     .noteitContainer .value-list li {
       position: relative;
       height: 25px;
@@ -260,30 +264,31 @@
       cursor: pointer;
       transition: background-color .3s;
       opacity: 1; }
-      /* line 305, scss/index.scss */
+      /* line 310, scss/index.scss */
       .noteitContainer .value-list li:hover {
         background-color: #808080; }
-      /* line 309, scss/index.scss */
+      /* line 314, scss/index.scss */
       .noteitContainer .value-list li.closed {
         max-height: 0;
         overflow: hidden;
         padding: 0;
         opacity: 0; }
-  /* line 318, scss/index.scss */
+  /* line 323, scss/index.scss */
   .noteitContainer .ask {
     border: none !important;
     padding-bottom: 4px; }
-  /* line 324, scss/index.scss */
+  /* line 329, scss/index.scss */
   .noteitContainer .lds-roller {
     display: inline-block;
+    margin: 0 auto;
     position: relative;
     width: 80px;
     height: 80px; }
-    /* line 330, scss/index.scss */
+    /* line 336, scss/index.scss */
     .noteitContainer .lds-roller div {
       animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
       transform-origin: 40px 40px; }
-      /* line 334, scss/index.scss */
+      /* line 340, scss/index.scss */
       .noteitContainer .lds-roller div:after {
         content: " ";
         display: block;
@@ -293,59 +298,59 @@
         border-radius: 50%;
         background: #fff;
         margin: -4px 0 0 -4px; }
-      /* line 345, scss/index.scss */
+      /* line 351, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(1) {
         animation-delay: -0.036s; }
-        /* line 348, scss/index.scss */
+        /* line 354, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(1):after {
           top: 63px;
           left: 63px; }
-      /* line 354, scss/index.scss */
+      /* line 360, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(2) {
         animation-delay: -0.072s; }
-        /* line 357, scss/index.scss */
+        /* line 363, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(2):after {
           top: 68px;
           left: 56px; }
-      /* line 363, scss/index.scss */
+      /* line 369, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(3) {
         animation-delay: -0.108s; }
-        /* line 366, scss/index.scss */
+        /* line 372, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(3):after {
           top: 71px;
           left: 48px; }
-      /* line 372, scss/index.scss */
+      /* line 378, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(4) {
         animation-delay: -0.144s; }
-        /* line 375, scss/index.scss */
+        /* line 381, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(4):after {
           top: 72px;
           left: 40px; }
-      /* line 381, scss/index.scss */
+      /* line 387, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(5) {
         animation-delay: -0.18s; }
-        /* line 384, scss/index.scss */
+        /* line 390, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(5):after {
           top: 71px;
           left: 32px; }
-      /* line 390, scss/index.scss */
+      /* line 396, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(6) {
         animation-delay: -0.216s; }
-        /* line 393, scss/index.scss */
+        /* line 399, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(6):after {
           top: 68px;
           left: 24px; }
-      /* line 399, scss/index.scss */
+      /* line 405, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(7) {
         animation-delay: -0.252s; }
-        /* line 402, scss/index.scss */
+        /* line 408, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(7):after {
           top: 63px;
           left: 17px; }
-      /* line 408, scss/index.scss */
+      /* line 414, scss/index.scss */
       .noteitContainer .lds-roller div:nth-child(8) {
         animation-delay: -0.288s; }
-        /* line 411, scss/index.scss */
+        /* line 417, scss/index.scss */
         .noteitContainer .lds-roller div:nth-child(8):after {
           top: 56px;
           left: 12px; }
@@ -356,7 +361,7 @@
   100% {
     transform: rotate(360deg); } }
 
-/* line 430, scss/index.scss */
+/* line 436, scss/index.scss */
 #noteit_notification {
   width: 158px !important;
   border-radius: 5px;
@@ -375,7 +380,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   opacity: 0; }
-  /* line 453, scss/index.scss */
+  /* line 459, scss/index.scss */
   #noteit_notification svg {
     width: 14px;
     height: 12px;
@@ -394,9 +399,9 @@
   100% {
     margin-top: 100%; } }
 
-/* line 482, scss/index.scss */
+/* line 488, scss/index.scss */
 .danger_notification_noteit {
   color: #F44336 !important; }
-  /* line 484, scss/index.scss */
+  /* line 490, scss/index.scss */
   .danger_notification_noteit svg {
     fill: #F44336 !important; }
