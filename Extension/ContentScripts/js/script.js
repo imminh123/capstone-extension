@@ -148,7 +148,7 @@ $(document).ready(function () {
     notification.hide();
 
     $(document.body).on("mouseup", function (e) {
-        if(!window.location.href.startsWith("https://noteitfu.herokuapp.com") && !window.location.href.startsWith("http://noteitfu.herokuapp.com")){
+        if (!window.location.href.startsWith("https://noteitfu.herokuapp.com") && !window.location.href.startsWith("http://noteitfu.herokuapp.com")) {
             myFunction(e);
         }
     });
@@ -166,7 +166,7 @@ $(document).ready(function () {
     })
     //close all popup
     function closeAllPopup() {
-        noteDetailSection.hide();   
+        noteDetailSection.hide();
         folderOption.hide();
     }
 
@@ -178,17 +178,25 @@ $(document).ready(function () {
             chrome.storage.sync.set({ key: getStudent }, function () {
             });
         } else {
-            var getToken = window.localStorage.getItem('token');
-            if (getToken !== null) {
-                getStudent = parseJwt(getToken);
-                chrome.storage.sync.set({ key: getStudent }, function () {
-                });
-            } else {
+            if (window.location.href.startsWith("https://noteitfu.herokuapp.com/?logout=1")) {
                 var emptyStudent = null;
                 chrome.storage.sync.set({ key: emptyStudent }, function () {
                 });
                 getStudent = null;
+            } else {
+                var getToken = window.localStorage.getItem('token');
+                if (getToken !== null) {
+                    getStudent = parseJwt(getToken);
+                    chrome.storage.sync.set({ key: getStudent }, function () {
+                    });
+                } else {
+                    var emptyStudent = null;
+                    chrome.storage.sync.set({ key: emptyStudent }, function () {
+                    });
+                    getStudent = null;
+                }
             }
+
         }
     }
     // GET USER INFO
@@ -294,7 +302,7 @@ $(document).ready(function () {
                             }
                         }, false);
                         var nodeList = [];
-                        while(treeWalker.nextNode()) {
+                        while (treeWalker.nextNode()) {
                             nodeList.push(treeWalker.currentNode);
                         }
                         // highlight all filtered textnode
@@ -311,7 +319,7 @@ $(document).ready(function () {
                     });
                 },
                 error: function (data) {
-                    showNotification('Load highlights failed',false);
+                    showNotification('Load highlights failed', false);
                 }
             });
         }
@@ -327,16 +335,16 @@ $(document).ready(function () {
         let createFolderBtn = $('#createFolderBtn');
         let createBtnTitle = $('.createBtnTitle');
         let selectedFolderTitle = $('.folders_title');
-    
+
         //hide create folder button at initial
         createFolderBtn.hide();
         //each item onclick
-        searchItem.each( function(index, value) {
+        searchItem.each(function (index, value) {
             let itemDom = $(value);
             let text = itemDom.text();
             let id = itemDom.data("value");
-    
-            itemDom.on("click", function() {
+
+            itemDom.on("click", function () {
                 //get current selected item
                 let selectedItem = $(".selected");
                 //remove selected class from selected item
@@ -349,41 +357,41 @@ $(document).ready(function () {
                 searchInput.data("id", id);
             })
         })
-    
+
         //search event
-        searchInput.on("keyup", function() {
+        searchInput.on("keyup", function () {
             let searchString = searchInput.val();
             let searchStringLowerCase = searchString.toLowerCase();
             let matchItemArr = [];
-    
-            searchItem.each( function(index, value) {
+
+            searchItem.each(function (index, value) {
                 let itemDom = $(value);
                 let text = itemDom.text().toLowerCase();
-                
-                if(text.includes(searchStringLowerCase)) {
+
+                if (text.includes(searchStringLowerCase)) {
                     itemDom.show();
                     matchItemArr.push(itemDom);
-                }else {
+                } else {
                     itemDom.hide();
                 }
             })
-    
-            if(matchItemArr.length == 0) {
+
+            if (matchItemArr.length == 0) {
                 createFolderBtn.show();
                 //set new folder name to create button title
                 createBtnTitle.text(`Create folder "${searchString}"`);
-            }else {
+            } else {
                 createFolderBtn.hide();
             }
 
-            
-    
+
+
         })
-    
+
         //create folder button event
         //unbind to remove all other event
-        createFolderBtn.unbind().on("click", function() {
-            let folderName =  searchInput.val();
+        createFolderBtn.unbind().on("click", function () {
+            let folderName = searchInput.val();
             var newFolder = {
                 "studentID": getStudentId,
                 "courseCode": "Other",
@@ -395,9 +403,9 @@ $(document).ready(function () {
                 dataType: "json",
                 data: newFolder,
                 success: function (data) {
-                    if(data.error) {
+                    if (data.error) {
                         showNotification(data.error, false);
-                    }else {
+                    } else {
                         showNotification(`Folder ${data.folder.courseName} is created`, true);
                     }
                     var selection = '';
@@ -409,7 +417,7 @@ $(document).ready(function () {
                     if (data.folder._id !== "" && data.folder.courseName !== "") {
                         selection += `<li class="value-list-item" data-value="${data.folder._id}">${data.folder.courseName}</li>`;
                     }
-                
+
                     getFolderByStudentId.push(data.folder);
                     $('#selectFolder').html(selection);
                     $('#selectFolder').show();
@@ -418,7 +426,7 @@ $(document).ready(function () {
                     showNotification("Folder create failed", true);
                 }
             });
-    
+
         })
     }
 
@@ -429,7 +437,7 @@ $(document).ready(function () {
         var endGetOffSet = rangeScanned.endOffset;
         var string = $("#hiddenText").val();
         var newNode = document.createElement("span");
-        newNode.setAttribute("style", "background-color: "+ $(this).attr('name') + ";");
+        newNode.setAttribute("style", "background-color: " + $(this).attr('name') + ";");
         newNode.appendChild(rangeScanned.extractContents());
         rangeScanned.insertNode(newNode);
         // GET INDEX OF STRING
@@ -452,7 +460,7 @@ $(document).ready(function () {
             //if out course
             folderId = $('.searchInput').data("id");
         }
-        
+
         // SEND DATA TO API 
         var dataPost = {
             "studentID": getStudentId,
@@ -461,8 +469,8 @@ $(document).ready(function () {
             "index": indexOfString,
             "color": $(this).attr('id'),
             "url": window.location.href,
-            "startOffSet":startGetOffSet,
-            "endOffSet":endGetOffSet,
+            "startOffSet": startGetOffSet,
+            "endOffSet": endGetOffSet,
             "courseID": getCourseByURL
         };
         $.ajax({
@@ -471,15 +479,15 @@ $(document).ready(function () {
             dataType: "json",
             data: dataPost,
             success: function (data) { //problem
-                if(data.error) {
-                    showNotification(data.error,false);
-                }else {
-                    showNotification("Highlight saved",true);
+                if (data.error) {
+                    showNotification(data.error, false);
+                } else {
+                    showNotification("Highlight saved", true);
                 }
                 $('#noteitContainer').hide();
             },
             error: function (data) {
-                showNotification("Highlight saved failed",false);
+                showNotification("Highlight saved failed", false);
             }
         });
 
@@ -487,11 +495,11 @@ $(document).ready(function () {
 
     // CLICK ON "SAVED TO "
     $(document.body).on("click", ".folders", function () {
-        $(document).ajaxStart(function(){
+        $(document).ajaxStart(function () {
             $('.searchInputList').hide();
             $('.lds-roller').show();
         });
-        
+
         $.ajax({
             type: "GET",
             url: "https://capstonebackendapi.herokuapp.com/getFolderByStudentID/" + getStudentId,
@@ -501,7 +509,7 @@ $(document).ready(function () {
             error: function (data) {
             }
         });
-        $(document).ajaxComplete(function(){
+        $(document).ajaxComplete(function () {
             $('.searchInputList').show();
             $('.lds-roller').hide();
         });
@@ -532,7 +540,7 @@ $(document).ready(function () {
     // CLICK ON ASK YOUR TUTOR ON MENU
     $(document.body).on("click", "#ask_section", function () {
         if (getCourseByURL !== "") {
-            if(isStudying){
+            if (isStudying) {
                 $('#noteDetail').show();
                 $('#addBtn').hide();
                 $('#addAskBtn').show();
@@ -542,11 +550,11 @@ $(document).ready(function () {
                 document.getElementsByClassName('firstTitle')[0].append('Choose Teacher:');
                 document.getElementsByClassName('secondTitle')[0].append('Question:');
                 setTeacherDataToSelectBox('#selectFolder');
-            } else{
+            } else {
                 showNotification("You need to enroll this course first", true);
             }
-            
-        }else {
+
+        } else {
             showNotification("This site is not belong to any course", false);
         }
     });
@@ -572,10 +580,7 @@ $(document).ready(function () {
             "url": window.location.href,
             "courseID": getCourseByURL
         };
-<<<<<<< HEAD
-    
-=======
->>>>>>> e7ab8c07fa90ca0575a5859d3ec59a80c540c3ad
+
         //INSERT INTO DB
         $.ajax({
             type: "POST",
@@ -583,10 +588,10 @@ $(document).ready(function () {
             dataType: "json",
             data: insertNotes,
             success: function (data) {
-                if(data.error) {
+                if (data.error) {
                     showNotification(data.error, false);
-                }else {
-                    showNotification('Note saved',true);
+                } else {
+                    showNotification('Note saved', true);
                 }
                 $('#noteitContainer').hide();
                 $('#descNotes').val("");
@@ -617,28 +622,28 @@ $(document).ready(function () {
             dataType: "json",
             data: insertAsk,
             success: function (data) {
-                if(data.error) {
-                    showNotification('Question sent failed',false);
-                }else {
-                    showNotification('Question sent',true);
+                if (data.error) {
+                    showNotification('Question sent failed', false);
+                } else {
+                    showNotification('Question sent', true);
                 }
                 $('#noteitContainer').hide();
                 $('#descNotes').val("");
             },
             error: function (data) {
-                showNotification('Question sent failed',false);
+                showNotification('Question sent failed', false);
             }
         });
     });
 
     // FILL FOLDER TO SELECT BOX
-    function setDataToSelectBox(folderName){
+    function setDataToSelectBox(folderName) {
         var selection = '';
         $.each(getFolderByStudentId, function (key, value) {
             if (value.courseCode === "Other") {
                 // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
                 selection += `<li class="value-list-item" data-value="${value._id}">${value.courseName}</li>`;
-            } 
+            }
         });
 
         $(folderName).empty();
@@ -649,257 +654,257 @@ $(document).ready(function () {
 
     const showNotification = (message, status) => {
         let text_content = notification.find("#text_content");
-        if(!status) {
+        if (!status) {
             notification.addClass("danger_notification_noteit");
-        }else {
+        } else {
             notification.removeClass("danger_notification_noteit");
         }
         text_content.text(message);
         notification.show(0).delay(3000).hide(0);
     }
 
-    
+
     //SHOW EXTENSION
     function myFunction(e) {
         let currentNode = $(e.target);
         let itemOfNoteit = false;
 
         //check if item with mouse up event is in noteit
-        currentNode.parents().each(function(index, value) {
+        currentNode.parents().each(function (index, value) {
             let itemId = $(value).attr('id');
-            if(itemId == 'noteitContainer') {
+            if (itemId == 'noteitContainer') {
                 itemOfNoteit = true;
-            }            
+            }
         });
 
         //if item not in noteit, close all popup of noteit
-        if(!itemOfNoteit) {
+        if (!itemOfNoteit) {
             closeAllPopup();
         }
 
         var x = window.getSelection().toString();
-        
+
         let seleciton = window.getSelection().anchorNode;
         if (x.trim() !== "" && !$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
             var selection = window.getSelection();
             rangeScanned = selection.getRangeAt(0);
             nodeScanned = selection.anchorNode;
         }
-        if(window.getSelection().anchorNode !== null && window.getSelection().extentNode !== null){
-            if(window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
-                if(window.getSelection().baseNode.lastChild !== null || window.getSelection().baseNode.firstChild !== null){
-                    if(!window.getSelection().baseNode.lastChild.toString() == "[object HTMLTextAreaElement]" || !window.getSelection().baseNode.firstChild.toString() == "[object HTMLInputElement]"){
+        if (window.getSelection().anchorNode !== null && window.getSelection().extentNode !== null) {
+            if (window.getSelection().anchorNode.nodeValue == window.getSelection().extentNode.nodeValue) {
+                if (window.getSelection().baseNode.lastChild !== null || window.getSelection().baseNode.firstChild !== null) {
+                    if (!window.getSelection().baseNode.lastChild.toString() == "[object HTMLTextAreaElement]" || !window.getSelection().baseNode.firstChild.toString() == "[object HTMLInputElement]") {
                         if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
                             $("#hiddenText").val(x);
                             $('#noteitContainer').hide();
-                
+
                             $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
                             $('#noteitContainer').show();
                             $('#noteDetail').hide();
-                
+
                         } else {
                             if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
                                 $('#noteitContainer').hide();
                             }
                         }
                     }
-                } else{
+                } else {
                     if (x !== "" && getStudentId !== "" && $('#noteitContainer').has(e.target).length === 0) {
                         $("#hiddenText").val(x);
                         $('#noteitContainer').hide();
-            
+
                         $('#noteitContainer').css({ 'top': e.pageY + 50, 'left': e.pageX, 'position': 'absolute', 'padding': '5px' });
                         $('#noteitContainer').show();
                         $('#noteDetail').hide();
-            
+
                     } else {
                         if (!$('#noteitContainer').is(e.target) && $('#noteitContainer').has(e.target).length === 0) {
                             $('#noteitContainer').hide();
                         }
                     }
                 }
-                
+
             }
         }
     };
 
     //Initiate dropdown
-function initiateDropdown() {
-    //set data to dropdown
-    const inputField = document.querySelector('.chosen-value');
-    const dropdown = document.querySelector('.value-list');
-    const dropdownArray = [... document.querySelectorAll('.value-list-item')];
-    let createFolderBtnInNote = $('#createFolderBtnInNote');
+    function initiateDropdown() {
+        //set data to dropdown
+        const inputField = document.querySelector('.chosen-value');
+        const dropdown = document.querySelector('.value-list');
+        const dropdownArray = [...document.querySelectorAll('.value-list-item')];
+        let createFolderBtnInNote = $('#createFolderBtnInNote');
 
-    //hide create folder button at initial
-    createFolderBtnInNote.hide();
+        //hide create folder button at initial
+        createFolderBtnInNote.hide();
 
-    dropdown.classList.add('open');
-    let valueArray = [];
-    dropdownArray.forEach(item => {
-        valueArray.push(item.textContent);
-    });
-
-    const closeDropdown = () => {
-    dropdown.classList.remove('open');
-    }
-
-    inputField.addEventListener('input', () => {
         dropdown.classList.add('open');
-        
-        let inputValue = inputField.value.toLowerCase();
-        let inputValueOrigin = inputField.value;
-        let valueSubstring;
-        let matchItem = [];
-        if (inputValue.length > 0) {
-            for (let j = 0; j < valueArray.length; j++) {
-            if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
-                dropdownArray[j].classList.add('closed');
-            } else {
-                dropdownArray[j].classList.remove('closed');
+        let valueArray = [];
+        dropdownArray.forEach(item => {
+            valueArray.push(item.textContent);
+        });
 
-                //if match
-                matchItem.push(dropdownArray[j]);
-            }
-            }
-        } else {
-            for (let i = 0; i < dropdownArray.length; i++) {
-            dropdownArray[i].classList.remove('closed');
-            }
+        const closeDropdown = () => {
+            dropdown.classList.remove('open');
         }
-        
-        if(matchItem.length == 0) {
-            $('.createBtnTitleInNote').text(`Create folder ${inputValueOrigin}`);
-            createFolderBtnInNote.show();
-        }else {
-            createFolderBtnInNote.hide();
-        }
-    });
 
-    //add event to add folder button
-    //unbind to remove all other event
-    createFolderBtnInNote.unbind().on("click", function() {
-        console.log('In event create')
-        let folderName =  inputField.value;
-        var newFolder = {
-            "studentID": getStudentId,
-            "courseCode": "Other",
-            "courseName": folderName
-        };
-        $.ajax({
-            type: "POST",
-            url: "https://capstonebackendapi.herokuapp.com/createFolder",
-            dataType: "json",
-            data: newFolder,
-            success: function (data) {
-                if(data.error) {
-                    showNotification(data.error, false);
-                }else {
-                    showNotification(`Folder ${data.folder.courseName} is created`, true);
+        inputField.addEventListener('input', () => {
+            dropdown.classList.add('open');
+
+            let inputValue = inputField.value.toLowerCase();
+            let inputValueOrigin = inputField.value;
+            let valueSubstring;
+            let matchItem = [];
+            if (inputValue.length > 0) {
+                for (let j = 0; j < valueArray.length; j++) {
+                    if (!(inputValue.substring(0, inputValue.length) === valueArray[j].substring(0, inputValue.length).toLowerCase())) {
+                        dropdownArray[j].classList.add('closed');
+                    } else {
+                        dropdownArray[j].classList.remove('closed');
+
+                        //if match
+                        matchItem.push(dropdownArray[j]);
+                    }
                 }
-                var selection = '';
-                //push created folder to folder list
-                getFolderByStudentId.push(data.folder);
-                setDataToSelectBox('#selectFolder');
-            },
-            error: function (data) {
-                showNotification("Folder created failed", true);
+            } else {
+                for (let i = 0; i < dropdownArray.length; i++) {
+                    dropdownArray[i].classList.remove('closed');
+                }
+            }
+
+            if (matchItem.length == 0) {
+                $('.createBtnTitleInNote').text(`Create folder ${inputValueOrigin}`);
+                createFolderBtnInNote.show();
+            } else {
+                createFolderBtnInNote.hide();
             }
         });
 
-    })
+        //add event to add folder button
+        //unbind to remove all other event
+        createFolderBtnInNote.unbind().on("click", function () {
+            console.log('In event create')
+            let folderName = inputField.value;
+            var newFolder = {
+                "studentID": getStudentId,
+                "courseCode": "Other",
+                "courseName": folderName
+            };
+            $.ajax({
+                type: "POST",
+                url: "https://capstonebackendapi.herokuapp.com/createFolder",
+                dataType: "json",
+                data: newFolder,
+                success: function (data) {
+                    if (data.error) {
+                        showNotification(data.error, false);
+                    } else {
+                        showNotification(`Folder ${data.folder.courseName} is created`, true);
+                    }
+                    var selection = '';
+                    //push created folder to folder list
+                    getFolderByStudentId.push(data.folder);
+                    setDataToSelectBox('#selectFolder');
+                },
+                error: function (data) {
+                    showNotification("Folder created failed", true);
+                }
+            });
 
-    dropdownArray.forEach(item => {
-    item.addEventListener('click', (evt) => {
-        inputField.value = item.textContent;
-        inputField.setAttribute('data-id', item.dataset.value);
-        dropdownArray.forEach(dropdown => {
-        dropdown.classList.add('closed');
+        })
+
+        dropdownArray.forEach(item => {
+            item.addEventListener('click', (evt) => {
+                inputField.value = item.textContent;
+                inputField.setAttribute('data-id', item.dataset.value);
+                dropdownArray.forEach(dropdown => {
+                    dropdown.classList.add('closed');
+                });
+            });
+        })
+
+        inputField.addEventListener('focus', () => {
+            inputField.placeholder = 'Search';
+            dropdown.classList.add('open');
+            dropdownArray.forEach(dropdown => {
+                dropdown.classList.remove('closed');
+            });
         });
-    });
-    })
 
-    inputField.addEventListener('focus', () => {
-    inputField.placeholder = 'Search';
-    dropdown.classList.add('open');
-    dropdownArray.forEach(dropdown => {
-        dropdown.classList.remove('closed');
-    });
-    });
+        inputField.addEventListener('blur', () => {
+            inputField.placeholder = 'Choose folder';
+            dropdown.classList.remove('open');
+        });
 
-    inputField.addEventListener('blur', () => {
-    inputField.placeholder = 'Choose folder';
-    dropdown.classList.remove('open');
-    });
-
-    document.addEventListener('click', (evt) => {
-    const isDropdown = dropdown.contains(evt.target);
-    const isInput = inputField.contains(evt.target);
-    if (!isDropdown && !isInput) {
-        dropdown.classList.remove('open');
-    }
-    });
-}
-
-
-
-//GET INDEX OF ALL SCAN STRING
-function getIndicesOf(searchStr, str, caseSensitive) {
-    var searchStrLen = searchStr.length;
-    if (searchStrLen == 0) {
-        return [];
-    }
-    var startIndex = 0, index, indices = [];
-    if (!caseSensitive) {
-        str = str.toLowerCase();
-        searchStr = searchStr.toLowerCase();
-    }
-    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
-        indices.push(index);
-        startIndex = index + searchStrLen;
-    }
-    return indices;
-};
-
-//DECODE JWT
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-};
-
-function setTeacherDataToSelectBox(folderName) {
-    var dropdownSection = $('.dropdown');
-    var selection = '';
-    if (typeof getTeacherByURL !== "undefined") {
-        $.each(getTeacherByURL, function (key, value) {
-            // selection += '<option value="' + value._id + '">' + value.name + '</option> <br>';
-            selection += `<li class="value-list-item" data-value="${value._id}">${value.name}</li>`;
+        document.addEventListener('click', (evt) => {
+            const isDropdown = dropdown.contains(evt.target);
+            const isInput = inputField.contains(evt.target);
+            if (!isDropdown && !isInput) {
+                dropdown.classList.remove('open');
+            }
         });
     }
-    if(selection !== ''){
-        dropdownSection.show();
-        $('.messageTitle').hide();
-        $(folderName).show();
-        $(folderName).empty();
-        $(folderName).html(selection);
-        $('#firstTitle').text('Choose teacher:');
-        initiateDropdown();
-    } else {
-        dropdownSection.hide();
-        $('#firstTitle').text('This course currently has no teacher assigned');
-        // $('.messageTitle').show();
-        // $('.messageTitle').empty();
-        // document.getElementsByClassName('messageTitle')[0].append('This course currently has no teacher assigned');
-    }
-    
-};
 
-    }) //problem
+
+
+    //GET INDEX OF ALL SCAN STRING
+    function getIndicesOf(searchStr, str, caseSensitive) {
+        var searchStrLen = searchStr.length;
+        if (searchStrLen == 0) {
+            return [];
+        }
+        var startIndex = 0, index, indices = [];
+        if (!caseSensitive) {
+            str = str.toLowerCase();
+            searchStr = searchStr.toLowerCase();
+        }
+        while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+            indices.push(index);
+            startIndex = index + searchStrLen;
+        }
+        return indices;
+    };
+
+    //DECODE JWT
+    function parseJwt(token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    };
+
+    function setTeacherDataToSelectBox(folderName) {
+        var dropdownSection = $('.dropdown');
+        var selection = '';
+        if (typeof getTeacherByURL !== "undefined") {
+            $.each(getTeacherByURL, function (key, value) {
+                // selection += '<option value="' + value._id + '">' + value.name + '</option> <br>';
+                selection += `<li class="value-list-item" data-value="${value._id}">${value.name}</li>`;
+            });
+        }
+        if (selection !== '') {
+            dropdownSection.show();
+            $('.messageTitle').hide();
+            $(folderName).show();
+            $(folderName).empty();
+            $(folderName).html(selection);
+            $('#firstTitle').text('Choose teacher:');
+            initiateDropdown();
+        } else {
+            dropdownSection.hide();
+            $('#firstTitle').text('This course currently has no teacher assigned');
+            // $('.messageTitle').show();
+            // $('.messageTitle').empty();
+            // document.getElementsByClassName('messageTitle')[0].append('This course currently has no teacher assigned');
+        }
+
+    };
+
+}) //problem
 
 
 
