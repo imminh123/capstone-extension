@@ -227,31 +227,38 @@ $(document).ready(function () {
                 url: "https://capstonebackendapi.herokuapp.com/getUrlInformation/" + studentId + "/" + encodeURIComponent(window.location.href),
                 success: function (data) {
                     //GET FOLDER
-                    var getFolder = data.folder;
-                    if (typeof getFolder !== "undefined") {
-                        getFolderByURL = data.folder._id;
+                    // var getFolder = data.folder;
+                    // if (typeof getFolder !== "undefined") {
+                    //     getFolderByURL = data.folder._id;
+                    //     $('#newFolder').hide();
+                    //     $('#addNewFolder').hide();
+                    //     $('#selectHighlightFolder').hide();
+                    // } else {
+                    //     $('#newFolder').show();
+                    //     $('#addNewFolder').show();
+                    //     $('#selectHighlightFolder').show();
+                    // }
+                    //GET COURSE
+                    var getCourse = data._id;
+                    if (typeof getCourse !== "undefined") {
+                        getFolderByURL = "";
+                        getCourseByURL = data._id;
+                        //searchInputList
+                        getCourseNameByURL = data.courseCode;
+                        //GET TEACHERS
+                        getTeacherByURL = data.teachers;
+                        $('.folders').hide();
                         $('#newFolder').hide();
                         $('#addNewFolder').hide();
                         $('#selectHighlightFolder').hide();
-                    } else {
-                        $('#newFolder').show();
-                        $('#addNewFolder').show();
-                        $('#selectHighlightFolder').show();
-                    }
-                    //GET COURSE
-                    var getCourse = data.courseOfURL;
-                    if (typeof getCourse !== "undefined") {
-                        getCourseByURL = getCourse._id;
-                        //searchInputList
-                        getCourseNameByURL = getCourse.courseCode;
-                        //GET TEACHERS
-                        getTeacherByURL = getCourse.teachers;
-                        $('.folders').hide();
                     } else {
                         setDataToSelectBox('#selectHighlightFolder');
                         setDataToSelectBox('#selectFolder');
                         setDataToSelectBox('.searchInputList');
                         $('#folders').show();
+                        $('#newFolder').show();
+                        $('#addNewFolder').show();
+                        $('#selectHighlightFolder').show();
                     }
                 },
                 error: function (data) {
@@ -430,7 +437,7 @@ $(document).ready(function () {
             }
         }
         var folderId = "";
-        if (getFolderByURL !== "") {
+        if (getCourseByURL !== "") {
             //if in course
             folderId = getFolderByURL;
         }
@@ -439,7 +446,7 @@ $(document).ready(function () {
             folderId = $('.searchInput').data("id");
         }
         
-
+        debugger;
         // SEND DATA TO API 
         var dataPost = {
             "studentID": getStudentId,
@@ -449,7 +456,8 @@ $(document).ready(function () {
             "color": $(this).attr('id'),
             "url": window.location.href,
             "startOffSet":startGetOffSet,
-            "endOffSet":endGetOffSet
+            "endOffSet":endGetOffSet,
+            "courseID": getCourseByURL
         };
         $.ajax({
             type: "POST",
@@ -493,7 +501,7 @@ $(document).ready(function () {
 
     // CLICK ON ADD NOTES ON MENU
     $(document.body).on("click", ".addToNotes", function () {
-        if (getFolderByURL !== "") {
+        if (getCourseByURL !== "") {
             $('#dropdown-btn').hide();
             dropdownSection.hide();
         } else {
@@ -531,10 +539,12 @@ $(document).ready(function () {
     $(document.body).on("click", "#addBtn", function () {
         var string = "<p>" + $("#hiddenText").val() + "</p>";
         var folderId = "";
-        if (getFolderByURL !== "") {
+        if (getCourseByURL !== "") {
+            // in course
             folderId = getFolderByURL;
         }
         else {
+            // out course
             folderId = $('.chosen-value')[0].getAttribute('data-id');
         }
         var description = $('#descNotes').val();
@@ -543,9 +553,10 @@ $(document).ready(function () {
             "folderID": folderId,
             "scannedContent": string,
             "description": description,
-            "url": window.location.href
+            "url": window.location.href,
+            "courseID": getCourseByURL
         };
-
+        debugger;
         //INSERT INTO DB
         $.ajax({
             type: "POST",
@@ -596,7 +607,6 @@ $(document).ready(function () {
     // FILL FOLDER TO SELECT BOX
     function setDataToSelectBox(folderName){
         var selection = '';
-        debugger;
         $.each(getFolderByStudentId, function (key, value) {
             if (value.courseCode === "Other") {
                 // selection += '<option value="' + value._id + '">' + value.courseName + '</option> <br>';
