@@ -241,7 +241,6 @@ $(document).ready(function () {
                     // }
                     //GET COURSE
                     var getCourse = data._id;
-                    debugger;
                     if (typeof getCourse !== "undefined") {
                         getFolderByURL = "";
                         getCourseByURL = data._id;
